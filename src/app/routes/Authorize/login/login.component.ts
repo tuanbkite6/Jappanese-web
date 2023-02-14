@@ -55,7 +55,7 @@ export class LoginComponent {
           this.auth.storeToken(res.token); //luu token vao localstorage
           this.toast.success({
             detail: 'Success',
-            summary: 'You have loggin',
+            summary: 'Đã đăng nhập thành công',
             duration: 5000,
           });
           this.router.navigate(['../home/dashboard']); // chinh sau

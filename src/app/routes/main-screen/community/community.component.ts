@@ -26,7 +26,7 @@ export class CommunityComponent implements OnInit {
   userIdFromToken: any;
   @ViewChild('comment') inputComment: any;
   commentData: any;
-  isListWord : any = false ;
+  isListWord: any = false;
   ngOnInit(): void {
     this.fetchData();
     this.userIdFromToken = this.auth.getUserIdFromToken();
@@ -38,28 +38,62 @@ export class CommunityComponent implements OnInit {
     private toast: NgToastService,
     private message: NzMessageService,
     private http: CommunityManagementService,
-    private course : WordbookManagementService
+    private course: WordbookManagementService
   ) {}
-listWord : any ;
+  listWord: any;
   isRating: any;
   isUpload = true;
   isHintPost: any;
   hasExpand = true;
   isVisible = false;
   hasComment: any;
+  private badWord: string[] = [
+    'dm',
+    'duma',
+    'cc',
+    'vl',
+    'suc vat',
+    'vch',
+    'cl',
+    'lol',
+    'wtf',
+    'concho',
+    'concho',
+    'vc',
+    'cut',
+    'loz',
+    'dien',
+    'khung',
+    'che','dam',
+    'chan','bu','buda','ngao','ngu','dan','dot',
+    'do','sua',
+    'may',
+    'tao',
+    'sucsinh',
+    'm',
+    'dmm',
+    'concak',
+    'concac',
+    'giet',
+    'dam',
+    'danhnhau',
+    'xienchet',
+    'memay',
+    'concumay',
+  ];
   postForm = new FormGroup({
-    postId : new FormControl(''),
-    
+    postId: new FormControl(''),
+
     postImage: new FormControl(''),
     postContent: new FormControl(''),
     courseId: new FormControl(''),
-    courseName : new FormControl(''),
-    userName : new FormControl('')
+    courseName: new FormControl(''),
+    userName: new FormControl(''),
   });
   Content: any;
   Image: any;
   CourseID: any;
-  courseImport : any;
+  courseImport: any;
   data: any;
   stars: number[] = [1, 2, 3, 4, 5];
   rating: any;
@@ -74,42 +108,50 @@ listWord : any ;
   openModal(): any {
     this.isVisible = true;
   }
-  openModalCourse(idCourse : any) :any {
-    this.isListWord = true ;
-    console.log(idCourse)
-   this.course
-          .getWordbookById(idCourse)
-          .subscribe(res =>{
-
-            
-            this.listWord = res;
-          }
-            )
+  openModalCourse(idCourse: any): any {
+    this.isListWord = true;
+    console.log(idCourse);
+    this.course.getWordbookById(idCourse).subscribe((res) => {
+      this.listWord = res;
+    });
   }
-  closeModalCourse() : any {
-    this.isListWord = false ;
+  closeModalCourse(): any {
+    this.isListWord = false;
+  }
+  checkComment(comment: any, words: string[]): boolean {
+    return words.some((word) => comment.includes(word));
   }
   onSubmit(postId: any) {
-    this.inputComment.nativeElement.value = '';
-    this.http
-      .sendComment(this.userIdFromToken, postId, this.commentForm.value)
-      .subscribe({
-        next: (res: any) => {
-          this.hasComment = null;
-          this.toast.warning({
-            detail: 'warning',
-            summary: 'Có chút vấn đề khi comment bài viết này',
-            duration: 5000,
-          });
-        },
-        error: (err: any) => {
-          console.log(err);
-          this.commentForm.reset();
-          this.message.info('Đã gửi bình luận thành công');
-          console.log(postId);
-          this.onClickHandleCommentExpand(postId);
-        },
-      });
+    let handleword = this.inputComment.nativeElement.value
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s+/g, '');
+    console.log(handleword);
+    if (this.checkComment(handleword, this.badWord)) {
+      console.log(1);
+      this.inputComment.nativeElement.value = '';
+      this.http
+        .sendComment(this.userIdFromToken, postId, this.commentForm.value)
+        .subscribe({
+          next: (res: any) => {
+            this.hasComment = null;
+            this.toast.warning({
+              detail: 'warning',
+              summary: 'Có chút vấn đề khi comment bài viết này',
+              duration: 5000,
+            });
+          },
+          error: (err: any) => {
+            console.log(err);
+            this.commentForm.reset();
+            this.message.info('Đã gửi bình luận thành công');
+            console.log(postId);
+            this.onClickHandleCommentExpand(postId);
+          },
+        });
+    } else {
+      this.message.warning('Comment chứa những từ ngữ phản cảm không thể gửi');
+    }
   }
   inputImage(e: any): any {
     this.isUpload = false;
@@ -134,15 +176,15 @@ listWord : any ;
   //Rating bài viết của người dùng
   async countStart(courseId: any, star: any) {
     this.isRating = null;
-try{
-
-  await this.http.handelRating(courseId, star).toPromise()
-} catch (error) {
-  this.toast.warning({
-    detail: 'Warning',
-    summary: 'Rating chưa được ghi nhận',
-    duration: 2000,
-  });}
+    try {
+      await this.http.handelRating(courseId, star).toPromise();
+    } catch (error) {
+      this.toast.warning({
+        detail: 'Warning',
+        summary: 'Rating chưa được ghi nhận',
+        duration: 2000,
+      });
+    }
     this.fetchData();
   }
 
@@ -152,24 +194,26 @@ try{
     this.CourseID = '';
     this.isUpload = true;
     console.log(this.postForm.value);
-        try {
-      await this.http.handelSharePost(this.userIdFromToken, this.postForm.value).toPromise();
+    try {
+      await this.http
+        .handelSharePost(this.userIdFromToken, this.postForm.value)
+        .toPromise();
       this.toast.warning({
         detail: 'Warning',
         summary: 'Không thể đăng bài',
         duration: 2000,
       });
-      } catch (error) {
-        this.toast.info({
-          detail: 'Infor',
-          summary: 'Đã đăng bài ',
-          duration: 2000,
-        });
-      }
+    } catch (error) {
+      this.toast.info({
+        detail: 'Infor',
+        summary: 'Đã đăng bài ',
+        duration: 2000,
+      });
+    }
     this.fetchData();
     this.hasExpand = true;
   }
-  onClickClose() : void {
+  onClickClose(): void {
     this.hasExpand = true;
   }
   onClickHandleExpand(): void {
@@ -181,6 +225,7 @@ try{
     this.http.getAllComment(idPost).subscribe({
       next: (res: any) => {
         this.commentData = res;
+        console.log(1);
       },
       error: (err: any) => {
         this.hasComment = null;
@@ -200,54 +245,49 @@ try{
       this.message.info('Bài viết vẫn sẽ tồn tại trong tường của bạn');
     }
   }
- 
+
   getAllCourseByUserId(): any {}
- async fetchData() {
- 
-    var response = await this.http.getAllPost().subscribe (
-    (res: any) => {
-        this.listPost = res
+  async fetchData() {
+    var response = await this.http.getAllPost().subscribe((res: any) => {
+      this.listPost = res;
     });
-      console.log(this.listPost);
+    console.log(this.listPost);
   }
-  
+
   getAllCourseById(): any {
     this.course.getAllCourseByUserId(this.userIdFromToken).subscribe((res) => {
       this.listCourse = res;
     });
   }
-  onClickCourseOfPost():any {
-
-  }
-  onClickCourse(courseId : any) : any {
+  onClickCourseOfPost(): any {}
+  onClickCourse(courseId: any): any {
     this.closeModal();
     console.log(courseId);
     // this.courseId.setValue() = courseId ;
     this.postForm.controls['courseId'].setValue(courseId);
   }
-  editComment(commentId : any ) {
-  
-  }
-   importToMyCourse(idCourse : any){
+  editComment(commentId: any) {}
+
+  importToMyCourse(idCourse: any) {
     this.courseImport = idCourse;
- this.http.importCourse(this.userIdFromToken,idCourse).subscribe({
-    next: (res: any) => {
-      this.toast.warning({
-        detail: 'warning',
-        summary: 'Khóa học này là của bạn không thể thêm',
-        duration: 1000,
-      }); 
-    },
-    error: (err: any) => {
-      this.toast.info({
-        detail: 'Info',
-        summary: 'Đã nhập thêm khóa học này vào kh',
-        duration: 2000,
-      });
-    },
-  });
-
-
+    this.http.importCourse(this.userIdFromToken, idCourse).subscribe({
+      next: (res: any) => {
+        console.log(res.message);
+        this.toast.info({
+          detail: 'info',
+          summary: 'Đã thêm khóa học',
+          duration: 1000,
+        });
+      },
+      error: (err: any) => {
+        console.log(err.message);
+        this.toast.info({
+          detail: 'Warning',
+          summary: 'Tác vụ đang được xử lý',
+          duration: 2000,
+        });
+      },
+    });
   }
 }
 function formatDistance(arg0: Date, arg1: Date) {

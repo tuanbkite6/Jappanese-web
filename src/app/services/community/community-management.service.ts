@@ -20,7 +20,7 @@ export class CommunityManagementService {
     return this.http.get(this.baseUrl + userId);
   }
   handelSharePost(userId : any,body : any){
-    return this.http.post(this.baseUrl+userId,body)
+    return this.http.post<any>(this.baseUrl+userId,body)
   }
   deletePost(id :any){
     return this.http.delete(this.baseUrl+id);
@@ -38,6 +38,6 @@ export class CommunityManagementService {
     return this.http.post(`${this.baseUrl}+ ${userId}+'/'+${postId}`, content)
   }
   importCourse(userId:any,postId:any){
-    return this.http.post(this.baseUrl+userId+'/'+postId,'');
+    return this.http.post<any>(this.baseUrl+userId+'/'+postId,'');
   }
 }
