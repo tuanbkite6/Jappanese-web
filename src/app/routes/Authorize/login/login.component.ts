@@ -39,10 +39,8 @@ export class LoginComponent {
     this.isText ? (this.type = 'text') : (this.type = 'password');
   }
   onLogin() {
-    console.log('alads');
     if (this.loginForm.valid) {
       //Send the obj to db
-      console.log(this.loginForm.value);
       this.auth.login(this.loginForm.value).subscribe({
         next: (res: any) => {
           console.log(res.message);
@@ -55,7 +53,7 @@ export class LoginComponent {
           this.auth.storeToken(res.token); //luu token vao localstorage
           this.toast.success({
             detail: 'Success',
-            summary: 'Đã đăng nhập thành công',
+            summary: 'Login success',
             duration: 5000,
           });
           this.router.navigate(['../home/dashboard']); // chinh sau
@@ -63,7 +61,7 @@ export class LoginComponent {
         error: (err: any) => {
           this.toast.warning({
             detail: 'Warning',
-            summary: 'Đã xảy ra một số lỗi có thể mật khẩu hoặc tên sai',
+            summary: 'Some error have occured, possibly the password or name is incorrect',
             duration: 5000,
           });
           console.log(err);
@@ -74,16 +72,6 @@ export class LoginComponent {
       //throw the error using toaster and with required files
     }
   }
-  // onLogin() {
-  //   if(this.loginForm.valid){
-  //     console.log(this.loginForm.value)
-  //     this.auth.login(this.loginForm.value).subscribe({next : (res)=>{
-  //       alert(res.message)
-  //       this.loginForm.reset();
-  //       this.router.navigate(['dashboard'])
-  //     }})
-  //   }
-  // }
   private validateAllFormFileds(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach((field) => {
       const control = formGroup.get(field);

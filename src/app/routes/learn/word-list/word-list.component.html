@@ -23,9 +23,9 @@
       <div class="container">
         <ul class="responsive-table">
           <li class="table-header">
-            <div class="col col-1">Từ mới</div>
-            <div class="col col-2">Hiragana</div>
-            <div class="col col-3">Ví dụ</div>
+            <div class="col col-1">新し言葉</div>
+            <div class="col col-2">ひらがな</div>
+            <div class="col col-3">例えば</div>
             <div class="col col-4"></div>
           </li>
           <!-- <li>
@@ -50,35 +50,35 @@
             <div class="word-delete col col-4" onclick="event.stopPropagation()" (click)="onClickDeleteWord(data.wordId)"><i class="fa-solid fa-trash"></i></div>
           </li>
         </ul>
-        <button class="word-button" (click)="openModal()">Tạo từ mới</button>
+        <button class="word-button" (click)="openModal()">新し言葉を作成</button>
       </div>
       <!-- modal -->
       <div #myModal class="modal-container" *ngIf="isVisible === true">
         <div class="content">
-          <h1 class="content-header">Tạo từ mới cho khóa học của mình</h1>
+          <h1 class="content-header"></h1>
          <form action="" class="container-form" [formGroup]="wordForm">
           <div class="word_hiragana">
   
             <h3 class="word_text">
-              Hiragana
+              ひらがな
             </h3>
             <input  formControlName="wordHiragana" type="text" class="word_input" [(ngModel)]="Hiragana" required>
           </div>
           <div class="word_kanji">
-            <h3 class="word_text">Kanji</h3>
+            <h3 class="word_text">漢字</h3>
             <input  formControlName="wordKanji" type="text" class="word_input" [(ngModel)]="Kanji" required>
           </div>
           <div class="word_meaning">
-            <h3 class="word_text">Meaning</h3>
+            <h3 class="word_text">意味</h3>
             <input formControlName="wordMeaning"  type="text" class="word_input" [(ngModel)]="Meaning" required>
           </div>
           <div formControlName="example"  class="word_example"> 
-            <h3 class="word_text">Example</h3>
+            <h3 class="word_text">例えば</h3>
             <input formControlName="example"  type="text" [(ngModel)]="Example" class="word_input">
           </div>
          </form>
-         <button class="word-button" (click)="onClickAddWord()">Tạo từ mới </button>
-          <button class="word-cancel" (click)= "closeModal()">Đóng</button>
+         <button class="word-button" (click)="onClickAddWord()">新し言葉を作成 </button>
+          <button class="word-cancel" (click)= "closeModal()">キャンセル</button>
         </div>
         </div>
     </div>

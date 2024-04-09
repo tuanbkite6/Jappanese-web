@@ -18,13 +18,13 @@
   .nav-list a {
     color: #000;
     list-style: none;
-    padding: 0 8px;
+    /* padding: 0 8px; */
     display: inline-block;
     width: 102px;
     height: 50px;
     text-align: center;
-    font-weight: 500;
-    font-size: 15px;
+    font-weight: 700;
+    font-size: 16px;
     text-decoration: none;
     color: #212121;
     margin: 0 15px;

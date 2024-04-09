@@ -8,6 +8,10 @@
     /* align-items: center; */
     /* justify-content: stretch; */
   }
+  .text {
+    font-size: 20px;
+    font-weight: 600;
+  }
   
   .new-word {
     font-size: 50px;

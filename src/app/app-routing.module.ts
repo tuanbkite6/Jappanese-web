@@ -21,7 +21,7 @@ import { AdminPostComponent } from './routes/Authorize/admin/admin-post/admin-po
 import { AdminCourseComponent } from './routes/Authorize/admin/admin-course/admin-course.component';
 import { AdminWordComponent } from './routes/Authorize/admin/admin-word/admin-word.component';
 import { AdminGuard } from './guards/admin.guard';
-
+import { FirstLoginComponent } from './routes/Dialog/first-login/first-login/first-login.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
   {
@@ -53,6 +53,9 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent,
+    children: [
+      {path: 'fitst-login',component :  FirstLoginComponent}
+    ]
   },{
     path: 'admin',
     component: AdminComponent,

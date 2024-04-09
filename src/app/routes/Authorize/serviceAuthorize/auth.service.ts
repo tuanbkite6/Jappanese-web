@@ -85,5 +85,9 @@ getToken(){
       return this.usePayload.sid
     }
   }
+  checkExistAccount(userObj:any){
+    console.log(userObj)
+    return this.httpClient.post<any>(`${this.baseUrl}CheckUserNameExist`,userObj)
+  }
 
 }

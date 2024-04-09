@@ -233,6 +233,7 @@ color: #ff1818;
    cursor: pointer;
    color: #2dab56;
     background: #faeaea;
+    width: 75px;
  }
  .community-post__infor button:hover{
    color: #9fd8b1;

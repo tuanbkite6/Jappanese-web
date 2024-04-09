@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 import { NzMessageComponent, NzMessageService } from 'ng-zorro-antd/message';
-import { Fragment } from 'react';
 import { CommunityManagementService } from 'src/app/services/community/community-management.service';
 import { WordManagementService } from 'src/app/services/word-management/word-management.service';
 import { WordbookManagementService } from 'src/app/services/wordbook-management/wordbook-management.service';
@@ -127,7 +126,7 @@ export class CommunityComponent implements OnInit {
       .replace(/[\u0300-\u036f]/g, '')
       .replace(/\s+/g, '');
     console.log(handleword);
-    if (this.checkComment(handleword, this.badWord)) {
+    if (!this.checkComment(handleword, this.badWord)) {
       console.log(1);
       this.inputComment.nativeElement.value = '';
       this.http
@@ -137,20 +136,21 @@ export class CommunityComponent implements OnInit {
             this.hasComment = null;
             this.toast.warning({
               detail: 'warning',
-              summary: 'Có chút vấn đề khi comment bài viết này',
+              summary: 'この投稿にコメントする際に問題が発生しました',
               duration: 5000,
             });
           },
           error: (err: any) => {
             console.log(err);
             this.commentForm.reset();
-            this.message.info('Đã gửi bình luận thành công');
+            this.message.info('コメントが正常に送信されました');
             console.log(postId);
             this.onClickHandleCommentExpand(postId);
           },
         });
     } else {
-      this.message.warning('Comment chứa những từ ngữ phản cảm không thể gửi');
+      console.log(2)
+      this.message.warning('不快な言葉を含むコメントは送信できません');
     }
   }
   inputImage(e: any): any {
@@ -181,7 +181,7 @@ export class CommunityComponent implements OnInit {
     } catch (error) {
       this.toast.warning({
         detail: 'Warning',
-        summary: 'Rating chưa được ghi nhận',
+        summary: '評価は記録されていません',
         duration: 2000,
       });
     }
@@ -200,13 +200,13 @@ export class CommunityComponent implements OnInit {
         .toPromise();
       this.toast.warning({
         detail: 'Warning',
-        summary: 'Không thể đăng bài',
+        summary: '投稿できません',
         duration: 2000,
       });
     } catch (error) {
       this.toast.info({
         detail: 'Infor',
-        summary: 'Đã đăng bài ',
+        summary: '投稿しました ',
         duration: 2000,
       });
     }
@@ -231,18 +231,18 @@ export class CommunityComponent implements OnInit {
         this.hasComment = null;
         this.toast.info({
           detail: 'Info',
-          summary: 'Post không có bình luận nào',
+          summary: 'この投稿にはコメントがありません',
           duration: 2000,
         });
       },
     });
   }
   onClickHandleHint(idPost: any): void {
-    if (confirm('Bạn có chắc sẽ ẩn bài viết này đi không ')) {
+    if (confirm('Are you sure to hide post ')) {
       this.isHintPost = this.isHintPost === idPost ? null : idPost;
-      this.message.info('Đã ẩn bài viết của người này');
+      this.message.info('Post is hided');
     } else {
-      this.message.info('Bài viết vẫn sẽ tồn tại trong tường của bạn');
+      this.message.info('Post still exist in my profile');
     }
   }
 
@@ -275,7 +275,7 @@ export class CommunityComponent implements OnInit {
         console.log(res.message);
         this.toast.info({
           detail: 'info',
-          summary: 'Đã thêm khóa học',
+          summary: 'Adding is success',
           duration: 1000,
         });
       },

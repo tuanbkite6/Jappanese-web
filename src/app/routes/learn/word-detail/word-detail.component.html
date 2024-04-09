@@ -12,16 +12,15 @@
   </div>
   <div class="detail-learn small-border flc">
     <div class="learn__header">
-      <div class="medium-label text-center">Giai đoạn 1: Gieo mầm</div>
-      <div class="text-center">Hãy ghi nhớ từ mới</div>
+      <div class="text-center　text">新しい言葉を覚えてください</div>
     </div>
     <div class="learn__body">
-      <div class="mt-24 mb-12 small-label">Từ mới:</div>
+      <div class="mt-24 mb-12 small-label">新し言葉:</div>
   
       <div class="new-word highlight-border--green text-center">
         {{ listSortedWord[currentWordIndex].wordKanji }}
       </div>
-      <div class="mt-24 mb-12 small-label">Ý nghĩa:</div>
+      <div class="mt-24 mb-12 small-label">意味:</div>
       <div
         *ngIf="isShowResult || !hideResultMode"
         class="word__meaning highlight-border--blue text-center"
@@ -50,7 +49,7 @@
               nzType="primary"
               class="reaction__button reaction__button--zero"
             >
-              Hiện đáp án
+              回答を表示する
             </button>
           </div>
         </div>
@@ -70,7 +69,7 @@
               (click)="onClickReaction(listSortedWord[currentWordIndex].id, 1)"
               nzDanger
             >
-              Chưa nhớ
+              まだ覚えない
             </button>
           </div>
           <div nz-col nzSpan="3" class="reaction__detail">
@@ -80,7 +79,7 @@
               class="reaction__button reaction__button--hard"
               (click)="onClickReaction(listSortedWord[currentWordIndex].id, 2)"
             >
-              Khó nhớ
+              覚えにくい
             </button>
           </div>
           <div nz-col nzSpan="3" class="reaction__detail">
@@ -90,7 +89,7 @@
               class="reaction__button reaction__button--easy"
               (click)="onClickReaction(listSortedWord[currentWordIndex].id, 3)"
             >
-              Dễ nhớ
+              覚えやすい
             </button>
           </div>
           <div nz-col nzSpan="3" class="reaction__detail">
@@ -100,7 +99,7 @@
               class="reaction__button reaction__button--done"
               (click)="onClickReaction(listSortedWord[currentWordIndex].id, 4)"
             >
-              Đã thuộc lòng
+              完全に覚えた
             </button>
           </div>
         </div>

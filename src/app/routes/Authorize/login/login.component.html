@@ -4,18 +4,18 @@
         <div class="left">
           <div class="overlay">
             <h1>Japanese Support</h1>
-            <p>
-              Cải thiện tiếng Nhật mỗi ngày với chúng tôi
+            <p style="margin-top: 50px; font-size: 20px;">
+              Practice Japannese with app everyday
             </p>
             
           </div>
         </div>
         
         <div class="right">
-          <h5>Login</h5>
+          <h5 style="    font-size: 40px;
+          padding: 28px 20px;">Login</h5>
           <p>
-            Don't have an account? <a routerLink="../register" >Creat Your Account</a> it takes
-            less than a minute
+            Don'n have account <a routerLink="../register" >Register</a> 
           </p>
           
           <div class="inputs">
@@ -25,7 +25,9 @@
               <br />
               <input type="password" placeholder="password" formControlName="userPassword" />
               <!-- <span (click)="hideShowPass()" class=""fa {{eyeIcon}}></span> -->
-              <small>*password is required</small>
+              <small *ngIf="loginForm.get('userPassword') ">
+                *Username is required
+              </small>
             </form>
             </div>
             

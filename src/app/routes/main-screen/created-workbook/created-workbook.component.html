@@ -53,7 +53,7 @@
           <div class="card user-card-full">
             <div class="row m-l-0 m-r-0" >
               <div class="course-header">
-                <h1>Sổ tay của tôi</h1>
+                <h1>私のノート</h1>
               </div>
               <div class="course-body">
                   <div class="course-body__container" *ngFor="let wordBookDetail of allWordBook">
@@ -62,13 +62,13 @@
                       <div class="coure-card">
                         <div class="course-container">
                           <div class="course-title">
-                            Course theme： {{ wordBookDetail.courseName }}
+                            コーステーマ： {{ wordBookDetail.courseName }}
                           </div>
                           <div class="course-total">
-                            Course Level ： <br/>{{ wordBookDetail.level }}
+                            コースレベル ： <br/>{{ wordBookDetail.level }}
                           </div>
                           <div class="course-total">
-                            Course Category ：<br/> {{ wordBookDetail.category }}
+                            コースカテゴリー：<br/> {{ wordBookDetail.category }}
                           </div>
                           <div class="course-author">
                             <div class="course-image">
@@ -93,25 +93,25 @@
                         <form action="" [formGroup] = "courseForm" >
                          <div class="course-container">
                            <div class="course-title">
-                             Name： 
+                            コーステーマ： 
                              <input id="name" formControlName="name" [(ngModel)]="Name"   type="text" required>
                             
                            </div>
                            <div class="course-total">
-                             Category :<br/>
+                            コースカテゴリー :<br/>
                              <input formControlName="category" [(ngModel)] = "Category" type="text" required>
                            </div>
                            <div class="course-author">
                              
                              <div class="course-author__name">
-                               Level:<br/>
+                              コースレベル:<br/>
                                <input formControlName="level" [(ngModel)]="Level" type="text" required>
                              </div>
                            </div>
   
                          </div>
                         </form>
-                        <div class="error-message" *ngIf="courseForm.invalid">*Hãy nhập đầy đủ các trường vào rồi ấn lưu</div>
+                        <div class="error-message" *ngIf="courseForm.invalid">*すべてのフィールドに入力して保存を押してください</div>
                        </div>
                        
                      </div>
@@ -123,8 +123,8 @@
             </div>
           </div>
           <div class="add_course " >
-            <button (click)="onClickAddCourse()">Thêm khóa học</button>
-            <button *ngIf="isVisible === true" type="submit" [disabled]="!courseForm.valid" (click)="onClickSubmit()">Lưu khóa học</button>
+            <button (click)="onClickAddCourse()">コースを追加</button>
+            <button *ngIf="isVisible === true" type="submit" [disabled]="!courseForm.valid" (click)="onClickSubmit()">コースを保存する</button>
           </div>
           
         </div>

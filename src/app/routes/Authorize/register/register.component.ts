@@ -18,21 +18,22 @@ export class RegisterComponent {
       userPassword : ['',Validators.required]
     })
     }
-
   onSignUp(){
     if(this.signUpForm.valid){
       this.auth.signUp(this.signUpForm.value).
       subscribe({next:(res :any) => {
         this.signUpForm.reset();
-        this.toast.success({detail : "Success",summary : "", duration : 5000});
+        this.router.navigate(['../firstLogin'])
+        this.toast.success({detail : "Success",summary : "Register success", duration : 5000});
+        
       }
       ,error:((err :any) =>{
-      this.router.navigate(['../login'])
-      this.toast.success({detail : "Success",summary :"Register have done", duration : 5000});
+      this.toast.error({detail : "Error",summary :"Register fail", duration : 5000});
 
     })
     })
     console.log(this.signUpForm.value)
     }
    }
+
  }
