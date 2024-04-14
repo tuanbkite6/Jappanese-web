@@ -5,7 +5,7 @@
           <div class="overlay">
             <h1>Japanese Support</h1>
             <p style="margin-top: 50px; font-size: 20px;">
-              Practice Japannese with app everyday
+              Học tiếng Nhật mỗi ngày cùng chúng tôi
             </p>
             
           </div>
@@ -20,14 +20,14 @@
           
           <div class="inputs">
             <form  [formGroup]="loginForm">
-              <input type="text" placeholder="Tài khoảng đăng nhập" formControlName="userName" />
-              <small>*Tên tài khoản bắt buộc</small>
-              <br />
-              <input type="password" placeholder="Mật khẩu" formControlName="userPassword" />
-              <!-- <span (click)="hideShowPass()" class=""fa {{eyeIcon}}></span> -->
-              <small *ngIf="loginForm.get('userPassword') ">
-                *Username is required
-              </small>
+              <div>
+                <input type="text" placeholder="Tài khoản" formControlName="userName" (input)="change('userName-error')"/>
+                <span class="error" id="userName-error">*Tên tài khoản bắt buộc</span>
+              </div>
+              <div>
+                <input type="password" placeholder="Mật khẩu" formControlName="userPassword" (input)="change('userPassword-error')" />
+                <span class="error" id= "userPassword-error">*Mật khẩu bắt buộc</span>
+              </div>
             </form>
             </div>
             
@@ -37,7 +37,7 @@
               <!-- Angular -->
               <label>
                 <input type="checkbox" name="item" checked />
-                <span class="text-checkbox">Nhớ</span>
+                <span class="text-checkbox">Nhớ mật khẩu</span>
               </label>
             <p>Quên mật khẩu?</p>
             </div>

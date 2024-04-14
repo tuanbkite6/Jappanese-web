@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, SimpleChanges } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -17,6 +17,7 @@ import { UserStoreService } from '../serviceAuthorize/user-store.service';
 })
 export class LoginComponent {
   loginForm!: FormGroup;
+  inputFields = ['userName', 'userPassword', 'userConfirmPassword'];
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -32,6 +33,15 @@ export class LoginComponent {
       userName: ['', Validators.required],
       userPassword: ['', Validators.required],
     });
+  }
+  ngOnChanges(changes: SimpleChanges):void{
+    console.log("change")
+  }
+  change(tagId: string){
+   const input = document.getElementById(tagId);
+   if(input){
+    input.classList.remove('show')
+   }
   }
   hideShowPass() {
     this.isText = !this.isText;
@@ -68,8 +78,13 @@ export class LoginComponent {
         },
       });
     } else {
-      console.log('Form is not valid');
-      //throw the error using toaster and with required files
+      this.inputFields.forEach(field => {
+        if (!this.loginForm.get(field)?.value) {
+          document.getElementById(`${field}-error`)?.classList.add('show');
+        } else {
+            document.getElementById(`${field}-error`)?.classList.remove('show');
+        }
+      });
     }
   }
   private validateAllFormFileds(formGroup: FormGroup) {

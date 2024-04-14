@@ -17,13 +17,18 @@
           </p>
           <div class="inputs">
             <form  [formGroup]="signUpForm">
+              <div>
                 <input type="text" placeholder="Tài khoản" formControlName="userName" (input)="change('userName-error')"/>
-                <small class="error" id="userName-error">*Tên tài khoản bắt buộc</small>
-                <br />
+                <span class="error" id="userName-error">*Tên tài khoản bắt buộc</span>
+              </div>
+              <div>
                 <input type="password" placeholder="Mật khẩu" formControlName="userPassword" (input)="change('userPassword-error')" />
-                <small class="error" id= "userPassword-error">*Mật khẩu bắt buộc</small>
+                <span class="error" id= "userPassword-error">*Mật khẩu bắt buộc</span>
+              </div>
+            <div>
                 <input type="password" placeholder="Xác nhận mật khẩu" formControlName = "userConfirmPassword" (input)="change('userConfirmPassword-error')" />
-                <small class="error" id= "userConfirmPassword-error">*Xác nhận mật khẩu bắt buộc</small>
+                <span class="error" id= "userConfirmPassword-error">*Xác nhận mật khẩu bắt buộc</span>
+            </div>
             </form>
             </div>
             <br /><br />

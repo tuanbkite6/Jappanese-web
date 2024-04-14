@@ -13,7 +13,6 @@ export class RegisterComponent {
   signUpForm!: FormGroup ;
   inputFields = ['userName', 'userPassword', 'userConfirmPassword'];
   constructor( private fb : FormBuilder,private toast : NgToastService,private router : Router,private auth : AuthService) { }
-  text = "hello"
   ngOnInit(): void {
     this.signUpForm = this.fb.group({
       userName : ['',Validators.required],
