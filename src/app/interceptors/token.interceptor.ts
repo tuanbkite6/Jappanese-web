@@ -24,14 +24,22 @@ export class TokenInterceptor implements HttpInterceptor {
       })
     }
     return next.handle(request).pipe(
-      catchError((err : any) => {
-        if(err instanceof HttpErrorResponse ){
-          if(err.status ==401){
-            this.toast.warning({detail :"Warining",summary:"Token is expired, Login again"})
-            this.router.navigate(['login'])
+      catchError((err: any) => {
+        if (err instanceof HttpErrorResponse) {
+          if (err.status === 401) {
+            this.toast.warning({ detail: "Warning", summary: "Token is expired, Login again" });
+            this.router.navigate(['login']);
+          } else if (err.status === 403) {
+            this.toast.error({ detail: "Forbidden", summary: "Access denied" });
+          } else if (err.status === 404) {
+            this.toast.error({ detail: "Not Found", summary: "Resource not found" });
+          } else {
+            this.toast.error({ detail: "Server Error", summary: "An error occurred on the server" });
           }
+        } else {
+          this.toast.error({ detail: "Network Error", summary: "Unable to connect to the server" });
         }
-        return throwError(()=> new Error("Some other error occurd"))
+        return throwError(() => err); // Rethrow the error after handling
       })
     );
   }

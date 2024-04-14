@@ -35,8 +35,8 @@ import { AdminCourseComponent } from './routes/Authorize/admin/admin-course/admi
 import { AdminPostComponent } from './routes/Authorize/admin/admin-post/admin-post.component';
 import { AdminUserComponent } from './routes/Authorize/admin/admin-user/admin-user.component';
 import { AdminWordComponent } from './routes/Authorize/admin/admin-word/admin-word.component';
-import { FirstLoginComponent } from './routes/Dialog/first-login/first-login/first-login.component';
-
+import { FirstLoginComponent } from './routes/Dialog/first-login/first-login.component';
+import { SurveyFormComponent } from './routes/Dialog/survey-form/survey-form.component';
 
 registerLocaleData(en);
 
@@ -54,6 +54,7 @@ registerLocaleData(en);
     WordListComponent,
     WordDetailComponent,
     FirstLoginComponent,
+    SurveyFormComponent,
     InforDetailComponent,
     InforCourseComponent,
     WordListDetailComponent,

@@ -11,6 +11,7 @@ body {
     font-size: 55px;
   }
   .box-form {
+    height : 700px;
     margin: 80px auto;
     width: 80%;
     background: #FFFFFF;
@@ -168,3 +169,12 @@ body {
   label input[type="checkbox"] {
     display: none;
   }
+  .error {
+    display: none;
+  }
+  
+ .show {
+    display: block;
+    color: red;
+  }
+  

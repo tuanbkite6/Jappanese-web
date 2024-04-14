@@ -5,32 +5,30 @@
           <div class="overlay">
             <h1>Japanese Support</h1>
             <p style="margin-top: 50px;">
-              Learn Jappannese everyday with app
+              Học tiếng Nhật mỗi ngày cùng chúng tôi
             </p>
           </div>
         </div>
         
         <div class="right">
-          <h1 style="font-size: 50px;">Register</h1>
+          <h1 style="font-size: 50px;">Đăng ký</h1>
           <p>
-            Have account <a routerLink="../login" >Login</a> 
+            Đã có tài khoản <a routerLink="../login" >Đăng nhập</a> 
           </p>
           <div class="inputs">
             <form  [formGroup]="signUpForm">
-                <input type="text" placeholder="user name" formControlName="userName" />
-                <small>*Username is required</small>
+                <input type="text" placeholder="Tài khoản" formControlName="userName" (input)="change('userName-error')"/>
+                <small class="error" id="userName-error">*Tên tài khoản bắt buộc</small>
                 <br />
-                <input type="password" placeholder="password" formControlName="userPassword" />
-                <small>*password is required</small>
+                <input type="password" placeholder="Mật khẩu" formControlName="userPassword" (input)="change('userPassword-error')" />
+                <small class="error" id= "userPassword-error">*Mật khẩu bắt buộc</small>
+                <input type="password" placeholder="Xác nhận mật khẩu" formControlName = "userConfirmPassword" (input)="change('userConfirmPassword-error')" />
+                <small class="error" id= "userConfirmPassword-error">*Xác nhận mật khẩu bắt buộc</small>
             </form>
             </div>
-            
             <br /><br />
-            
-          
-  
           <br />
-          <button (click)="onSignUp()" type="submit"  >Sign-up</button>
+          <button (click)="onSignUp()" type="submit"  >Đăng ký</button>
         </div>
       </div>
       <!-- partial -->

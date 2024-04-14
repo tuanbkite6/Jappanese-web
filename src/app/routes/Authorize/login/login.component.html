@@ -13,17 +13,17 @@
         
         <div class="right">
           <h5 style="    font-size: 40px;
-          padding: 28px 20px;">Login</h5>
+          padding: 28px 20px;">Đăng nhập</h5>
           <p>
-            Don'n have account <a routerLink="../register" >Register</a> 
+           Chưa có tài khoản <a routerLink="../register" >Đăng ký</a> 
           </p>
           
           <div class="inputs">
             <form  [formGroup]="loginForm">
-              <input type="text" placeholder="user name" formControlName="userName" />
-              <small>*Username is required</small>
+              <input type="text" placeholder="Tài khoảng đăng nhập" formControlName="userName" />
+              <small>*Tên tài khoản bắt buộc</small>
               <br />
-              <input type="password" placeholder="password" formControlName="userPassword" />
+              <input type="password" placeholder="Mật khẩu" formControlName="userPassword" />
               <!-- <span (click)="hideShowPass()" class=""fa {{eyeIcon}}></span> -->
               <small *ngIf="loginForm.get('userPassword') ">
                 *Username is required
@@ -37,13 +37,13 @@
               <!-- Angular -->
               <label>
                 <input type="checkbox" name="item" checked />
-                <span class="text-checkbox">Remember me</span>
+                <span class="text-checkbox">Nhớ</span>
               </label>
-              <p>forget password?</p>
+            <p>Quên mật khẩu?</p>
             </div>
   
           <br />
-          <button (click)="onLogin()" type="submit"  >Login</button>
+          <button (click)="onLogin()" type="submit"  >Đăng nhập</button>
         </div>
       </div>
       <!-- partial -->
