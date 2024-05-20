@@ -61,21 +61,17 @@ export class CreatedWorkbookComponent {
         error: (err: any) => {
           this.toast.warning({
             detail: 'warning',
-            summary: 'ユーザーにはコースがありません',
+            summary: 'Người dùng không có khóa học nào',
             duration: 5000,
           });
         },
       });
-   
-    console.log('this.allMatches');
-    console.log(this.allWordBook);
-    console.log(this.allWordBook[0]);
   }
   async onClickSubmit() {
     if (this.isVisible) {
       this.isVisible = false;
     }
-    this.message.loading('コースが正常に追加されました');
+    this.message.loading('Khóa học đã được thêm');
     this.Name = '';
     this.Level = '';
     this.Category = '';
@@ -91,13 +87,14 @@ export class CreatedWorkbookComponent {
   }
 
   goToDetailWord(id: any): any {
-    this.router.navigate([`/${staticPath.WORD_LIST}`, { id }]);
+    // this.router.navigate([`/${staticPath.WORD_LIST}`, { id }]);
+    this.router.navigate([`/${staticPath.COURSE}`, { id }]);
     this.wordbookService.setCurrentWordBook(id);
     // this.saveDataCache(constant.CACHE_WORDBOOK_LABEL, wordBook);
   }
   async deleteCourse(wordBook: any) {
     var id = wordBook.courseId;
-    if (confirm('このコースを削除してもよろしいですか?')) {
+    if (confirm('Bạn có chắc sẽ xóa khóa học này không')) {
       try {
         await this.wordbookService.deleteWordBook(id).toPromise();
       } catch (error) {

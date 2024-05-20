@@ -1,50 +1,4 @@
-<!-- <nz-layout>
-  <nz-content>
-    <b>Danh sách các khóa học đang học</b>
-    <div>
-      Khóa học 1
-      <div class="learn-list">
-        <div class="gutter-example">
-          <label for="">Gần đây</label>
-          <div nz-row [nzGutter]="[hGutter, vGutter]" style="padding: 85px">
-            <div
-              nz-col
-              class="gutter-row"
-              [nzSpan]="24 / count"
-              *ngFor="let wordBookDetail of allWordBook"
-            >
-              <a routerLink="../../learn/word-list/" ></a>
-              <a (click)="goToDetailWord(wordBookDetail)">
-                <div class="grid-config">
-                  <div class="course-container">
-                    <div class="course-title">
-                      課題： {{ wordBookDetail.name }}
-                    </div>
-                    <div class="course-total">
-                      Total word ： {{ wordBookDetail.name }}
-                    </div>
-                    <div class="course-author">
-                      <div class="course-image">
-                        <nz-avatar nzIcon="user"></nz-avatar>
-                      </div>
-                      <div class="course-author__name">
-                        {{ wordBookDetail.name }}
-                      </div>
-                    </div>
-                    <div class="course-rating"></div>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="learn-container">
-      <router-outlet></router-outlet>
-    </div>
-  </nz-content>
-</nz-layout> -->
+<!-- 
 
 <div class="page-content page-container" id="page-content">
     <div class="padding">
@@ -53,22 +7,21 @@
           <div class="card user-card-full">
             <div class="row m-l-0 m-r-0" >
               <div class="course-header">
-                <h1>私のノート</h1>
+                <h1>Sổ tay của tôi</h1>
               </div>
               <div class="course-body">
                   <div class="course-body__container" *ngFor="let wordBookDetail of allWordBook">
-                    <!-- <a routerLink="../../learn/word-list/" ></a> -->
                     <div class="course-content" (click)="goToDetailWord(wordBookDetail.courseId)">
                       <div class="coure-card">
                         <div class="course-container">
                           <div class="course-title">
-                            コーステーマ： {{ wordBookDetail.courseName }}
+                            Chủ đề： {{ wordBookDetail.courseName }}
                           </div>
                           <div class="course-total">
-                            コースレベル ： <br/>{{ wordBookDetail.level }}
+                            Level ： <br/>{{ wordBookDetail.level }}
                           </div>
                           <div class="course-total">
-                            コースカテゴリー：<br/> {{ wordBookDetail.category }}
+                            Loại：<br/> {{ wordBookDetail.category }}
                           </div>
                           <div class="course-author">
                             <div class="course-image">
@@ -86,32 +39,31 @@
                         <div class="course-delete"><i class="fa-solid fa-xmark" (click)="deleteCourse(wordBookDetail)"></i></div>
                   </div>
                   <div class="course-body__container" *ngIf="isVisible === true">
-                    <!-- <a routerLink="../../learn/word-list/" ></a> -->
                    
                      <div class="course-content" >
                        <div class="coure-card">
                         <form action="" [formGroup] = "courseForm" >
                          <div class="course-container">
                            <div class="course-title">
-                            コーステーマ： 
+                            Chủ đề： 
                              <input id="name" formControlName="name" [(ngModel)]="Name"   type="text" required>
                             
                            </div>
                            <div class="course-total">
-                            コースカテゴリー :<br/>
+                            Loại :<br/>
                              <input formControlName="category" [(ngModel)] = "Category" type="text" required>
                            </div>
                            <div class="course-author">
                              
                              <div class="course-author__name">
-                              コースレベル:<br/>
+                              Level:<br/>
                                <input formControlName="level" [(ngModel)]="Level" type="text" required>
                              </div>
                            </div>
   
                          </div>
                         </form>
-                        <div class="error-message" *ngIf="courseForm.invalid">*すべてのフィールドに入力して保存を押してください</div>
+                        <div class="error-message" *ngIf="courseForm.invalid">*Nhập toàn bộ trường để lưu</div>
                        </div>
                        
                      </div>
@@ -123,12 +75,82 @@
             </div>
           </div>
           <div class="add_course " >
-            <button (click)="onClickAddCourse()">コースを追加</button>
-            <button *ngIf="isVisible === true" type="submit" [disabled]="!courseForm.valid" (click)="onClickSubmit()">コースを保存する</button>
+            <button (click)="onClickAddCourse()">Thêm khóa học</button>
+            <button *ngIf="isVisible === true" type="submit" [disabled]="!courseForm.valid" (click)="onClickSubmit()">Lưu khóa học</button>
           </div>
           
         </div>
       </div>
     </div>
   </div>
+   -->
+   <link href="https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap" rel="stylesheet">
+   <nz-content>
+<div class="task-manager">
+  <div class="left-bar">
+    <div class="container">
+      <div class="card">
+      
+          <div class="card-body">
+              <div class="inner">
+                  <div style="font-size: 18px;letter-spacing: .5px;margin-bottom: 10px;">Victor Crest<span class="color__gray" style="margin-left: 10px;">26</span></div>
+                  <div class="color__gray" style="font-size: 13px;letter-spacing: .5px;">London</div>
+              </div>
+          </div>
+      </div>
+  </div>
   
+  </div>
+  <div class="page-content">
+    <div class="header">Học liệu người dùng</div>
+    <div class="content-categories">
+      <!-- <div class="label-wrapper">
+        <input class="nav-item" name="nav" type="radio" id="opt-1">
+        <label class="category" for="opt-1">All</label>
+      </div> -->
+      <div class="label-wrapper">
+        <a nz-dropdown [nzDropdownMenu]="menu">
+          Filter
+          <span nz-icon nzType="down"></span>
+        </a>
+      </div>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu nzSelectable>
+          <li nz-menu-item>1st menu item</li>
+          <li nz-menu-item>2nd menu item</li>
+          <li nz-menu-item>3rd menu item</li>
+          <li nz-menu-item nzDanger>4th danger item</li>
+        </ul>
+      </nz-dropdown-menu>
+    <div class="label-wrapper">
+      <nz-input-group [nzSuffix]="suffixIconSearch">
+        <input type="text" nz-input placeholder="input search text" />
+      </nz-input-group>
+      <ng-template #suffixIconSearch>
+        <span nz-icon nzType="search"></span>
+      </ng-template>
+    </div>
+    </div>
+    <div class="right-content" >
+      <div *ngFor="let wordBookDetail of allWordBook">
+      <div class="task-box yellow" (click)="goToDetailWord(wordBookDetail.courseId)">
+        <div class="description-task">
+          <div class="time">Được tạo : </div>
+          <div class="task-name">Chủ đề: {{ wordBookDetail.courseName }}</div>
+          <div class="task-name">Loại:  {{ wordBookDetail.category }}</div>
+          <div class="task-name">Tác giả: {{ wordBookDetail.courseName }}</div>
+        </div>
+        <div class="more-button"></div>
+        <div class="members">
+          {{ wordBookDetail.name }}
+          <img
+            src="https://images.unsplash.com/photo-1491349174775-aaafddd81942?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"
+            alt="member">
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+</div>
+</nz-content>

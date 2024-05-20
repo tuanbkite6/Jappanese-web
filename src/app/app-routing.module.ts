@@ -23,6 +23,16 @@ import { AdminWordComponent } from './routes/Authorize/admin/admin-word/admin-wo
 import { AdminGuard } from './guards/admin.guard';
 import { FirstLoginComponent } from './routes/Dialog/first-login/first-login.component';
 import { SurveyFormComponent } from './routes/Dialog/survey-form/survey-form.component';
+import { CategoryComponent } from './routes/Dialog/category/category.component';
+import { LevelComponent } from './routes/Dialog/level/level.component';
+import { ErrorComponent } from './error/error.component';
+import { InformationComponent } from './routes/Dialog/information/information.component';
+import { MatchingGameComponent } from './routes/learn/matching-game/matching-game.component';
+import { GuessGameComponent } from './routes/learn/guess-game/guess-game.component';
+import { QuizGameComponent } from './routes/learn/quiz-game/quiz-game.component';
+import { CourseDashboardComponent } from './routes/learn/course-dashboard/course-dashboard.component';
+import { ClassComponent } from './routes/Class/class/class.component';
+// import { ClassComponent } from './routes/class/class.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
   {
@@ -37,6 +47,7 @@ const routes: Routes = [
       { path: 'personal-information', component: PersonalInformationComponent },
       { path: 'info-detail', component: InforDetailComponent },
       { path: 'infor-course', component: InforCourseComponent },
+      {path: 'class', component: ClassComponent },
     ],
   },
   {
@@ -45,6 +56,10 @@ const routes: Routes = [
     children: [
       { path: 'word-list', component: WordListComponent },
       { path: 'word-detail', component: WordDetailComponent },
+      {path:'matching-game',component: MatchingGameComponent},
+      {path:"guess-game",component: GuessGameComponent},
+      {path:"quiz-game",component: QuizGameComponent},
+      {path:"course",component: CourseDashboardComponent}
     ],
   },
   {
@@ -52,12 +67,29 @@ const routes: Routes = [
     component: LoginComponent,
   },
   {
+    path : 'firstlogin',
+    component: FirstLoginComponent,
+  },
+  {
+    path :'firstlogin/level',
+    component : LevelComponent,
+  },
+  {
+    path :'firstlogin/category',
+    component : CategoryComponent
+    ,
+  },
+  {
+    path :'firstlogin/info',
+    component : InformationComponent,
+  },
+  {
     path: 'register',
     component: RegisterComponent,
     children: [{
       path: 'survey-form',component: SurveyFormComponent }],
-    },
-  {path: 'first-login',component :  FirstLoginComponent},
+    },   
+
   {
     path: 'admin',
     component: AdminComponent,
@@ -68,7 +100,13 @@ const routes: Routes = [
       {path: 'admin-course', component: AdminCourseComponent},
       {path:'admin-word',component: AdminWordComponent}
     ]
-  }
+  },
+  {path:'**',component:ErrorComponent},
+  { 
+    path: 'first-login', 
+    component: FirstLoginComponent, 
+  }, 
+
 ];
 
 @NgModule({

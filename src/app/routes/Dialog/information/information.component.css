@@ -1,0 +1,430 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto+Slab:400");
+@import url("https://fonts.googleapis.com/css?family=Shadows+Into+Light");
+::-moz-selection {
+  color: #fff;
+  background: #9FBE5A;
+}
+::selection {
+  color: #fff;
+  background: #9FBE5A;
+}
+
+body {
+  width: 100vw;
+  height: 100%;
+  padding-bottom: 50px;
+  overflow-x: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:  #16a085;
+}
+
+h1 {
+  margin-bottom: 75px;
+  padding: 0 20vw;
+  font: 400 56px "Roboto Slab", serif;
+  font-size: 56px;
+  text-align: center;
+  color:#453939;
+}
+
+.form__contact {
+  max-width: 700px;
+  margin: 0 auto;
+  border-left: 30px solid white;
+  -o-border-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI0MS44NnB4IiBoZWlnaHQ9IjUyLjMyNnB4IiB2aWV3Qm94PSIwIDAgNDEuODYgNTIuMzI2IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA0MS44NiA1Mi4zMjYiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiNGRkZGRkYiIGQ9Ik0wLDB2MjUuMTYzaDcuMDk3YzAuNTAxLTQuOTg5LDQuNzEyLTguODg0LDkuODMzLTguODg0YzUuNDU4LDAsOS44ODQsNC40MjUsOS44ODQsOS44ODRzLTQuNDI1LDkuODg0LTkuODg0LDkuODg0Yy01LjEyMSwwLTkuMzMyLTMuODk1LTkuODMzLTguODg0SDB2MjUuMTYzaDQxLjg2VjBIMHoiLz48L3N2Zz4=) 5% 100% repeat;
+     border-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI0MS44NnB4IiBoZWlnaHQ9IjUyLjMyNnB4IiB2aWV3Qm94PSIwIDAgNDEuODYgNTIuMzI2IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA0MS44NiA1Mi4zMjYiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiNGRkZGRkYiIGQ9Ik0wLDB2MjUuMTYzaDcuMDk3YzAuNTAxLTQuOTg5LDQuNzEyLTguODg0LDkuODMzLTguODg0YzUuNDU4LDAsOS44ODQsNC40MjUsOS44ODQsOS44ODRzLTQuNDI1LDkuODg0LTkuODg0LDkuODg0Yy01LjEyMSwwLTkuMzMyLTMuODk1LTkuODMzLTguODg0SDB2MjUuMTYzaDQxLjg2VjBIMHoiLz48L3N2Zz4=) 5% 100% repeat;
+  border-image-width: 0px 0px 0px 30px;
+  transform: translateY(100%);
+  -webkit-animation: init 1s ease-in-out forwards;
+          animation: init 1s ease-in-out forwards;
+}
+.form__contact fieldset {
+  position: relative;
+  margin: 0;
+  padding: 30px 30px 40px 80px;
+  border: none;
+  border-radius: 0 20px 20px 0;
+  font: 24px "Shadows Into Light", cursive;
+  background: #fef9f9 linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 0) 0 20px/100% 40px;
+}
+.form__contact fieldset:after {
+  position: absolute;
+  top: 0;
+  left: 50px;
+  content: "";
+  height: 100%;
+  width: 1px;
+  border-left: double #E08183;
+}
+.form__contact p {
+  margin: 0 0 40px 0;
+  line-height: 40px;
+  color: #333;
+}
+.form__contact span {
+  position: relative;
+  line-height: 40px;
+}
+.form__contact button {
+  margin-top: 40px;
+  float: right;
+  border: none;
+  font-family: "Shadows Into Light", cursive;
+  color: #E08183;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+.form__contact button:hover {
+  transform: translateX(10px);
+}
+
+.form__field {
+  border: none;
+    border-bottom: 2px solid transparent;
+    outline: none;
+}
+.form__field:focus {
+  border-bottom: 2px solid #2ecc71; /* Màu xanh khi ô input được focus */
+}
+.form__field::placeholder {
+  color: #2ecc71; /* Màu placeholder mặc định */
+}
+.form__field:empty {
+  display: inline-block;
+  color: #26b02b;
+}
+.form__field:empty:before, .form__field:empty:focus:before {
+  content: attr(data-placeholder);
+}
+.form__field.field--gender {
+  border: none;
+  background: transparent; /* Để xóa background color mặc định của select */
+}
+
+svg {
+  display: none;
+}
+
+@-webkit-keyframes init {
+  75% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes init {
+  75% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@-webkit-keyframes do-blur {
+  0% {
+    filter: url(#blur4);
+  }
+  25% {
+    filter: url(#blur3);
+  }
+  50% {
+    filter: url(#blur2);
+  }
+  75% {
+    filter: url(#blur1);
+  }
+  100% {
+    filter: url(#blur0);
+  }
+}
+@keyframes do-blur {
+  0% {
+    filter: url(#blur4);
+  }
+  25% {
+    filter: url(#blur3);
+  }
+  50% {
+    filter: url(#blur2);
+  }
+  75% {
+    filter: url(#blur1);
+  }
+  100% {
+    filter: url(#blur0);
+  }
+}
+
+/* robot chatbot */
+.cute-robot-v1 {
+  height: 600px;
+  bottom: 210px;
+  right: 100px;
+  position: absolute !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.cute-robot-v1 * {
+  box-sizing: border-box;
+}
+.cute-robot-v1 .circle-bg {
+  background: #cedbdd;
+  width: 220px;
+  height: 220px;
+  border-radius: 100%;
+  border: 8px solid #195272;
+  position: relative;
+}
+.cute-robot-v1 .circle-bg:after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  height: 85%;
+  width: 100%;
+  top: -3px;
+  left: 0;
+  border-radius: 100%;
+  border-bottom: 10px solid #195272;
+}
+.cute-robot-v1 .circle-bg:hover .robot-face {
+  top: 40px !important;
+}
+.cute-robot-v1 .circle-bg:hover .eyes {
+  top: 30px !important;
+}
+.cute-robot-v1 .circle-bg:hover .mouth {
+  background: #195272;
+  border: none;
+  clip-path: polygon(0% 30%, 100% 30%, 100% 100%, 0% 100%);
+}
+.cute-robot-v1 .circle-bg:hover .mouth:after {
+  content: "";
+  position: absolute;
+  height: 80%;
+  width: 80%;
+  bottom: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f9bbbb;
+  border-radius: 100%;
+}
+/* CSS ban đầu */
+.cute-robot-v1 .circle-bg .robot-face {
+  /* CSS khác */
+  top: 0; /* Đặt lại top về giá trị ban đầu */
+}
+
+.cute-robot-v1 .circle-bg .robot-face.robot-smile {
+  top: 40px !important;
+}
+
+.cute-robot-v1 .circle-bg .eyes {
+  top: 0 !important; /* Đặt lại top về giá trị ban đầu */
+}
+
+.cute-robot-v1 .circle-bg .eyes.robot-smile {
+  top: 30px !important;
+}
+
+.cute-robot-v1 .circle-bg .mouth {
+  background: #cedbdd; /* Đặt lại màu nền của miệng */
+  border: 8px solid #195272; /* Đặt lại viền của miệng */
+  clip-path: none; /* Loại bỏ clip-path */
+}
+
+.cute-robot-v1 .circle-bg .mouth.robot-smile {
+  background: #195272;
+  border: none;
+  clip-path: polygon(0% 30%, 100% 30%, 100% 100%, 0% 100%);
+}
+
+
+
+.cute-robot-v1 .circle-bg .robot-head {
+  height: 175px;
+  width: 175px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -20px;
+  border: 8px solid #195272;
+  border-radius: 85px/60px;
+  background: #ffffff;
+  z-index: 4;
+}
+.cute-robot-v1 .circle-bg .robot-head:after {
+  content: "";
+  position: absolute;
+  top: -30px;
+  height: 30px;
+  width: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #195272;
+}
+.cute-robot-v1 .circle-bg .robot-head:before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 20px;
+  width: 20px;
+  background: #cedbdd;
+  border: 8px solid #195272;
+  border-radius: 100%;
+}
+.cute-robot-v1 .circle-bg .robot-head .robot-face {
+  height: 100px;
+  width: 120px;
+  background: #cedbdd;
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 8px solid #195272;
+  transition: all 200ms;
+  border-radius: 45px;
+}
+.cute-robot-v1 .circle-bg .robot-head .robot-face .eyes {
+  height: 10px;
+  width: 10px;
+  background: #195272;
+  border-radius: 100%;
+  position: absolute;
+  transition: all 200ms;
+  top: 5px !important;
+}
+.cute-robot-v1 .circle-bg .robot-head .robot-face .eyes.left {
+  left: 30px;
+}
+.cute-robot-v1 .circle-bg .robot-head .robot-face .eyes.right {
+  right: 30px;
+}
+.cute-robot-v1 .circle-bg .robot-head .robot-face .mouth {
+  height: 30px;
+  width: 50px;
+  border-radius: 100%;
+  border: 8px solid transparent;
+  border-bottom-color: #195272;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 40px;
+  overflow: hidden;
+}
+.cute-robot-v1 .circle-bg .robot-ear {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  border-radius: 100%;
+  background: #ffffff;
+  border: 8px solid #195272;
+  z-index: 3;
+  top: 30px;
+}
+.cute-robot-v1 .circle-bg .robot-ear.left {
+  left: -20px;
+}
+.cute-robot-v1 .circle-bg .robot-ear.right {
+  right: -20px;
+}
+.cute-robot-v1 .circle-bg .robot-body {
+  height: 35px;
+  width: 70px;
+  border: 8px solid #195272;
+  background: #ffffff;
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 25px 25px 30px 30px;
+}
+body {
+  background-color: #6e6565;
+  padding: 60px;
+}
+
+.bubble {
+  position: absolute;
+  right: -8%;
+    top: -805px;
+  transform: translateX(-50%);
+  display: inline-block;
+  margin: 20px;
+  text-align: center;
+  font-family: "Press Start 2P", cursive;
+  font-size: 16px;
+  line-height: 1.3em;
+  background-color: #fff;
+  color: #000;
+  padding: 12px;
+  box-shadow: 0 -4px #fff, 0 -8px #000, 4px 0 #fff, 4px -4px #000, 8px 0 #000, 0 4px #fff, 0 8px #000, -4px 0 #fff, -4px 4px #000, -8px 0 #000, -4px -4px #000, 4px 4px #000;
+  box-sizing: border-box;
+  width: 200px;
+}
+.bubble::after {
+  content: "";
+  display: block;
+  position: absolute;
+  box-sizing: border-box;
+}
+.bubble.shadow {
+  box-shadow: 0 -4px #fff, 0 -8px #000, 4px 0 #fff, 4px -4px #000, 8px 0 #000, 0 4px #fff, 0 8px #000, -4px 0 #fff, -4px 4px #000, -8px 0 #000, -4px -4px #000, 4px 4px #000, 4px 12px rgba(0, 0, 0, 0.1), 12px 4px rgba(0, 0, 0, 0.1), 8px 8px rgba(0, 0, 0, 0.1);
+}
+.bubble.mini {
+  width: 110px;
+  font-size: 16px;
+  padding: 4px;
+  font-family: monospace;
+}
+.bubble.medium {
+  width: 350px;
+}
+.bubble.large {
+  width: 560px;
+  font-size: 24px;
+  text-align: left;
+  text-transform: uppercase;
+}
+.bubble.grow {
+  width: initial;
+}
+.bubble.bottom::after {
+  height: 4px;
+  width: 4px;
+  bottom: -8px;
+  left: 32px;
+  box-shadow: 0 4px #000, 0 8px #000, 0 12px #000, 0 16px #000, -4px 12px #000, -8px 8px #000, -12px 4px #000, -4px 4px #fff, -8px 4px #fff, -4px 8px #fff, -4px 0 #fff, -8px 0 #fff, -12px 0 #fff;
+}
+.robot{
+  position: relative  ;
+  top: 100px;
+}
+.wrapper{
+  display: relative !important;
+  height : 1000px;
+}
+@keyframes showBubble {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.bubble.hidden {
+  display: none;
+}
+
+.bubble.show {
+  display: block;
+}
+.select{
+  padding: 20px;
+  width: 425px;
+}

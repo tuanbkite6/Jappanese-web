@@ -50,7 +50,6 @@ getAllWord(){
     }
   setCurrentWordBook(data: any): void {
     this.currentWordBook = data;
-    console.log(this.currentWordBook)
     this.saveDataCache(constant.CACHE_WORDBOOK_LABEL, data);
   }
   saveDataCache(label: string, data: any) {

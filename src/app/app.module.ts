@@ -7,12 +7,12 @@ import { AnalysisComponent } from './routes/main-screen/analysis/analysis.compon
 import { MyWordbooksComponent } from './routes/main-screen/my-wordbooks/my-wordbooks.component';
 import { DashboardComponent } from './routes/main-screen/dashboard/dashboard.component';
 import { MainScreenComponent } from './routes/main-screen/main-screen.component';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 // import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { NZ_I18N, vi_VN } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
@@ -37,7 +37,17 @@ import { AdminUserComponent } from './routes/Authorize/admin/admin-user/admin-us
 import { AdminWordComponent } from './routes/Authorize/admin/admin-word/admin-word.component';
 import { FirstLoginComponent } from './routes/Dialog/first-login/first-login.component';
 import { SurveyFormComponent } from './routes/Dialog/survey-form/survey-form.component';
-
+import { CategoryComponent } from './routes/Dialog/category/category.component';
+import { ErrorComponent } from './error/error.component';
+import { LevelComponent } from './routes/Dialog/level/level.component';
+import { InformationComponent } from './routes/Dialog/information/information.component';
+import { MatchingGameComponent } from './routes/learn/matching-game/matching-game.component';
+import { GuessGameComponent } from './routes/learn/guess-game/guess-game.component';
+import { QuizGameComponent } from './routes/learn/quiz-game/quiz-game.component';
+import { CourseDashboardComponent } from './routes/learn/course-dashboard/course-dashboard.component';
+import { ClassComponent } from './routes/Class/class/class.component';
+import { MatchingCardComponent } from './routes/learn/matching-game/matching-card/matching-card.component';
+import { ChangeBgDirective } from './change-bg.directive';
 registerLocaleData(en);
 
 @NgModule({
@@ -64,8 +74,18 @@ registerLocaleData(en);
     AdminCourseComponent,
     AdminPostComponent,
     AdminUserComponent,
-    AdminWordComponent
-
+    AdminWordComponent,
+    LevelComponent,
+    CategoryComponent,
+    ErrorComponent,
+    InformationComponent,
+    MatchingGameComponent,
+    GuessGameComponent,
+    QuizGameComponent,
+    CourseDashboardComponent,
+    ClassComponent,
+    MatchingCardComponent,
+    ChangeBgDirective
   ],
   imports: [
     BrowserModule,
@@ -79,5 +99,9 @@ registerLocaleData(en);
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US },{provide: HTTP_INTERCEPTORS,useClass:TokenInterceptor,multi:true}],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+  }
+}

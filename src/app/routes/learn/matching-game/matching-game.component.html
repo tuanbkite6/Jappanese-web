@@ -1,0 +1,10 @@
+<mat-toolbar color="primary" class="text-center">
+  Ghép từ 
+</mat-toolbar>
+<div class="p-16">
+  <p class="text-center">Sử dụng trí nhớ để có thể ghép từ vựng sao cho đúng</p>
+  <div class="grid p-16">
+    <app-matching-card *ngFor="let c of cards; let idx=index" [data]="c" (cardClicked)="cardClicked(idx)">
+    </app-matching-card>
+  </div>
+</div>

@@ -18,19 +18,20 @@
   .nav-list a {
     color: #000;
     list-style: none;
-    /* padding: 0 8px; */
+    padding: 0 8px;
     display: inline-block;
-    width: 102px;
-    height: 50px;
     text-align: center;
-    font-weight: 700;
-    font-size: 16px;
+    font-weight: 500;
+    font-size: 17px;
     text-decoration: none;
     color: #212121;
-    margin: 0 15px;
+    margin: 0 5px;
     letter-spacing: 1px;
     position: relative;
     
+  }
+  .menu{
+    padding : 0px 350px;
   }
   .img{
     list-style: none;
@@ -47,7 +48,7 @@
     height: 2px;
     background: #fff;
     background-image: linear-gradient(to top, #0fdd3f 0%, #1fea00 100%);
-    top: 47%;
+    top: 120%;
     animation: out 0.2s cubic-bezier(1, 0, 0.58, 0.97) 1 both;
   }
   .nav-item{

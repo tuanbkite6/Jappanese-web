@@ -16,7 +16,7 @@
             </div>
             <input
               type="text"
-              placeholder="私たちと何を共有したいですか?"
+              placeholder="Bạn có muốn chia sẻ đièu gì không?"
               (click)="onClickHandleExpand()"
               formControlName="postContent"
               [(ngModel)]="Content"
@@ -27,7 +27,7 @@
               <label  *ngIf="isUpload === true" for="file" class="community-post__button">
                 <div class="community-post__image small-border">
                   <i class="fa-solid fa-upload"></i>
-                  <div class="text">画像をアップロード</div>
+                  <div class="text">Tải ảnh lên</div>
                 </div>
               </label>
               <input
@@ -58,13 +58,13 @@
               </div>
               <div #myModal class="modal-container" *ngIf="isVisible === true">
                 <div class="content">
-                  <h1 class="header-content">投稿にコースを追加する</h1>
+                  <h1 class="header-content">Thêm bài viết mới</h1>
                   <div class="list-container">
                     <ul class="responsive-table">
                       <li class="table-header">
-                        <div class="col col-1">コースID</div>
-                        <div class="col col-2">名前</div>
-                        <div class="col col-3">カテゴリー </div>
+                        <div class="col col-1">Course id</div>
+                        <div class="col col-2">Tên </div>
+                        <div class="col col-3">Chủ đề</div>
                       </li>
                  
                       <div class="row-data" *ngFor="let data of listCourse" (click)="onClickCourse(data.courseId)">
@@ -80,7 +80,7 @@
                     </ul>
                   </div>
                   <button class="button-close" (click)="closeModal()">
-                    キャンセル
+                    Hủy
                   </button>
                 </div>
               </div>
@@ -88,12 +88,12 @@
             <div class="community-post_hanle">
               <div class="community-post_cancel">
                 <button class="button" (click)="onClickClose()">
-                  <i class="fa-solid fa-right-from-bracket"></i>投稿をキャンセル
+                  <i class="fa-solid fa-right-from-bracket"></i>Hủy bài viết
                 </button>
               </div>
               <div class="community-post_send" (click)="onClickSend()">
                 <button class="button">
-                  <i class="fa-solid fa-share"></i>ポストシェア
+                  <i class="fa-solid fa-share"></i>Đăng
                 </button>
               </div>
             </div>
@@ -101,7 +101,7 @@
         </div>
       </form>
     </div>
-    <div class="community-divider"><h1>お気に入りの投稿</h1></div>
+    <div class="community-divider"><h1>Bài viết bạn quan tâm</h1></div>
     <!-- Post trên màn cộng đồng  -->
     <div class="community-posts__rating small-border" *ngFor="let data of listPost"  >
       <div class="handleHint" *ngIf="data.postId !== isHintPost">
@@ -115,7 +115,7 @@
           </div>
           <div class="community-post_info">
             <div class="community-post_username">{{data.userName}}</div>
-            <div class="community-post_rating" >投稿ID : {{data.postId}}</div>
+            <div class="community-post_rating" >ID bài viết : {{data.postId}}</div>
           </div>
         </div>
         <div class="community-post_delete" (click)="onClickHandleHint(data.postId)">
@@ -137,11 +137,11 @@
         </div>
         <div class="community-posts_course" (click)="openModalCourse(data.courseId)">
           <div class="community-post__theme">
-            トピック :<br />
+            Topic :<br />
             {{data.courseName}}
           </div>
           <div class="community-post__word">
-            コースID:<br />
+            Id:<br />
             {{data.courseId}}
           </div>
         </div>
@@ -152,23 +152,23 @@
           <div class="interact_container">
             <div class="interact-icon" (click)="handleOpenRating(data.postId)">
             <i class="fa-solid fa-star"></i>
-            評価
+            Đánh giá
           </div>
         </div>
         <div class="interact_container" (click)="onClickHandleCommentExpand(data.postId)">
           <div class="interact-icon">
             <i class="fa-solid fa-comment"></i>
-            コメント
+            Bình luận
           </div>
         </div>
         <div class="interact_container" (click)="importToMyCourse(data.courseId)">
           <div class="interact-icon">
             <i class="fa-solid fa-file-import"></i>
-            自分のコースにインポートする
+            Thêm vào học liệu
           </div>
         </div>
       </div>
-        <div class="rating">評価 :{{data.rating}}</div>
+        <div class="rating">Đánh giá :{{data.rating}}</div>
       </div>
       <div class="row" *ngIf="data.postId === isRating">
         <div class="col-sm-12">
@@ -189,7 +189,7 @@
       <!-- Phần mở rộng khi nhấn comment -->
       <div class="community-comment" >
         <div class="community-comment_header">
-          <h2>コメント</h2>
+          <h2>Bình luận</h2>
         </div>
         <div class="community-comment_body">
         <form action="" [formGroup]="commentForm">
@@ -203,7 +203,7 @@
           
 
               <input type="text" placeholder="Comment" #comment formControlName="comment" />
-              <button (click)="onSubmit(data.postId)">送信</button>
+              <button (click)="onSubmit(data.postId)">Gửi</button>
           
           </div>
         </form>
@@ -236,13 +236,13 @@
 <!-- modal list word -->
 <div #myModal class="modal-container" *ngIf="isListWord === true">
   <div class="content">
-    <h1 class="header-content">コースの語彙リスト</h1>
+    <h1 class="header-content">Danh sách từ</h1>
     <div class="list-container">
       <ul class="responsive-table">
         <li class="table-header">
-          <div class="col col-1">ひらがな</div>
-          <div class="col col-2">漢字</div>
-          <div class="col col-3">意味 </div>
+          <div class="col col-1">Hiragana</div>
+          <div class="col col-2">Kanji</div>
+          <div class="col col-3">Nghĩa </div>
         </li>
    
         <div class="row-data" *ngFor="let data of listWord">
@@ -258,7 +258,7 @@
       </ul>
     </div>
     <button class="button-close" (click)="closeModalCourse()">
-      キャンセル
+      Đóng
     </button>
   </div>
 </div>

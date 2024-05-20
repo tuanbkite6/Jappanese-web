@@ -1,0 +1,91 @@
+
+<div class="content">
+
+<div class="wrapper" style="background:  #c6d0ce8a;">
+  <h1>Thông tin cá nhân</h1>
+
+  <form [formGroup]="personalInfoForm" class="form__contact" action="">
+    <fieldset>
+      <p>Hey, admin!</p>
+      <P>Tôi là người dùng mới nên tôi muốn thông báo đến admin một số thông tin cá nhân của mình</P>
+      <p>
+        Giới tính của tôi là 
+        <select class="form__field field--gender" tabindex="1" formControlName="gender" placeholder="giới tính ">
+          <option value="Nam">Nam</option>
+          <option value="Nữ">Nữ</option>
+          <option value="Khác">Khác</option>
+          
+        </select>
+        .Hiện tại tôi đang sống ở 
+        <input
+          class="form__field field--message"
+          placeholder="địa chỉ"
+          formControlName="address"
+          tabindex="2"
+          contenteditable
+        >.
+      </p>
+      <p>
+        Đây là email cá nhân của tôi
+        <input
+          class="form__field field--email"
+          formControlName="email"
+          placeholder="email address"
+          tabindex="3"
+          contenteditable
+        >.
+      </p>
+      <p>Rất vui và hy vọng học được nhiều điều về tiếng Nhật!</p>
+      <button type="submit" class="button button--xlarge" tabindex="4" (click)="onSubmit()">
+        Gửi &#187;
+      </button>
+    </fieldset>
+  </form>
+</div>
+
+<svg
+  version="1.1"
+  id="Layer_1"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xml:space="preserve"
+>
+  <defs>
+    <filter id="blur0">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="0 0" />
+    </filter>
+    <filter id="blur1">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="0 5" />
+    </filter>
+    <filter id="blur2">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="0 10" />
+    </filter>
+    <filter id="blur3">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="0 15" />
+    </filter>
+    <filter id="blur4">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="0 20" />
+    </filter>
+  </defs>
+</svg>
+<!-- robot assistant -->
+<div class="robot">
+
+  <div class="cute-robot-v1">
+    <div class="circle-bg">
+      <div class="robot-ear left"></div>
+      <div class="robot-head">
+      <div class="robot-face">
+        <div class="eyes left"></div>
+        <div class="eyes right"></div>
+        <div class="mouth"></div>
+      </div>
+    </div>
+    <div class="robot-ear right"></div>
+    <div class="robot-body"></div>
+  </div>
+</div>
+<div class="bubble medium bottom hidden">Xin chào bạn, tôi vẫn chưa biết bạn là ai hãy cho tôi thêm ít thông tin nhá </div>
+</div>
+</div>
+

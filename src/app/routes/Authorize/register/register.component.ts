@@ -53,7 +53,7 @@ export class RegisterComponent {
             next: (res: any) => {
               this.signUpForm.reset();
               this.toast.success({detail: "Thành công", summary: "Đăng ký thành công", duration: 5000});
-              this.router.navigate(['../first-login']);
+              this.router.navigate(['../firstlogin/info']);
             },
             error: (err: any) => {
               this.toast.error({detail: "Thất bại", summary: "Tài khoản đã tồn tại.", duration: 5000});
