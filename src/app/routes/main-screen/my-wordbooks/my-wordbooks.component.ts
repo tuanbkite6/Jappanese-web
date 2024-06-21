@@ -28,37 +28,37 @@ export class MyWordbooksComponent {
    
     ngOnInit(): void {
       this.fetchData();
-      this.getListMyCourse();
+      // this.getListMyCourse();
     }
   
     async fetchData() {
       await this.getAllWordBook();
     }
-    getListMyCourse (){
-      this.wordbookService.getWordbookById("courseX1").subscribe(res => {
-      const X1: any = res ;
-      this.totalWordX1 = X1.length ; 
+    // getListMyCourse (){
+    //   this.wordbookService.getWordbookById("courseX1").subscribe(res => {
+    //   const X1: any = res ;
+    //   this.totalWordX1 = X1.length ; 
         
-      });
-      this.wordbookService.getWordbookById("courseX2").subscribe(res => {
-        const X1: any = res ;
-        this.totalWordX2 = X1.length ; 
+    //   });
+    //   this.wordbookService.getWordbookById("courseX2").subscribe(res => {
+    //     const X1: any = res ;
+    //     this.totalWordX2 = X1.length ; 
           
-        });
-        this.wordbookService.getWordbookById("courseX3").subscribe(res => {
-          const X1: any = res ;
-          this.totalWordX3 = X1.length ; 
+    //     });
+    //     this.wordbookService.getWordbookById("courseX3").subscribe(res => {
+    //       const X1: any = res ;
+    //       this.totalWordX3 = X1.length ; 
             
-          });
-          this.wordbookService.getWordbookById("courseX4").subscribe(res => {
-            const X1: any = res ;
-            this.totalWordX4 = X1.length ; 
+    //       });
+    //       this.wordbookService.getWordbookById("courseX4").subscribe(res => {
+    //         const X1: any = res ;
+    //         this.totalWordX4 = X1.length ; 
               
-            });
+    //         });
                   
   
   
-    }
+    // }
     async getAllWordBook() {
       try {
         const response = await this.wordbookService.getAllWordbook().toPromise();
@@ -72,7 +72,7 @@ export class MyWordbooksComponent {
     }
     
     goToDetailWord(id: any): any {
-      this.router.navigate([`/${staticPath.WORD_LIST}`, { id }]);
+      this.router.navigate([`/${staticPath.COURSE_DASHBOARD_REVIEW}`, { id }]);
       this.wordbookService.setCurrentWordBook(id);
     }
   

@@ -1,0 +1,38 @@
+<div class="container">
+    <button (click)="sendRequsetJoin()" class="request-btn">Gửi yêu cầu tham gia lớp học</button>
+    <div class="class-info">
+        <div class="class-contanier" >
+            
+            <div class="class-container-card">
+            <div class="class-card" *ngFor="let data of courseData">
+            <div class="date">{{data.createdAt | date : "dd/MM/yyyy"}}</div>
+            <div class="terms">
+                <span>{{data.totalWord}} thuật ngữ</span>
+                <span class="teacher">
+                    <img src="teacher-profile.png" alt="teacher">
+                    <span>haucm05</span>
+                    <span class="role">Giáo viên</span>
+                </span>
+                <span>n2</span>
+            </div>
+            <div class="class-title">{{data.courseName}}</div>
+        </div>
+    </div>
+    <div class="class-details" *ngIf="classInfo">
+        <div>
+            <span class="class-title">{{ classInfo.className }}</span>
+            <span class="class-description">{{ classInfo.description }}</span>
+        </div>
+        <div>{{ classInfo.courseCount }} học phần</div>
+        <div>{{ classInfo.memberCount }} thành viên</div>
+        <div>
+            
+            <span class="teacher-label">Giáo viên: </span>
+            <span class="teacher-name">{{ classInfo.userName }}</span>
+            <span class="teacher-email">⭐{{ classInfo.numberRating }}</span>
+        </div>
+    </div>
+    
+    </div>
+    </div>
+</div>

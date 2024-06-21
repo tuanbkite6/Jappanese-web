@@ -6,6 +6,54 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 5px;
 }
+.active {
+  color: red; /* Example active state color */
+}
+
+.word-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.word-details {
+  margin-left: 10px;
+}
+/* Keyframe animation for scaling */
+@keyframes scaleUp {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Keyframe animation for rotating */
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+.animate-scale {
+  animation: scaleUp 0.5s ease-in-out;
+}
+.animate-rotate {
+  animation: rotate 1s ease-in-out;
+}
+.noteword-button {
+  cursor: pointer;
+}
+
 
 .Word_container:hover {
     box-shadow: 2px 2px 2px #a59a9a;
@@ -93,4 +141,397 @@
     background-color: #fff;
     color: #000;
     transform: rotateY(180deg);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 14px;
+}
+
+wrap {
+  min-height: 100%;
+  height: auto;
+  margin: 0 auto -60px;
+  padding: 0 0 60px;
+}
+
+.navbar {
+  box-shadow: 0px 5px 16px -1px rgba(163, 163, 163, 0.4);
+  font-family: "Sorts Mill Goudy", serif;
+  color: #a78ac3;
+  height: 50px;
+  vertical-align: middle;
+  background-color: white;
+}
+
+.navbar-brand {
+  position: relative;
+  padding: 0 28px 0 15px;
+  font-size: 25px;
+  font-weight: bold;
+  vertical-align: middle;
+  line-height: 80px;
+  letter-spacing: 2px;
+}
+
+.nav li {
+  display: inline;
+  vertical-align: middle;
+}
+
+.navbar-nav li a {
+  font-size: 15px;
+  font-weight: bold;
+  padding: 30px 25px 33px 25px;
+}
+
+.navbar-nav li a:hover {
+  background-color: #d9d9d9;
+  height: 100%;
+}
+
+#navbar-collapse {
+  background-color: white;
+}
+.icon {
+  font-size: 40px !important;
+  width: 70px;
+  height: 65px;
+  text-align: center;
+  border-radius: 50%;
+  border: solid 1px #95A39D;
+}
+.icon:hover {
+  background-color: #c9c7c7;
+}
+.glyphicon-menu-hamburger {
+  padding: 10px 0 10px 0;
+  vertical-align: middle;
+  font-size: 20px;
+  color: #eaedef;
+}
+
+#midrow {
+  margin-top: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+}
+
+/* FLASH CARD STYLING */
+
+.container .button-container {
+  text-align: center;
+  /*   margin-top: 10px;   */
+}
+
+.container .button-container button {
+  font-size: 19px;
+}
+
+.container .button-container i {
+  font-size: 25px;
+}
+
+.button-container button {
+  padding: 10px 15px;
+  font-weight: bold;
+  background-color: transparent;
+  border-radius: 5px;
+  color: black;
+}
+
+.button-container {
+  display: block;
+  background: #dbdbdb;
+}
+
+.container button:hover {
+  /* cursor: pointer; */
+}
+
+.container button:focus {
+  outline: 0;
+}
+
+.container button.button-active {
+  /* 	background-color: gray; */
+  /* 	color: #374D57; */
+}
+
+.flag {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border-radius: 51%;
+  border: 0;
+  width: 3em;
+  height: 3em;
+  font-size: 0.5em;
+  color: white;
+  background-color: wh;
+}
+#flashcard--content_en{
+  font-size: 70px;
+}
+.flag:focus {
+  outline: 0;
+}
+.flashcard-content_hiragana{
+  font-size: 30px;
+}
+/* entire container, keeps perspective */
+
+.container .flip-container {
+  margin: 0 auto;
+  -webkit-perspective: 1000;
+  -moz-perspective: 1000;
+  -ms-perspective: 1000;
+  perspective: 1000;
+  -ms-transform: perspective(1000px);
+  -moz-transform: perspective(1000px);
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+}
+
+/* flip the pane  */
+.container .flip-container.flipped .flipper,
+.container .flip-container.flipped .flipper {
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+.midrow-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 40px;
+  cursor: pointer;
+}
+.container .flip-container,
+.front,
+.back {
+  width: 900px;
+  height: 600px;
+  position: relatvie;
+  /* 	border-radius: 24px; */
+  box-sizing: border-box;
+}
+.volume {
+  position: absolute;
+    top: 40px;
+    right: 37px;
+    color: #5ba1eb;
+    cursor: pointer;
+}
+.volume:hover{
+  color: #007bff;
+}
+@media only screen and (max-width: 768px) {
+  .flip-container {
+    /* 		margin: 10vh auto; */
+  }
+
+  .flip-container,
+  .front,
+  .back {
+    width: 150vw;
+    height: 80vh;
+  }
+}
+
+.front,
+.back {
+  text-align: center;
+  font-size: 2.6em;
+  line-height: 1em;
+  padding-top: calc(50% - 3em);
+  color: #040404;
+  	border: 1px solid #95A39D;
+    border-radius: 5px;
+}
+
+/* flip speed goes here */
+.flipper {
+  -webkit-transition: 0.2s;
+  -webkit-transform-style: preserve-3d;
+  -ms-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -moz-transform: perspective(1000px);
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  transition: 0.2s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+/* hide back of pane during swap */
+.front,
+.back {
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transition: 0.3s;
+  -webkit-transform-style: preserve-3d;
+  -webkit-transform: rotateY(0deg);
+  -moz-transition: 0.3s;
+  -moz-transform-style: preserve-3d;
+  -moz-transform: rotateY(0deg);
+  -o-transition: 0.3s;
+  -o-transform-style: preserve-3d;
+  -o-transform: rotateY(0deg);
+  -ms-transition: 0.3s;
+  -ms-transform-style: preserve-3d;
+  -ms-transform: rotateY(0deg);
+  transition: 0.3s;
+  transform-style: preserve-3d;
+  transform: rotateY(0deg);
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-shadow: 10px 10px 16px -1px rgba(163, 163, 163, 0.4);
+}
+
+/* front pane, placed above back */
+.front {
+  /* 	z-index: 2; */
+  /* for firefox 31 */
+  -webkit-transform: rotateY(0deg);
+  -ms-transform: rotateY(0deg);
+  background-color: white;
+}
+
+/* back, initially hidden pane */
+.back {
+  -webkit-transform: rotateY(-180deg);
+  -moz-transform: rotateY(-180deg);
+  -o-transform: rotateY(-180deg);
+  -ms-transform: rotateY(-180deg);
+  transform: rotateY(-180deg);
+  background-color: white;
+}
+
+.container .refresh {
+  border: 0;
+}
+.button-container .refresh:hover{
+  background-color: #fff;
+  cursor: pointer;
+}
+.container .refresh:hover {
+  border: 0;
+  background-color: transparent;
+}
+.header i{
+  font-size: 27px;
+  padding: 10px 50px;
+  font-weight: 400;
+  cursor: pointer;
+}
+/* Ensure the header takes up the full width and uses flexbox for layout */
+.header {
+  display: flex;
+  justify-content: space-between; /* Distribute space between items */
+  align-items: center; /* Center items vertically */
+  padding: 10px;
+  background-color: #f8f9fa; /* Light grey background */
+  border-bottom: 1px solid #e7e7e7; /* Subtle bottom border */
+}
+
+/* Style for the button container */
+.header .noteword-button, .header .edit-button {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  cursor: pointer;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f8f9fa; /* Example background color */
+}
+
+.noteword-button,
+.edit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.noteword-button i,
+.edit-button i {
+  font-size: 1.5em;
+  color: #333; /* Example icon color */
+}
+
+.noteword-button {
+  order: 1; /* Ensures it stays on the left */
+}
+
+.edit-button {
+  order: 2; /* Ensures it stays on the right */
+}
+
+/* Animation for buttons */
+button i {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+button:hover i {
+  transform: scale(1.2);
+  color: #007bff; /* Change color on hover */
+}
+
+.refresh i {
+  font-size: 1.5em;
+  color: #333; /* Example icon color */
+}
+
+.refresh i.fa-star:hover {
+  color: #f39c12; /* Star color on hover */
+}
+
+.refresh i.fa-shuffle:hover {
+  color: #27ae60; /* Shuffle color on hover */
+}
+
+.refresh i.fa-pause:hover {
+  color: #e74c3c; /* Pause color on hover */
+}
+
+/* Add some spacing between the icon and the edge of the button container */
+.header .noteword-button i, .header .edit-button i {
+  margin: 0 5px;
+}
+
+/* Additional styling for the buttons if necessary */
+.header .noteword-button:hover, .header .edit-button:hover {
+  background-color: #e7e7e7; /* Slightly darker on hover */
+  border-radius: 4px; /* Rounded corners */
+}
+
+.header{
+      color: #000;
+    font-weight: 600;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.header h2 { 
+  justify-self: center !important;
+}
+.navbar-fixed-top{
+  display: flex;
 }

@@ -55,10 +55,16 @@
     background: none;
     cursor: pointer;
   }
-  
+  .code-box-demo {
+    overflow-x: auto;
+  }
+
+  .code-box-demo .ant-segmented {
+    margin-bottom: 10px;
+  }
   .task-manager {
     display: flex;
-    padding: 0px 400px;
+    padding: 0px 250px;
     justify-content: space-between;
     width: 100%;
     height: 90vh;
@@ -382,3 +388,43 @@
       padding: 20px;
     }
   }
+  .page-content {
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    background-color: #f4f4f4;
+    padding: 10px 20px;
+    font-size: 24px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.content-categories {
+    display: flex;
+    padding: 10px 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.label-wrapper {
+    margin-right: 20px;
+}
+
+.category-link {
+    text-decoration: none;
+}
+
+.category {
+    font-size: 18px;
+    color: #000;
+    cursor: pointer;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.label-wrapper.active .category {
+    background-color: #ffcc00;
+    color: #fff;
+    border-radius: 4px;
+}

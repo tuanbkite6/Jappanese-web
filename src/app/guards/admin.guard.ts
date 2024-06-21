@@ -24,7 +24,7 @@ export class AdminGuard implements CanActivate {
       return true
     }else 
     {
-      this.toast.warning({detail:"Warning",summary: "Bạn không có quyền truy cập trang này !"})
+      this.toast.warning({detail:"Cảnh báo",summary: "Bạn không có quyền truy cập trang này !"})
       return false ;
     }
   }

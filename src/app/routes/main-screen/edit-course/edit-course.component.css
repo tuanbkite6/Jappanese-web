@@ -1,0 +1,260 @@
+.course-editor {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  
+    img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+    }
+  
+    h1 {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 0;
+    }
+  }
+  
+  .course-info {
+    padding: 20px;
+    padding-right: 1000px;
+  }
+  .bottom-border-input {
+    border: none;
+    font-size: 24px;
+    border-bottom: 2px solid #000; /* Change color and width as needed */
+    padding: 8px 0; /* Optional: Adds some padding to the top and bottom */
+    outline: none; /* Optional: Removes the default outline when the input is focused */
+  }
+  
+  .bottom-border-input:focus {
+    border-bottom-color: #007BFF; /* Change color on focus if needed */
+  }
+  
+  .form-group {
+    margin-bottom: 10px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .terms {
+    padding: 20px;
+  }
+  
+  .term-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .term-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  
+    span {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  
+    button {
+      background-color: #fff;
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  }
+  
+  .term-body {
+    padding: 10px;
+  }
+  
+  .actions {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  button[type="button"] {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .image-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 122px; 
+  }
+  .image-container{
+    position: relative;
+  }
+  .imageWord{
+    width: 85px;
+    height: 85px;
+   
+  }
+  .cancel-btn{
+    position: absolute;
+    right: 120px;
+    font-size: 25px;
+    margin-bottom: 61px;
+  }
+  .image-placeholder {
+    border: 2px dashed #aaa;
+    text-align: center;
+    padding: 20px;
+    cursor: pointer;
+  }
+  
+  .image-placeholder span {
+    font-size: 14px;
+  }
+  
+  .image-placeholder input[type="file"] {
+    display: none; /* Ẩn input file mặc định */
+  }
+  button[type="button"]:hover {
+    background-color: #3e8e41;
+  }
+.input-form{
+  width: 100%;
+}
+.input-container {
+  display: flex;
+  height: 135px;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 0px 6px 7px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  width: 100%;
+  margin-bottom: 16px;
+  margin-top: 10px;
+}
+.add-icon{
+  display:  flex;
+  justify-content: center;
+  width: 100%;
+  font-size: 40px;
+  margin-top: 50px;
+  color: #4CAF50;
+}
+.actions{
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+ 
+}
+.save-button{
+  font-size: 30px;
+  background-color: #48c6ff;
+  color: #fff;
+  padding: 3px 56px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.save-button:hover{
+  background-color: #0f5e83;
+}
+.input-number {
+  font-size: 24px;
+  margin-right: 16px;
+}
+
+.input-section {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.input-box {
+  position: relative;
+  margin-right: 16px;
+  flex-grow: 1;
+}
+.input-box input{
+  font-size: 20px;
+}
+
+.input-field {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #000;
+  padding: 8px 0;
+  font-size: 16px;
+  outline: none;
+}
+
+.input-field::placeholder {
+  color: #ccc;
+}
+
+.input-label {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  font-size: 12px;
+  color: #aaa;
+}
+
+.image-box {
+  display: flex;
+  align-items: center;
+}
+
+.image-placeholder {
+  border: 2px dashed #ccc;
+  width: 100px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #666;
+}
+
+.input-controls {
+  display: flex;
+  flex-direction: column;
+  margin-left: 16px;
+}
+
+.control-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  color: #aaa;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.control-btn:hover {
+  color: #000;
+}

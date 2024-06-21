@@ -1,99 +1,402 @@
 <div class="app">
   <div class="app-body">
-    <h1>Tên học phần</h1>
+    <div class="breadcrumb">
+      <nz-breadcrumb>
+        <nz-breadcrumb-item>
+          <span nz-icon nzType="home"></span>
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item>
+          <a>
+            <span nz-icon nzType="user"></span>
+            <span style="font-size: 16px">Quản lý học liệu </span>
+          </a>
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item style="font-size: 20px">Học tập</nz-breadcrumb-item>
+      </nz-breadcrumb>
+    </div>
+    <div class="course-info">
+      <h1>{{ courseInfo?.courseName }}</h1>
+      <div class="course-details">
+        <div class="course-rating">
+          <h2>{{ courseInfo?.rating }}</h2>
+          <i class="fa-solid fa-star"></i>
+        </div>
+        <div class="course-createdAt">
+          <i class="fa-solid fa-calendar"></i>
+          <span>{{ courseInfo?.createdAt | date : "dd/MM/yyyy" }}</span>
+        </div>
+      </div>
+    </div>
     <app-word-list-detail
-        style="display: flex; justify-content: center"
+      (noteWord)="noteWordReceive($event.wordId, $event.wordNote)"
+      (editWord)="onWordEdited()"
+      (updProgress)="onUpdateProgress()"
+      (updCurrentWord)="onUpdateCurrentWord()"
+      (settingWordList)="onSettingWordList($event)"
+      (completion)="showCongratulationDialog()"
+      (settingWordList)="settingWordList()"
+      [listOfWords]="currentData"
+      [userId]="userId"
+      [courseInfo]="courseInfo"
+      [percent]="percent"
+      [currentIndexWord]="courseInfo.currentWord"
+      [isRole]="isRole"
+      style="display: flex; justify-content: center"
+    >
+    </app-word-list-detail>
+    <div class="container">
+      <div
+        class="left-section small-border"
+        style="padding: 5px 15px; width: 500px"
       >
-        <div class="Word_footer">
-          <div class="Word_navigation_back">
-            <i class="fas fa-angle-left"></i>
-          </div>
-          <div class="Word_navigation_up">
-            <i class="fas fa-chevron-right"></i>
+        <div class="user-info">
+          <img
+            [src]="creatorInfo?.imgUrl"
+            alt="User Image"
+            class="user-image"
+          />
+          <div class="user-details">
+            <h1>{{ creatorInfo?.userName }}</h1>
+            <span class="user-role">Giáo viên</span>
+            <span class="user-created">{{
+              creatorInfo?.createdAt | date : "dd/MM/yyyy"
+            }}</span>
+            <span class="user-level">{{ creatorInfo?.level }}</span>
           </div>
         </div>
-      </app-word-list-detail>
-      <div class="info">
-        <div class="info-">Tên tác giả</div>
+        <div class="action-buttons"></div>
       </div>
-      <div class="set-up"><i class="fa-solid fa-bars"></i></div>
+      <div class="right-section">
+        <div class="action-buttons">
+          <button (click)="onClickShareButton(courseInfo.courseId)">
+            <i class="fas fa-share-square"></i> Chia sẻ
+          </button>
+          <button *ngIf="isRole === false">
+            <i class="fas fa-copy"></i> Sao chép
+          </button>
+          <button (click)="showModalRanking()">
+            <i class="fas fa-chart-bar"></i>
+          </button>
+          <button class="button-menu" (click)="onClickSetting()">
+            <div class="set-up"><i class="fa-solid fa-bars"></i></div>
+          </button>
+        </div>
+        <div class="button-group small-border" *ngIf="settingVisible">
+          <button (click)="showModal()">
+            <i class="fas fa-folder"></i> Quyền truy cập
+          </button>
+          <button><i class="fas fa-user-friends"></i> Thêm vào lớp</button>
+          <button (click)="onClickExport()">
+            <i class="fas fa-print"></i> In
+          </button>
+          <button *ngIf="isRole === false" (click)="onClickTrashCourse()">
+            <i class="fas fa-trash"></i> Bỏ học phần
+          </button>
+          <button *ngIf="isRole" (click)="onClickDeleteCourse()">
+            <i class="fa-solid fa-delete-left"></i> Xóa học phần
+          </button>
+        </div>
+      </div>
+    </div>
     <section class="service-section">
       <h2>Trò chơi</h2>
       <div class="tiles">
         <article class="tile" routerLink="../matching-game">
-            <i class="fa-solid fa-check-double"></i>
-          <a>
-            <span >Ghép chữ</span>
-          </a>
+          <i class="fa-solid fa-check-double"></i>
+          <a><span>Ghép chữ</span></a>
         </article>
-
         <article class="tile" routerLink="../guess-game">
-            <i class="fa-solid fa-brain"></i>
-          <a>
-            <span>Đoán chữ</span>
-          </a>
+          <i class="fa-solid fa-brain"></i>
+          <a><span>Đoán chữ</span></a>
         </article>
         <article class="tile" routerLink="../quiz-game">
-            <i class="fa-solid fa-book"></i>
-          <a>
-            <span>Kiểm tra</span>
-          </a>
+          <i class="fa-solid fa-book"></i>
+          <a><span>Kiểm tra</span></a>
         </article>
-        <article class="tile">
-            <i class="fa-solid fa-volume-high"></i>
-            <a>
-              <span>Phát âm</span>
-            </a>
-          </article>
+        <article class="tile" routerLink="../speaker-game">
+          <i class="fa-solid fa-volume-high"></i>
+          <a><span>Phát âm</span></a>
+        </article>
       </div>
     </section>
     <section class="service-section">
-        <h2>Ôn tập với flashcard</h2>
-        <div class="tiles">
-          <article class="tile">
-            <a>
-              <span>Học flashcard</span>
-            </a>
-          </article>
-  
-          <article class="tile">
-            <a>
-              <span>Đánh giá ghi nhớ</span>
-            </a>
-          </article>
-          <article class="tile">
-            <a>
-              <span>Bài test</span>
-            </a>
-          </article>
-        </div>
-      </section>
+      <h2>Ôn tập</h2>
+      <div class="tiles">
+        <article class="tile">
+          <a routerLink="../word-list"><span>Học flashcard</span></a>
+        </article>
+        <article class="tile">
+          <a routerLink="../word-detail"><span>Tự đánh giá ghi nhớ</span></a>
+        </article>
+        <article class="tile">
+          <a><span>Bài test</span></a>
+        </article>
+      </div>
+    </section>
     <section class="transfer-section">
       <div class="transfer-section-header">
-        <h2>Danh sách từ vựng </h2>
+        <h2>Danh sách từ vựng</h2>
+        <nz-select
+          nz-width="200px"
+          nzShowSearch
+          nzAllowClear
+          nzPlaceHolder="Lọc từ"
+          [(ngModel)]="selectedValue"
+          (ngModelChange)="getFilteredWords()"
+        >
+          <nz-option nzLabel="Từ vựng đang học" nzValue="1"></nz-option>
+          <nz-option nzLabel="Từ vựng chưa học" nzValue="2"></nz-option>
+          <nz-option nzLabel="Từ vựng đánh dấu" nzValue="3"></nz-option>
+        </nz-select>
       </div>
-      <div class="transfers">
+      <nz-divider nzOrientation="left" class="custom-divider"
+        >Từ vựng</nz-divider
+      >
+      <nz-empty *ngIf="wordListData.length == 0"></nz-empty>
+      <div class="transfers" *ngFor="let data of wordListData">
         <div class="transfer">
-          <div class="transfer-logo">
-            <img src="https://assets.codepen.io/285131/apple.svg" />
-          </div>
           <dl class="transfer-details">
-            <div>
-              <dt>Apple Inc.</dt>
-              <dd>Apple ID Payment</dd>
+            <div class="word-container" *ngIf="data.wordId !== editWordId">
+              <div>
+                <dd>
+                  <h3 style="font-weight: 700">{{ data.wordKanji }}</h3>
+                </dd>
+              </div>
+              <div>
+                <dd>{{ data.wordHiragana }}</dd>
+              </div>
+              <div>
+                <dd>{{ data.wordMean }}</dd>
+              </div>
             </div>
-            <div>
-              <dt>4012</dt>
-              <dd>Last four digits</dd>
-            </div>
-            <div>
-              <dt>28 Oct. 21</dt>
-              <dd>Date payment</dd>
+            <form [formGroup]="editWordForm" *ngIf="data.wordId == editWordId">
+              <div class="editform-container">
+                <div class="form-container">
+                  <div>
+                    <dd>
+                      <h3>
+                        <input
+                          id="wordKanji"
+                          formControlName="wordKanji"
+                          class="custom-input"
+                          placeholder="Kanji"
+                        />
+                      </h3>
+                    </dd>
+                  </div>
+                  <div>
+                    <dd>
+                      <input
+                        id="wordHiragana"
+                        formControlName="wordHiragana"
+                        class="custom-input"
+                        placeholder="Hiragana"
+                      />
+                    </dd>
+                  </div>
+                  <div>
+                    <dd>
+                      <input
+                        id="wordMean"
+                        formControlName="wordMean"
+                        class="custom-input"
+                        placeholder="Meaning"
+                      />
+                    </dd>
+                  </div>
+                </div>
+                <div class="form-button">
+                  <i
+                    style="color: green; padding-left: 0px"
+                    class="fa-solid fa-check check-icon"
+                    (click)="saveEditedWord(data)"
+                  ></i>
+                  <i
+                    style="color: red"
+                    class="fa-solid fa-xmark cancel-icon"
+                    (click)="cancelEdit()"
+                  ></i>
+                </div>
+              </div>
+            </form>
+            <div class="bookmark-icon" style="width: 150px">
+              <i
+                (click)="onClickEditWord(data)"
+                *ngIf="isRole"
+                class="fa-solid fa-edit"
+              ></i>
+
+              <i class="fa-solid fa-volume-high"
+              (click)="playSpeech(data.wordKanji)"
+              ></i>
+              <i
+                (click)="
+                  noteWordReceive(data.wordId, data.wordNote === 0 ? 1 : 0)
+                "
+                [ngClass]="{ active: data.wordNote == 1 }"
+                class="fa-solid fa-bookmark"
+              ></i>
             </div>
           </dl>
-          <div class="transfer-number">- $ 550</div>
         </div>
       </div>
     </section>
   </div>
+  <div class="add-course">
+    <button
+      *ngIf="isRole"
+      nz-button
+      nzType="default"
+      routerLink="../edit-course"
+    >
+      Thêm/Xóa từ vựng
+    </button>
+  </div>
 </div>
+<nz-modal
+  *ngIf="isRole"
+  [(nzVisible)]="isVisible"
+  nzTitle="Cài đặt quyền truy cập"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+>
+  <ng-container *nzModalContent>
+    <p>Cho phép người dùng truy cập</p>
+    <nz-switch nzSize="small" [(ngModel)]="disabled"></nz-switch>
+    <p>Cho phép người dùng chỉnh sửa</p>
+    <nz-switch nzSize="small" [(ngModel)]="disabled"></nz-switch>
+    <p>Cho phép người dùng thêm vào lớp</p>
+    <nz-switch nzSize="small" [(ngModel)]="disabled"></nz-switch>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isRanking"
+  nzWidth="800"
+  nzTitle="<h2>Bảng xếp hạng</h2>"
+  (nzOnCancel)="handleCancelRanking()"
+  (nzOnOk)="handleOkRanking()"
+>
+  <ng-container *nzModalContent>
+    <div class="app-container">
+      <div class="app-content">
+        <div class="app-content-header">
+          <h1 class="app-content-headerText">Thành viên</h1>
+          <button class="app-content-headerButton">Add Product</button>
+        </div>
+        <div class="products-area-wrapper tableView">
+          <div class="products-header">
+            <div class="product-cell image">
+              Tên
+              <button class="sort-button">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 512 512"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="product-cell category">
+              Level<button class="sort-button">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 512 512"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z"
+                  />
+                </svg>
+              </button>
+            </div>
+            
+            <div class="product-cell sales">
+              Điểm<button class="sort-button">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 512 512"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="products-row" *ngFor="let data of rankingList">
+            <button class="cell-more-button">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="feather feather-more-vertical"
+              >
+                <circle cx="12" cy="12" r="1" />
+                <circle cx="12" cy="5" r="1" />
+                <circle cx="12" cy="19" r="1" />
+              </svg>
+            </button>
+            <div class="product-cell image">
+              <img
+                src={{data.imgUrl}}
+              />
+              <span>{{data.userName}}</span>
+            </div>
+            <div class="product-cell category">
+              <span class="cell-label">Category:</span>{{data.userLevl}}
+            </div>
+            
+            <div class="product-cell sales">
+              <span class="cell-label">Sales:</span>{{data.coursePoint}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<!-- <nz-modal
+  [(nzVisible)]="isVisibleCopy"
+  nzTitle="Sao chép khóa học"
+  (nzOnCancel)="handleCancelCopy()"
+  (nzOnOk)="handleOkCopy()"
+>
+  <ng-container *nzModalContent>
+    <form [formGroup]="copyCourseForm">
+      <div>
+        <label for="wordKanji">Kanji</label>
+        <input id="wordKanji" formControlName="wordKanji" />
+      </div>
+      <div>
+        <label for="wordHiragana">Hiragana</label>
+        <input id="wordHiragana" formControlName="wordHiragana" />
+      </div>
+      <div>
+        <label for="wordExample">Example</label>
+        <input id="wordExample" formControlName="wordExample" />
+      </div>
+      <div>
+        <label for="wordMean">Meaning</label>
+        <input id="wordMean" formControlName="wordMean" />
+      </div>
+    </form>
+  </ng-container>
+</nz-modal> -->

@@ -9,10 +9,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 200px;
+    height: 180px;
     cursor: pointer;
     position: relative;
     transform-style: preserve-3d;
+}
+.back i {
+    font-size: 50px;
 }
 .back, .front {
     position: absolute;
@@ -20,6 +23,12 @@
     height: 100%;
     border-radius: 5px;
     backface-visibility: hidden;
+    justify-content: center;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    font-size: 30px;
+    font-weight: 400;
 }
 .back {
     transform: rotateY(0deg);
@@ -28,8 +37,8 @@
     transform: rotateY(180deg);
 }
 img {
-    width: 100%;
-    height: 100%;
+    width: 50%;
+    height: 50%;
     object-fit: cover;
     border-radius: 5px;
 }

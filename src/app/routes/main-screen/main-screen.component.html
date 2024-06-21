@@ -9,25 +9,33 @@
         <i class="fa-solid fa-bars">{{ isMenuOpen ? "close" : "menu" }}</i>
       </li>
       <li class="menu" [class.is-open]="isMenuOpen">
-        <a class="menu-item" routerLink="dashboard">Phân tích</a>
+        <a class="menu-item" routerLink="dashboard">Thống kê</a>
 
         <a class="menu-item" routerLink="my-wordbooks">Ôn tập</a>
 
         <!-- <a class="menu-item" routerLink="analysis">Thống kê</a> -->
 
-        <a class="menu-item" routerLink="community">Cộng đồng</a>
-
-        <a class="menu-item" routerLink="created-wordbooks">Học liệu</a>
-
+        <a class="menu-item" routerLink="created-wordbooks">Quản lý học liệu</a>
+        <a class="menu-item" routerLink="class-dashboard">Quản lý lớp học</a>
+        <a class="menu-item" routerLink="community">Chia sẻ học liệu</a>
         <a routerLink="../admin">Quản trị hệ thống </a>
+        <div class="search-input">
+
+          <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" (input)="searchHandle($event)" >
+            <input type="text" nz-input placeholder="input search text"  />
+          </nz-input-group>
+          <ng-template #suffixIconButton>
+            <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search" (click)="searchClick()"></span></button>
+          </ng-template>
+        </div>
+       
       </li>
     </ul>
-
     <ul class="user-info">
       <li class="nav-avatar nav-item">
         <img
           routerLink="personal-information"
-          src="https://i.postimg.cc/Z5wQKJmh/fchunters.png"
+          [src]="userInfo.imgUrl"
           alt="Avatar"
           class="nav-avatar__img"
         />
@@ -35,19 +43,20 @@
         <i class="fa-solid fa-caret-down"></i>
         <ul>
           <li>
-            <a routerLink="personal-information"
-              ><i class="fa-solid fa-user"></i>Information</a
-            >
+            <a routerLink="personal-information">
+              <i class="fa-solid fa-user"></i>Thông tin
+            </a>
           </li>
           <li class="dropdown_item-2">
-            <a (click)="logout()"
-              ><i class="fa-solid fa-right-from-bracket"></i>Logout</a
-            >
+            <a (click)="logout()">
+              <i class="fa-solid fa-right-from-bracket"></i>Đăng xuất
+            </a>
           </li>
         </ul>
       </li>
-      <i class="fas fa-bell alert"> </i>
+      <i class="fas fa-bell alert"></i>
     </ul>
+    
   </div>
 </div>
 <div class="container">

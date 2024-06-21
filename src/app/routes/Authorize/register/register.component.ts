@@ -52,6 +52,7 @@ export class RegisterComponent {
           .subscribe({
             next: (res: any) => {
               this.signUpForm.reset();
+              this.auth.storeToken(res.token)
               this.toast.success({detail: "Thành công", summary: "Đăng ký thành công", duration: 5000});
               this.router.navigate(['../firstlogin/info']);
             },

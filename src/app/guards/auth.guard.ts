@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
     if(this.auth.isLoggedIn()){
       return true
     }else{
-      this.toast.error({detail:"ERROR",summary: "Please Login First !"})
+      this.toast.error({detail:"Lỗi",summary: "Hãy đăng nhập trước !"})
       this.router.navigate(['login'])
       return false
     }

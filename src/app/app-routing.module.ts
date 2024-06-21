@@ -32,6 +32,23 @@ import { GuessGameComponent } from './routes/learn/guess-game/guess-game.compone
 import { QuizGameComponent } from './routes/learn/quiz-game/quiz-game.component';
 import { CourseDashboardComponent } from './routes/learn/course-dashboard/course-dashboard.component';
 import { ClassComponent } from './routes/Class/class/class.component';
+import { ClassAnalysisComponent } from './routes/Class/class/class-analysis/class-analysis.component';
+import { MemberManagementComponent } from './routes/Class/class/member-management/member-management.component';
+import { ClassResultComponent } from './routes/Class/class/class-result/class-result.component';
+import { TestComponent } from './routes/Test/test/test.component';
+import { TestDashboardComponent } from './routes/Test/test/test-dashboard/test-dashboard.component';
+import { TestResultComponent } from './routes/Test/test/test-result/test-result.component';
+import { ClassDashboardComponent } from './routes/Class/class-management/class-dashboard/class-dashboard.component';
+import { EditCourseComponent } from './routes/main-screen/edit-course/edit-course.component';
+import { CourseDashboardReviewComponent } from './routes/learn/course-dashboard-review/course-dashboard-review.component';
+import { SearchPageComponent } from './routes/main-screen/search-page/search-page.component';
+import { ClassSearchComponent } from './routes/main-screen/search-page/class-search/class-search.component';
+import { CourseSearchComponent } from './routes/main-screen/search-page/course-search/course-search.component';
+import { UserSearchComponent } from './routes/main-screen/search-page/user-search/user-search.component';
+import { AllSearchComponent } from './routes/main-screen/search-page/all-search/all-search.component';
+import { ClassCourseLearnComponent } from './routes/Class/class/class-course-learn/class-course-learn.component';
+import { ReviewClassComponent } from './routes/Class/class/review-class/review-class.component';
+import { SpeakerGameComponent } from './routes/learn/speaker-game/speaker-game.component';
 // import { ClassComponent } from './routes/class/class.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
@@ -40,28 +57,68 @@ const routes: Routes = [
     component: MainScreenComponent,
     children: [
       { path: 'dashboard', component: DashboardComponent,canActivate:[AuthGuard]},
-      { path: 'my-wordbooks', component: MyWordbooksComponent },
-      { path: 'analysis', component: AnalysisComponent },
-      { path: 'community', component: CommunityComponent },
-      { path: 'created-wordbooks', component: CreatedWorkbookComponent },
-      { path: 'personal-information', component: PersonalInformationComponent },
-      { path: 'info-detail', component: InforDetailComponent },
-      { path: 'infor-course', component: InforCourseComponent },
-      {path: 'class', component: ClassComponent },
+      { path: 'my-wordbooks', component: MyWordbooksComponent,canActivate:[AuthGuard] },
+      { path: 'analysis', component: AnalysisComponent,canActivate:[AuthGuard] },
+      { path: 'community', component: CommunityComponent,canActivate:[AuthGuard] },
+      { path: 'created-wordbooks', component: CreatedWorkbookComponent ,canActivate:[AuthGuard]},
+      { path: 'personal-information', component: PersonalInformationComponent,canActivate:[AuthGuard] },
+      { path: 'info-detail', component: InforDetailComponent,canActivate:[AuthGuard] },
+      { path: 'infor-course', component: InforCourseComponent,canActivate:[AuthGuard] },
+      {
+        path: 'class',
+        component : ClassComponent,
+        children: [
+          { path: 'class-analysis', component: ClassAnalysisComponent ,canActivate:[AuthGuard]},
+          {path:'class-results', component: ClassResultComponent,canActivate:[AuthGuard]},
+          {path:'class-member-manager', component: MemberManagementComponent,canActivate:[AuthGuard]},
+          {path:'class-course', component: ClassCourseLearnComponent,canActivate:[AuthGuard]}
+        ],
+        canActivate: [AuthGuard]
+
+      },
+      {
+        path: 'search',
+        component : SearchPageComponent,
+        children: [
+          {path: 'class',component:ClassSearchComponent,canActivate:[AuthGuard]},
+          {path: 'review-class',component: ReviewClassComponent,canActivate:[AuthGuard]},
+          {path:'course',component:CourseSearchComponent,canActivate:[AuthGuard]},
+          {path:'user',component:UserSearchComponent,canActivate:[AuthGuard]},
+          {path: 'all-search', component:AllSearchComponent,canActivate:[AuthGuard]}
+        ]
+      },
+      {
+        path: 'class-dashboard',
+        component : ClassDashboardComponent,canActivate:[AuthGuard]
+      },
+      {
+        path: 'learn',
+        component: LearnComponent,
+        children: [
+          { path: 'word-list', component: WordListComponent,canActivate:[AuthGuard] },
+          { path: 'word-detail', component: WordDetailComponent,canActivate:[AuthGuard] },
+          {path:'matching-game',component: MatchingGameComponent,canActivate:[AuthGuard]},
+          {path:"guess-game",component: GuessGameComponent,canActivate:[AuthGuard]},
+          {path:"quiz-game",component: QuizGameComponent,canActivate:[AuthGuard]},
+          {path:"speaker-game",component: SpeakerGameComponent,canActivate:[AuthGuard]},
+          {path:"course",component: CourseDashboardComponent,canActivate:[AuthGuard]},
+          {path:"course-review",component: CourseDashboardReviewComponent,canActivate:[AuthGuard]},
+          {path:"edit-course",component: EditCourseComponent,canActivate:[AuthGuard]},
+        ],
+        canActivate: [AuthGuard]
+      },{
+        path: 'test',
+        component : TestComponent,
+        children: [
+          {path: 'test-dashboard',component:TestDashboardComponent,canActivate:[AuthGuard]},
+          {path:'test-result',component:TestResultComponent,canActivate:[AuthGuard]}
+        ]
+      }
     ],
+    canActivate: [AuthGuard]
+
   },
-  {
-    path: 'learn',
-    component: LearnComponent,
-    children: [
-      { path: 'word-list', component: WordListComponent },
-      { path: 'word-detail', component: WordDetailComponent },
-      {path:'matching-game',component: MatchingGameComponent},
-      {path:"guess-game",component: GuessGameComponent},
-      {path:"quiz-game",component: QuizGameComponent},
-      {path:"course",component: CourseDashboardComponent}
-    ],
-  },
+
   {
     path: 'login',
     component: LoginComponent,
@@ -95,10 +152,11 @@ const routes: Routes = [
     component: AdminComponent,
     canActivate:[AdminGuard],
     children : [
-      {path: 'admin-user',component: AdminUserComponent},
-      {path : 'admin-post',component: AdminPostComponent},
-      {path: 'admin-course', component: AdminCourseComponent},
-      {path:'admin-word',component: AdminWordComponent}
+      {path: 'admin-user',component: AdminUserComponent,canActivate: [AuthGuard]
+    },
+      {path : 'admin-post',component: AdminPostComponent,canActivate: [AuthGuard]},
+      {path: 'admin-course', component: AdminCourseComponent,canActivate: [AuthGuard]},
+      {path:'admin-word',component: AdminWordComponent,canActivate: [AuthGuard]}
     ]
   },
   {path:'**',component:ErrorComponent},

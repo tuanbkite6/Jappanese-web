@@ -255,11 +255,24 @@ button {
     height: 100%;
     background-color: rgba(0,0,0,0.3);
   }
-  
+  .fa-circle-plus {
+    text-align: center;
+    font-size: 40px;
+    color: #52c41a
+  }
+  .icon-add {
+    display : flex ;
+    justify-content: center;
+    align-items: center;
+  }
   /** JS */
   .is-visible {
     opacity: 1;
     pointer-events: auto;
+  }
+  .label-wrapper{
+    display: flex;
+    align-self: center;
   }
   .modal {
    
@@ -371,7 +384,7 @@ button {
   width: 100%;
   padding : 0px 300px;
   padding-left: 0px !important;
-  height: 90vh;
+  height: 200vh;
   max-height: 900px;
   background: #fff;
   border-radius: 4px;
@@ -484,16 +497,18 @@ button {
 
 .time {
   margin-bottom: 6px;
-  opacity: 0.4;
-  font-size: 10px;
+  opacity: 0.7;
+  font-size: 16px;
 }
 
 .task-name {
-  font-size: 14px;
-  font-weight: 500;
-  opacity: 0.6;
+  font-size: 20px;
+  font-weight: 900;
 }
-
+.task-name-category{
+  font-size: 16px;
+  font-weight: 500;
+}
 .yellow {
   background-color: var(--box-color);
 }
@@ -509,28 +524,49 @@ button {
 .green {
   background-color: var(--box-color-4);
 }
+.submit-button-container {
+  width: 100%;
+display: flex;
+justify-content: flex-end;
+}
+.submit-button{
+border-radius: 5px;
+padding: 10px 20px;
+font-size: 18px;
+font-weight: 500;
+margin-top: 20px;
+color: #fff;
+background-color: #237cdb;
 
+}
+.submit-button:hover {
+  background-color: #06f;
+}
 .more-button {
   position: absolute;
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background-color: #8e92a4;
-  box-shadow: 0 -4px 0 0 #8e92a4, 0 4px 0 0 #8e92a4;
-  opacity: 0.4;
-  right: 20px;
-  top: 30px;
+  right: 40px;
+  font-size: 28px;
+  top: 10px;
   cursor: pointer;
+}
+
+.active{ 
+  color : red;
 }
 
 .members {
   display: flex;
   margin-top: 14px;
+  justify-content: space-between;
+  align-items: center;
 }
 .members img {
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 60px;
+  height: 60px;
   margin-right: 4px;
   object-fit: cover;
 }
@@ -549,10 +585,9 @@ button {
 
 .content-categories {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: 100%;
   border-bottom: 1px solid #ddd;
-  padding: 20px 0;
 }
 
 .nav-item {
@@ -708,23 +743,54 @@ body::before {
   position: absolute;
   top: -50%;
   left: 0;
-  background: url(https://rvs-profile-card-component-main.netlify.app/images/bg-pattern-top.svg);
   background-size: contain;
   background-repeat: no-repeat;
   width: 100%;
   height: 100%;
 }
-body::after {
-  content: "";
-  position: absolute;
-  bottom: -65%;
-  right: -52%;
-  background: url(https://rvs-profile-card-component-main.netlify.app/images/bg-pattern-bottom.svg);
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 100%;
-  height: 120%;
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
 }
+
+.card-body {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-avt img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-name {
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  margin: 10px 0;
+}
+
+.location {
+  color: gray;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+s
 .container {
   width: 310px;
   height: 400px;
@@ -744,7 +810,6 @@ body::after {
   flex-direction: column;
 }
 .card .card-header {
-  background: url(https://rvs-profile-card-component-main.netlify.app/images/bg-pattern-card.svg);
   background-size: cover;
   background-repeat: no-repeat;
   height: 40%;
@@ -773,7 +838,6 @@ body::after {
   position: absolute;
   top: 25px;
   left: 50%;
-  background: url(https://rvs-profile-card-component-main.netlify.app/images/image-victor.jpg) white;
   transform: translate(-50%, 0);
   background-size: cover;
   background-repeat: no-repeat;
@@ -829,4 +893,182 @@ body::after {
       right: -60%;
       width: 120%;
   }
+}
+nz-select { 
+  margin: 0 8px 10px 0;
+        width: 200px;
+}
+@import url('https://rsms.me/inter/inter.css');
+
+body {
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -1px;
+  text-align: center;
+  padding-top: 60px;
+  background: #000;
+  font-size: 20px;
+  height: 100vh;
+  color: #fff;
+  margin: 0;
+}
+
+.buttons {
+  padding: 20px 0 40px;
+}
+
+.button {
+  transition: all .2s ease-in-out;
+  -webkit-appearance: none;
+  border-radius: 100px;
+  font-family: inherit;
+  appearance: none;
+  background: none;
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 20px;
+  outline: none;
+  opacity: 0.4;
+  border: none;
+  color: #090909;
+}
+
+.button:hover,
+.button.active {
+  opacity: 1;
+    background-color: #dbf9e1;
+}
+
+.grid {
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 0 auto 80px;
+  max-width: 90%;
+  grid-gap: 20px;
+  display: grid;
+  width: 600px;
+}
+
+.item {
+  border-radius: 4px;
+  height: 100px;
+  width: 100%;
+}
+
+.item.blue { background: #06f; }
+.item.white { background: #fff; }
+.item.grey { background: #8e9aa7; }
+.item.yellow { background: #fdc67e; }
+.item.red { background: #eb7676; }
+
+.hide { display: none; }
+.course-editor {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+
+  img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+  }
+}
+
+.course-info {
+  padding-right: 1000px;
+}
+.bottom-border-input {
+  border: none;
+  border-bottom: 2px solid #000; /* Change color and width as needed */
+  padding: 8px 0; /* Optional: Adds some padding to the top and bottom */
+  outline: none; /* Optional: Removes the default outline when the input is focused */
+}
+
+.bottom-border-input:focus {
+  border-bottom-color: #007BFF; /* Change color on focus if needed */
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.terms {
+  padding: 20px;
+}
+
+.term-item {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.term-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+
+  span {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  button {
+    background-color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+}
+
+.term-body {
+  padding: 10px;
+}
+
+.actions {
+  padding: 20px;
+  text-align: center;
+}
+
+button[type="button"] {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button[type="button"]:hover {
+  background-color: #3e8e41;
 }

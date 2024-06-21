@@ -349,65 +349,66 @@
   html, body {
     height: 100%;
   }
-  
-  body {
-    display: grid;
-    font-family: Avenir, sans-serif;
-    color: #111;
-  }
-  
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
-  
   .cta {
     position: relative;
-    margin: auto;
-    padding: 19px 22px;
-    transition: all 0.2s ease;
-  }
-  .cta:before {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #6c63ff;
+    color: #fff;
+    font-family: 'Avenir', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 25px;
+    overflow: hidden;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.cta:before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
-    display: block;
-    border-radius: 28px;
-    background: rgb(133 189 230 / 50%);
-    width: 56px;
-    height: 56px;
-    transition: all 0.3s ease;
-  }
-  .cta span {
+    width: 0;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: width 0.3s;
+}
+
+.cta span {
     position: relative;
-    font-size: 16px;
-    line-height: 18px;
-    font-weight: 900;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    vertical-align: middle;
-  }
-  .cta svg {
+    z-index: 1;
+}
+
+.cta svg {
     position: relative;
     top: 0;
     margin-left: 10px;
     fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke: #111;
+    stroke: #fff;
     stroke-width: 2;
     transform: translateX(-5px);
-    transition: all 0.3s ease;
-  }
-  .cta:hover:before {
+    transition: transform 0.3s;
+}
+
+.cta:hover {
+    background-color: #554fb8;
+    color: #fff;
+}
+
+.cta:hover:before {
     width: 100%;
-    background: rgb(133 189 230 / 50%);
-  }
-  .cta:hover svg {
-    transform: translateX(0);
-  }
-  .cta:active {
-    transform: scale(0.96);
-  }
-  
+}
+
+.cta:hover svg {
+    transform: translateX(5px);
+}
+
+.cta:active {
+    transform: scale(0.95);
+}

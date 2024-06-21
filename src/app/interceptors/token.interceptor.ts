@@ -27,17 +27,17 @@ export class TokenInterceptor implements HttpInterceptor {
       catchError((err: any) => {
         if (err instanceof HttpErrorResponse) {
           if (err.status === 401) {
-            this.toast.warning({ detail: "Warning", summary: "Token is expired, Login again" });
+            this.toast.warning({ detail: "Warning", summary: "Token bị hết hạn, hãy đăng nhập lại" });
             this.router.navigate(['login']);
           } else if (err.status === 403) {
-            this.toast.error({ detail: "Forbidden", summary: "Access denied" });
+            this.toast.error({ detail: "Forbidden", summary: "Từ chối truy cập" });
           } else if (err.status === 404) {
-            this.toast.error({ detail: "Not Found", summary: "Resource not found" });
+            this.toast.error({ detail: "Not Found", summary: "Không tìm thấy nguồn" });
           } else {
-            this.toast.error({ detail: "Server Error", summary: "An error occurred on the server" });
+            // this.toast.error({ detail: "Server Error", summary: "Server xảy ra lỗi" });
           }
         } else {
-          this.toast.error({ detail: "Network Error", summary: "Unable to connect to the server" });
+          this.toast.error({ detail: "Network Error", summary: "Không thể kết nối với server" });
         }
         return throwError(() => err); // Rethrow the error after handling
       })

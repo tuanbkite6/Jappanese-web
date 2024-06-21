@@ -31,7 +31,12 @@
     
   }
   .menu{
-    padding : 0px 350px;
+    padding : 0px 60px;
+    display: flex;
+  }
+  .search-input{
+    margin-left: 200px;
+    width: 300px;
   }
   .img{
     list-style: none;

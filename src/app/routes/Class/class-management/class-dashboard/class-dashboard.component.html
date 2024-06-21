@@ -1,1 +1,135 @@
-<p>class-dashboard works!</p>
+<nz-content>
+<div class="app-container">
+  
+    <div class="app-content">
+      <div class="app-content-header">
+        <h1 class="app-content-headerText">Quản lý lớp học</h1>
+        <div class="icon-add">
+          <i class="fa-solid fa-circle-plus" (click)="open()"></i>
+        </div>
+    </div>
+    <nz-divider nzText="Lớp học của bạn" nzOrientation="left"></nz-divider>
+    <div class="created-container" >
+
+    
+      <div class="products-area-wrapper gridView" routerLink = "../class" *ngFor="let data of createdClassData" >
+        <div class="products-row" (click)="onClickClassDetail(data.classId)">
+          <button class="cell-more-button" (click)="onClickDelete(data.classId,$event)">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+            <div class="product-cell image">
+              <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8aW50ZXJpb3J8ZW58MHwwfDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60" alt="product">
+              <h2>{{data.className}}</h2>
+            </div>
+              <span class="cell-label">Cấp độ:</span>
+              <span *ngIf="data.level === 1">Sơ cấp</span>
+              <span *ngIf="data.level === 2">Trung cấp</span>
+              <span *ngIf="data.level === 3">Cao cấp</span>
+      
+          <div class="product-cell category"><span class="cell-label">Trường:</span>{{data.school}}</div>
+          <div class="product-cell status-cell">
+            <span class="cell-label">Số lượng thành viên:{{data.memberCount}}</span>
+            <span class="status active">Active</span>
+            
+          </div>
+          <div class="product-cell status-cell">Số lượng học phần: {{data.courseCount}}</div>
+        
+        </div>
+      </div>
+    </div>
+      <nz-divider nzText="Lớp học bạn đang tham gia" nzOrientation="left"></nz-divider>
+      <div class="created-container" >
+
+    
+        <div class="products-area-wrapper gridView" routerLink = "../class" *ngFor="let data of myClassData" >
+          <div class="products-row" (click)="onClickClassDetail(data.classId)">
+            <button class="cell-more-button" (click)="onClickDelete(data.classId,$event)">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+              <div class="product-cell image">
+                <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8aW50ZXJpb3J8ZW58MHwwfDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60" alt="product">
+                <h2>{{data.className}}</h2>
+              </div>
+                <span class="cell-label">Cấp độ:</span>
+                <span *ngIf="data.level === 1">Sơ cấp</span>
+                <span *ngIf="data.level === 2">Trung cấp</span>
+                <span *ngIf="data.level === 3">Cao cấp</span>
+        
+            <div class="product-cell category"><span class="cell-label">Trường:</span>{{data.school}}</div>
+            <div class="product-cell status-cell">
+              <span class="cell-label">Số lượng thành viên:{{data.memberCount}}</span>
+              <span class="status active">Active</span>
+              
+            </div>
+            <div class="product-cell status-cell">Số lượng học phần: {{data.courseCount}}</div>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nz-drawer
+  [nzClosable]="false"
+  [nzVisible]="visible"
+  [nzPlacement]="'bottom'"
+  [nzHeight]="490"
+  nzTitle="<h2>Tạo lớp học mới</h2>"
+  (nzOnClose)="close()"
+>
+  <ng-container *nzDrawerContent>
+    <form action="" [formGroup]="classForm">
+      <div class="course-editor">
+        <div class="course-info">
+          <div class="form-group">
+            <h3 for="title">Tên lớp:</h3>
+            <input
+              type="text"
+              id="title"
+              class="bottom-border-input"
+              formControlName="className"
+            />
+          </div>
+          <h3 for="description">Mô tả:</h3>
+          <input
+              type="text"
+              id="title"
+              class="bottom-border-input"
+              formControlName="description"
+            />
+          <h3 for="description">Cấp độ:</h3>
+          <nz-select
+            class="bottom-border-input"
+            style="
+              width: 80%;
+              border: none;
+              border-bottom: 2px solid #000;
+              padding: 8px 0;
+              outline: none;
+            "
+            nzShowSearch
+            nzAllowClear
+            nzPlaceHolder="Chọn cấp độ học liệu"
+            formControlName="level"
+          >
+            <nz-option nzLabel="Cao cấp" nzValue="1"></nz-option>
+            <nz-option nzLabel="Trung cấp" nzValue="2"></nz-option>
+            <nz-option nzLabel="Sơ cấp" nzValue="3"></nz-option>
+          </nz-select>
+        </div>
+      </div>
+    </form>
+    <div class="submit-button-container">
+      <button
+    class = "submit-button"
+      type="submit"
+      (click)="onClickSubmit()"
+    >
+      Lưu khóa học
+    </button>
+    </div>
+    
+  </ng-container>
+</nz-drawer>
+
+</nz-content>

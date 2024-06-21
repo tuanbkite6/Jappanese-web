@@ -1,0 +1,94 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fc;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    width: 60%;
+    margin: 0 auto;
+}
+.class-contanier{
+    display: flex;
+    justify-content: space-between;
+}
+.request-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+.class-container-card{
+    display:  block;
+    width: 100%;
+}
+.class-info {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.date {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+
+.class-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 10px;
+    width: 70%;
+}
+
+.terms {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.teacher img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.teacher span {
+    margin-left: 5px;
+}
+
+.role {
+    background-color: #e5e7eb;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #374151;
+}
+
+.class-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.class-details div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.class-details a {
+    color: #3b82f6;
+    text-decoration: none;
+}

@@ -70,8 +70,8 @@ export class LoginComponent {
         },
         error: (err: any) => {
           this.toast.warning({
-            detail: 'Warning',
-            summary: 'Some error have occured, possibly the password or name is incorrect',
+            detail: 'Cảnh báo',
+            summary: ' Mật khẩu hoặc tài khoản không đúng',
             duration: 5000,
           });
           console.log(err);

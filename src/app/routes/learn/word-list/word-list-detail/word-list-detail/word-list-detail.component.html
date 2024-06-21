@@ -1,25 +1,150 @@
-<div class="flip-card">
-    <div class="Word_container flip-card-inner">
-      <div class="flip-card-front">
-        <div class="Word_header">
-          <div class="Word_type">Từ vựng</div>
-          <div class="Word_index">{{dataClick.wordId}}</div>
-          <div class="word_highligh"><i class="fas fa-star"></i></div>
+<body>
+  <div id="wrap">
+    <div class="container">
+      <nav class="navbar navbar-fixed-top" role="navigation">
+        <div class="header">
+          <div
+            id="flagButton"
+            [ngClass]="{ active: listOfWords[currentIndex]?.wordNote == 1 }"
+            (click)="noteWordSend()"
+          >
+            <i class="fa-solid fa-flag"></i>
+          </div>
+          <div *ngIf="isRole" class="edit-button" (click)="showModal()">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </div>
         </div>
-        <div class="Word_body">
-          <h1>{{ dataClick?.wordHiragana }}</h1>
+      </nav>
+      <div class="row" id="midrow">
+        <h2 style="text-align: center">
+          <h1>Ví dụ</h1>
+          {{ listOfWords[currentIndex]?.example }}
+        </h2>
+        <div class="midrow-container">
+          <div class="icon" (click)="decline()" *ngIf="isPrevious">
+            <i class="fa fa-angle-left" aria-hidden="true"></i>
+          </div>
+          <div
+            class="flip-container"
+            id="flashcard"
+            [ngClass]="{ flipped: isFlipped }"
+            (click)="onClickCard($event)"
+          >
+            <div class="flipper">
+              <div class="front">
+              <div class = "volume" (click)="playSpeech(listOfWords[currentIndex]?.wordKanji,$event)">
+                <i class="fa-solid fa-volume-high"></i>
+              </div>
+                <nz-empty *ngIf="listOfWords.length == 0"></nz-empty> 
+                <span id="flashcard--content_en">
+                  {{ listOfWords[currentIndex]?.wordKanji }}
+                </span>
+                <br />
+                <br />
+                <br />
+                <span class="flashcard-content_hiragana">
+                  {{ listOfWords[currentIndex]?.wordHiragana }}
+                </span>
+                <span>
+                  {{ listOfWords[currentIndex]?.wordExample }}
+                </span>
+              </div>
+              <div class="back">
+                <span id="flashcard--content_es">
+                  {{ listOfWords[currentIndex]?.wordMean }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="icon" (click)="increase()" *ngIf="isNext">
+            <i class="fa fa-angle-right" aria-hidden="true"></i>
+          </div>
         </div>
-      </div>
-      <div class="flip-card-back">
-        <div class="Word_header">
-          <div class="Word_type">Nghĩa</div>
-          <div class="Word_index">{{dataClick.wordId}}</div>
-          <div class="word_highligh"><i class="fas fa-star"></i></div>
-        </div>
-        <div class="Word_body">
-          <h1>{{ dataClick?.wordMean }}</h1>
+        <div class="button-container">
+          <button class="refresh" (click)="shuffleWords()">
+            <i class="fa-solid fa-shuffle"></i>
+          </button>
+          <button
+            class="refresh"
+            *ngIf="!isAutoNextActive"
+            (click)="startAutoNext()"
+          >
+            <i class="fa-solid fa-play"></i>
+          </button>
+          <button
+            class="refresh"
+            *ngIf="isAutoNextActive"
+            (click)="stopAutoNext()"
+          >
+            <i class="fa fa-pause" aria-hidden="true"></i>
+          </button>
+          <button class="refresh" (click)="showModalSetting()">
+            <i class="fa fa-gear" aria-hidden="true"></i>
+          </button>
         </div>
       </div>
     </div>
   </div>
-  
+  <nz-progress [nzPercent]="percent"></nz-progress>
+</body>
+<!-- Existing HTML code -->
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Sửa từ vựng"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+>
+  <ng-container *nzModalContent>
+    <form [formGroup]="editWordForm">
+      <div>
+        <label for="wordKanji">Kanji</label>
+        <input id="wordKanji" formControlName="wordKanji" />
+      </div>
+      <div>
+        <label for="wordHiragana">Hiragana</label>
+        <input id="wordHiragana" formControlName="wordHiragana" />
+      </div>
+      <div>
+        <label for="wordExample">Example</label>
+        <input id="wordExample" formControlName="wordExample" />
+      </div>
+      <div>
+        <label for="wordMean">Meaning</label>
+        <input id="wordMean" formControlName="wordMean" />
+      </div>
+    </form>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isSettingWord"
+  nzTitle="Cài đặt từ vựng hiển thị"
+  (nzOnCancel)="handleCancelSettingWord()"
+  (nzOnOk)="handleOkSettingWord()"
+>
+  <ng-container *nzModalContent>
+    <div style="border-bottom: 1px solid rgb(233, 233, 233)">
+      <label
+        nz-checkbox
+        [(ngModel)]="allChecked"
+        (ngModelChange)="updateAllChecked()"
+        [nzIndeterminate]="indeterminate"
+      >
+        Check all
+      </label>
+    </div>
+    <br />
+    <nz-checkbox-group
+      [(ngModel)]="checkOptionsOne"
+      (ngModelChange)="updateSingleChecked()"
+    >
+      <label
+        *ngFor="let item of checkOptionsOne"
+        nz-checkbox
+        [(ngModel)]="item.checked"
+        >{{ item.label }}</label
+      >
+    </nz-checkbox-group>
+  </ng-container>
+</nz-modal>

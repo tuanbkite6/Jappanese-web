@@ -7,6 +7,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { WordManagementService } from 'src/app/services/word-management/word-management.service';
 import { WordbookManagementService } from 'src/app/services/wordbook-management/wordbook-management.service';
 import { constant } from 'src/app/utils/constant';
+import { AuthService } from '../../Authorize/serviceAuthorize/auth.service';
 
 @Component({
   selector: 'app-word-list',
@@ -19,6 +20,7 @@ export class WordListComponent implements OnInit {
   isVisible = false;
   currentData: any;
   currentWord: any;
+  userId: any;
   isAdd: any = 1;
   public wordForm = new FormGroup({
     wordHiragana: new FormControl(''),
@@ -34,16 +36,28 @@ export class WordListComponent implements OnInit {
   constructor(
     private wordbookService: WordbookManagementService,
     private message: NzMessageService,
-    private toast : NgToastService
+    private toast : NgToastService,
+    private authService: AuthService
   ) {}
   ngOnInit(): void {
     this.fetchData();
+    this.getUserId();
     this.currentWord = this.currentWordBook[0];
   }
   // xem trước review qua flash card
   onClickList(data: any) {
     this.currentWord = data;
     console.log(this.currentData);
+  }
+  async getUserId (){
+    const userId = this.authService.getUserIdFromToken();
+    console.log(userId)
+    if (!userId) {
+      console.error('User ID not found');
+      return;
+    }else{
+      this.userId = userId;
+    }
   }
   async onClickAddWord() {
     console.log(this.wordForm);
@@ -77,7 +91,7 @@ export class WordListComponent implements OnInit {
       console.log(this.currentWordBook);
       try {
         const response = await this.wordbookService
-          .getWordbookById(this.currentWordBook)
+          .getWordbookById(this.userId,this.currentWordBook)
           .toPromise();
         this.currentData = response;
       } catch (error) {
@@ -91,18 +105,18 @@ export class WordListComponent implements OnInit {
     }
   }
 
-  async onClickDeleteWord(id: any) {
-    console.log(id);
-    if (confirm('Are your sure to delete word?')) {
-      try {
-        await this.wordbookService.deleteWord(id).toPromise();
-        this.message.info('Đã xóa từ khỏi danh sách này');
-      } catch (error) {
-        console.error(error);
-      }
-      this.fetchData();
-    }
-  }
+  // async onClickDeleteWord(id: any) {
+  //   console.log(id);
+  //   if (confirm('Are your sure to delete word?')) {
+  //     try {
+  //       await this.wordbookService.deleteWord(id).toPromise();
+  //       this.message.info('Đã xóa từ khỏi danh sách này');
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //     this.fetchData();
+  //   }
+  // }
 
   openModal(): any {
     this.isVisible = true;

@@ -6,9 +6,15 @@
     padding: 0px 325px;
    
 }
+.cancel-btn {
+   position: absolute;
+}
 .list-container{
    text-align: -webkit-center;
 }
+input.ng-invalid.ng-touched {
+   border-color: red;
+ }
  input{
     height: 41px;
     border-radius: 15px;

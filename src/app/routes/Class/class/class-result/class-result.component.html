@@ -1,0 +1,45 @@
+<div class="card" *ngFor="let data of courseData">
+    <div>
+        <h2>{{data.courseName}}</h2>
+        <p>{{data.totalWord}} thuật ngữ • ⭐ {{data.rating}} (3)</p>
+    </div>
+    <button>Xem trước</button>
+</div>
+<div class="add-button" (click)="openModal()">
+    <button>Thêm học phần vào lớp</button>
+</div>
+
+<div #myModal class="modal-container" *ngIf="isVisible">
+    <div class="content">
+      <h1 class="header-content">Thêm học phần mới vào lớp</h1>
+      <div class="list-container">
+        <ul class="responsive-table">
+          <li class="table-header">
+            <div class="col col-1">Course id</div>
+            <div class="col col-2">Tên</div>
+            <div class="col col-3">Chủ đề</div>
+          </li>
+          <div
+            class="row-data"
+            *ngFor="let data of listCourse"
+            (click)="onClickCourse(data.courseId)"
+          >
+            <li class="table-row">
+              <div class="col col-1" data-label="Job Id">
+                {{ data.courseId }}
+              </div>
+              <div class="col col-2" data-label="Customer Name">
+                {{ data.courseName }}
+              </div>
+              <div class="col col-3" data-label="Amount">
+                {{ data.category }}
+              </div>
+            </li>
+          </div>
+        </ul>
+      </div>
+      <button class="button-close" (click)="closeModal()">
+        Hủy
+      </button>
+    </div>
+  </div>

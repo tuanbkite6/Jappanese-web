@@ -1,0 +1,79 @@
+<div class="app">
+    <div class="app-body">
+      <div class="breadcrumb">
+        <nz-breadcrumb>
+          <nz-breadcrumb-item>
+            <span nz-icon nzType="home"></span>
+          </nz-breadcrumb-item>
+          <nz-breadcrumb-item>
+            <a>
+              <span nz-icon nzType="user"></span>
+              <span style="font-size: 16px">Ôn tập</span>
+            </a>
+          </nz-breadcrumb-item>
+          
+        </nz-breadcrumb>
+      </div>
+      <div class="course-info">
+        <h1>Ôn tập</h1>
+   
+      </div>
+      <app-word-list-detail
+        (noteWord)="noteWordReceive($event.wordId, $event.wordNote)"
+        [listOfWords]="currentData"
+        [userId]="userId"
+        [courseInfo]="courseInfo"
+        [percent]="percent"
+        [isRole]="isRole"
+        style="display: flex; justify-content: center"
+      ></app-word-list-detail>
+      <div class="container"></div>
+      <section class="service-section">
+        <h2>Ôn tập</h2>
+        <div class="tiles">
+          
+          <article class="tile">
+            <a routerLink="../word-detail"><span>Tự đánh giá ghi nhớ</span></a>
+          </article>
+       
+        </div>
+      </section>
+      <section class="transfer-section">
+        <div class="transfer-section-header">
+          <h2>Danh sách từ vựng</h2>
+        </div>
+        <nz-divider nzOrientation="left" class="custom-divider">Từ vựng</nz-divider>
+        <nz-empty *ngIf="wordListData.length == 0"></nz-empty>
+        <div class="transfers" *ngFor="let data of wordListData">
+          <div class="transfer">
+            <dl class="transfer-details">
+              <div class="word-container" >
+                <div>
+                  <dd>
+                    <h3 style="font-weight: 700">{{ data.wordKanji }}</h3>
+                  </dd>
+                </div>
+                <div>
+                  <dd>{{ data.wordHiragana }}</dd>
+                </div>
+                <div>
+                  <dd>{{ data.wordMean }}</dd>
+                </div>
+              </div>
+              <div class="bookmark-icon" style="width: 80px">
+              
+                <i
+                  (click)="
+                    noteWordReceive(data.wordId, data.wordNote === '0' ? '1' : '0')
+                  "
+                  [ngClass]="{ active: data.wordNote === '1' }"
+                  class="fa-solid fa-bookmark"
+                ></i>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  

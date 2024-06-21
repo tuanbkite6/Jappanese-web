@@ -1,0 +1,17 @@
+
+<div class="container">
+    <div class="results-header">
+        <h1>Kết quả cho "mimi"</h1>
+        <a >Xem tất cả</a>
+    </div>
+    <div class="tabs">
+        <a routerLink="all-search" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Tất cả kết quả</a>
+        <a routerLink="course" routerLinkActive="active">Học phần</a>
+        <a routerLink="class" routerLinkActive="active">Lớp học</a>
+        <a routerLink="user" routerLinkActive="active">Người dùng</a>
+    </div>
+    
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</div>
