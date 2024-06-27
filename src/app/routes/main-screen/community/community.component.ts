@@ -7,7 +7,9 @@ import { WordManagementService } from 'src/app/services/word-management/word-man
 import { WordbookManagementService } from 'src/app/services/wordbook-management/wordbook-management.service';
 import { AuthService } from '../../Authorize/serviceAuthorize/auth.service';
 import { ActivatedRoute } from '@angular/router';
+
 import { HttpClient } from '@angular/common/http';
+import { AnyAsyncThunk } from '@reduxjs/toolkit/dist/matchers';
 interface courseCommunity {
   avatar: string;
   authorName: string;
@@ -18,6 +20,7 @@ interface courseCommunity {
   rating: any;
   comment?: string;
 }
+
 @Component({
   selector: 'app-community',
   templateUrl: './community.component.html',
@@ -29,6 +32,8 @@ export class CommunityComponent implements OnInit {
   selectCourse: any;
   postForm : FormGroup;
   isIcon = true;
+  showModal = false;
+  selectedCommentId :any;
   courseId: string | null = null;
   isCourseInfo = false;
   commentData: any;
@@ -38,6 +43,9 @@ export class CommunityComponent implements OnInit {
   selectedFile: File | null = null;
   imageMin: File | null = null;
   isListWord: any = false;
+  searchInput: any;
+  listReply: any;
+  hasReply: any;
   async ngOnInit(): Promise<void> {
     await this.getUserId();
     if (this.userId) {
@@ -80,13 +88,17 @@ export class CommunityComponent implements OnInit {
     });
   }
   listWord: any;
+  replyComment : any ;
+  inputReply :any ;
   imagePost: any ;
   isRating: any;
+  likeComment: any;
   isUpload = true;
   isHintPost: any;
   hasExpand = true;
   isVisible = false;
   hasComment: any;
+  selectPostId : any ;
   private badWord: string[] = [
     'dm',
     'duma',
@@ -134,11 +146,14 @@ export class CommunityComponent implements OnInit {
   CourseID: any;
   courseImport: any;
   data: any;
-  stars: number[] = [1, 2, 3, 4, 5];
+  star: any ; 
   rating: any;
   commentForm = new FormGroup({
     comment: new FormControl(''),
   });
+  replyForm = new FormGroup({
+    replyText: new FormControl(''),
+  })
   listPost: any;
   handleOpenRating(idPost: any): any {
     this.isRating = this.isRating === idPost ? null : idPost;
@@ -170,12 +185,19 @@ export class CommunityComponent implements OnInit {
       .replace(/\s+/g, '');
     console.log(handleword);
     if (!this.checkComment(handleword, this.badWord)) {
-      console.log(1);
       this.inputComment.nativeElement.value = '';
       this.http
         .sendComment(this.userId, postId, this.commentForm.value)
         .subscribe({
           next: (res: any) => {
+            this.commentForm.reset();
+            this.message.info('Đã gửi bình luận');
+            this.fetchComment(postId);
+            this.fetchData()
+
+            
+          },
+          error: (err: any) => {
             this.hasComment = null;
             this.toast.warning({
               detail: 'warning',
@@ -183,19 +205,94 @@ export class CommunityComponent implements OnInit {
               duration: 5000,
             });
           },
-          error: (err: any) => {
-            console.log(err);
-            this.commentForm.reset();
-            this.message.info('Đã gửi bình luận');
-            console.log(postId);
-            this.onClickHandleCommentExpand(postId);
-          },
         });
     } else {
-      console.log(2);
       this.message.warning('Bài viết chứa chứa từ ngữ phản cảm');
     }
   }
+  openModalCommentSetting(commentId: number) {
+    this.selectedCommentId = this.selectedCommentId === commentId ? null : commentId;
+    this.showModal = true;
+  }
+
+  closeModalCommentSetting() {
+    this.showModal = false;
+    this.selectedCommentId = null;
+  }
+  updateComment(commentId: string, updatedText: string, postId: any) {
+    this.http.editComment(commentId, updatedText).subscribe(
+      response => {
+        console.log('Comment updated successfully', response);
+        this.fetchComment(postId)
+      },
+      error => {
+        console.error('Error updating comment', error);
+      }
+    );
+  }
+  deleteComment(commentId: string,postId:any) {
+    this.http.deleteComment(commentId).subscribe(
+      response => {
+        console.log('Comment deleted successfully', response);
+      },
+      error => {
+        this.fetchComment(postId)
+        console.error('Error deleting comment', error);
+      }
+    );
+  }
+  showReplyInput(id : any){
+    this.inputComment = this.inputComment === id ? null : id;
+  }
+ 
+  transform(value: string): string {
+    const postedAt = new Date(value);
+    const now = new Date();
+    const timeDifference = now.getTime() - postedAt.getTime();
+
+    // Chuyển đổi milliseconds thành giây
+    const seconds = Math.floor(timeDifference / 1000);
+
+    // Tính toán số ngày, giờ và phút
+    const days = Math.floor(seconds / (3600 * 24));
+    const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+
+    if (days > 0) {
+      return `${days} ngày trước`;
+    } else if (hours > 0) {
+      return `${hours} giờ trước`;
+    } else {
+      return `${minutes} phút trước`;
+    }
+  }
+  getReplies(commentId : any) {
+    this.hasReply = this.hasReply === commentId ? null : commentId;
+    this.http.getReplies(commentId).subscribe((res) => {
+      // this.listReply = res;
+      this.listReply = res.map((comment:any) => ({
+        ...comment,
+        timeAgo: this.calculateTimeAgo(comment.postedAt)
+      }));
+    });
+  }
+  submitReply(commentId: any) {
+    console.log(this.replyForm.value)
+    
+      
+      // Handle submitting the reply
+      this.http.addReply(this.userId,commentId, this.replyForm.value).subscribe(response => {
+        console.log('Reply submitted successfully', response);
+        this.showReplyInput(commentId)
+        this.getReplies(commentId)
+        // Optionally reset the reply input
+        // this.replyForm.value = '';
+        // comment.replyText = '';
+      }, error => {
+        console.error('Error submitting reply', error);
+      });
+    
+    }
   // inputImage(e: any): any {
   //   this.isUpload = false;
   //   console.log(this.isUpload);
@@ -212,6 +309,27 @@ export class CommunityComponent implements OnInit {
   //   }
   // }
 
+  calculateTimeAgo(postedAt: string): string {
+    const postedDate = new Date(postedAt); // Convert the postedAt string to a Date object
+    const now = new Date(); // Get the current date
+
+    const timeDifference = now.getTime() - postedDate.getTime(); // Calculate the time difference in milliseconds
+    const seconds = Math.floor(timeDifference / 1000); // Convert milliseconds to seconds
+
+    // Calculate days, hours, and minutes
+    const days = Math.floor(seconds / (3600 * 24));
+    const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+
+    // Determine the appropriate time ago format
+    if (days > 0) {
+      return `${days} ngày trước`;
+    } else if (hours > 0) {
+      return `${hours} giờ trước`;
+    } else {
+      return `${minutes} phút trước`;
+    }
+  }
   inputImage(event: any) {
     this.file = event.target.files[0];
     if (this.file) {
@@ -231,14 +349,14 @@ export class CommunityComponent implements OnInit {
     }
   }
   //Rating bài viết của người dùng
-  async countStart(courseId: any, star: any) {
+  async countStart(postId:any,courseId: any) {
     this.isRating = null;
     try {
-      await this.http.handelRating(courseId, star).toPromise();
+      await this.http.handelRating(postId,courseId, this.star).toPromise();
     } catch (error) {
       this.toast.warning({
         detail: 'Warning',
-        summary: '評価は記録されていません',
+        summary: 'Không thể đánh giá bài viết',
         duration: 2000,
       });
     }
@@ -281,6 +399,21 @@ console.log('form',formData)
     }
 
   }
+  searchHandle(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.searchInput = input.value;
+    // this.router.navigate(['home/search/all-search']);
+  }
+  searchClick(){
+    this.http.searchPosts(this.searchInput).subscribe(
+      data => {
+        this.listPost = data;
+      },
+      error => {
+        console.error('Error searching posts:', error);
+      }
+    );
+  }
   resetForm() {
     this.postForm.reset();
     this.Image = '';
@@ -303,13 +436,36 @@ console.log('form',formData)
   }
   onClickHandleCommentExpand(idPost: any): void {
     this.hasComment = this.hasComment === idPost ? null : idPost;
-
+    this.selectPostId = idPost;
     this.http.getAllComment(idPost).subscribe({
       next: (res: any) => {
-        this.commentData = res;
+        this.commentData = res.map((comment:any) => ({
+          ...comment,
+          timeAgo: this.calculateTimeAgo(comment.postedAt)
+        }));
       },
       error: (err: any) => {
         this.hasComment = null;
+
+        this.toast.info({
+          detail: 'Info',
+          summary: 'Bài viết này không có bình luận nào',
+          duration: 2000,
+        });
+      },
+    });
+  }
+  fetchComment(idPost : any){
+    this.http.getAllComment(idPost).subscribe({
+      next: (res: any) => {
+        this.commentData = res.map((comment:any) => ({
+          ...comment,
+          timeAgo: this.calculateTimeAgo(comment.postedAt)
+        }));
+      },
+      error: (err: any) => {
+        this.hasComment = null;
+
         this.toast.info({
           detail: 'Info',
           summary: 'Bài viết này không có bình luận nào',
@@ -326,6 +482,30 @@ console.log('form',formData)
       this.message.info('Bài đăng vẫn tồn tại trong tường');
     }
   }
+  likeCommentHandle(commentId: string): void {
+    const isLiked = this.likeComment === commentId;
+    this.likeComment = isLiked ? null : commentId;
+
+    this.http.updateLikeCount(commentId, isLiked).subscribe(
+      () => {
+        const comment = this.commentData.find((c: any) => c.commentId === commentId);
+        if (comment) {
+          if (isLiked) {
+            comment.likeCount -= 1; // Giảm likeCount nếu đã like và toggle thành unlike
+          } else {
+            comment.likeCount += 1; // Tăng likeCount nếu chưa like và toggle thành like
+          }
+          console.log(comment); // Đảm bảo là comment đã được cập nhật đúng
+          this.fetchComment(this.selectPostId); // Gọi lại API để cập nhật danh sách comment sau khi like/unlike
+        }
+      },
+      error => {
+        console.error('Error updating like count:', error);
+        // Xử lý lỗi nếu cần thiết
+      }
+    );
+}
+
 
   getAllCourseByUserId(): any {}
   async fetchData() {
@@ -334,7 +514,37 @@ console.log('form',formData)
     });
     console.log(this.listPost);
   }
-
+  getTopRatedPosts(): void {
+    this.http.filterTopRatedPosts().subscribe(
+      data => {
+        this.listPost = data;
+      },
+      error => {
+        console.error('Error fetching top-rated posts:', error);
+      }
+    );
+  }
+  getMostCommentedPosts(): void {
+    this.http.filterMostCommentedPosts().subscribe(
+      data => {
+        this.listPost = data;
+      },
+      error => {
+        console.error('Error fetching most commented posts:', error);
+      }
+    );
+  }
+  getMostImportedPosts(): void {
+    this.http.getMostImportedPosts().subscribe(
+      data => {
+        this.listPost = data;
+      },
+      error => {
+        console.error('Error fetching most imported posts', error);
+      }
+    );
+  }
+  
   getAllCourseById(): any {
     this.course.getAllCourseByUserId(this.userId).subscribe((res) => {
       this.listCourse = res;
@@ -360,17 +570,17 @@ console.log('form',formData)
     this.http.importCourse(this.userId, idCourse).subscribe({
       next: (res: any) => {
         console.log(res.message);
-        this.toast.info({
-          detail: 'info',
+        this.toast.success({
+          detail: 'Thành công',
           summary: 'Thêm khóa học thành công',
           duration: 1000,
         });
       },
       error: (err: any) => {
         console.log(err.message);
-        this.toast.info({
-          detail: 'Warning',
-          summary: 'Tác vụ đang được xử lý',
+        this.toast.error({
+          detail: 'Lỗi',
+          summary: 'Bạn đã có học liệu này rồi',
           duration: 2000,
         });
       },

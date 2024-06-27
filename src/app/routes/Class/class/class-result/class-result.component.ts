@@ -9,6 +9,7 @@ import { staticPath } from 'src/app/utils/staticPath';
 import { constant } from 'src/app/utils/constant';
 import { AuthService } from 'src/app/routes/Authorize/serviceAuthorize/auth.service';
 import { CommunityManagementService } from 'src/app/services/community/community-management.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-class-result',
@@ -23,10 +24,13 @@ export class ClassResultComponent {
     private message: NzMessageService,
     private toast: NgToastService,
     private auth: AuthService,
-    private course: WordbookManagementService
+    private course: WordbookManagementService,
+    private modal : NzModalService
   ) {}
   userId: any;
   isIcon = true;
+  teacherId: any;
+  isRole = true;
   isCourseInfo = false;
   selectCourse: any;
   currentClass: any;
@@ -36,6 +40,7 @@ export class ClassResultComponent {
   async ngOnInit(): Promise<void> {
     await this.getUserId();
     await this.fetchData();
+    this.getTeacherId()
     this.getAllCourseById();
   }
   async fetchData() {
@@ -68,6 +73,45 @@ export class ClassResultComponent {
     if (this.isVisible) {
       this.isVisible = false;
     }
+  }
+  async removeCourse(courseId:any){
+
+    this.modal.confirm({
+      nzTitle: 'Bạn có chắc muốn xóa học phần này khỏi lớp không ?',
+      nzContent:
+        '<b style="color: red;">Học liệu của bạn sẽ bị xóa hoàn toàn khỏi hệ thống</b>',
+      nzOkText: 'Xóa học phần',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () =>
+        this.http.removeCourse(this.currentClass,courseId).
+      subscribe(
+        (response) => {
+          this.fetchData()
+          this.toast.info({
+            detail: 'Thông tin',
+            summary: 'Đã xóa học phần ',
+            duration: 2000,
+          });
+        },
+        (error) => {
+          
+          this.toast.warning({
+            detail: 'Thông tin',
+            summary: 'Có chút vấn đề khi xóa ',
+            duration: 2000,
+          });
+        }
+     ) ,
+      nzCancelText: 'Hủy',
+      nzOnCancel: () => console.log('Cancel'),
+    });
+
+  }
+  
+  onClickReview(id:any){
+this.course.setCurrentWordBook(id)
+this.router.navigate([`/${staticPath.CLASSCOURSE}`]);
   }
   async onClickCourse(courseId: any) {
     this.closeModal();
@@ -104,6 +148,27 @@ export class ClassResultComponent {
   }
   openModal(): any {
     this.isVisible = true;
+  }
+  
+  getTeacherId() {
+    try{
+      this.http.getTeacherInfo(this.currentClass).subscribe(
+        (response) => {
+         this.teacherId = response.teacherId
+          console.log('teacher', this.teacherId)
+          if (this.userId == this.teacherId) {
+            this.isRole = true;
+          } else {
+            this.isRole = false;
+          }
+          console.log(this.isRole)
+        },
+        (error) => {
+      this.courseData = ''
+    })
+  }catch(error) {
+    
+  }
   }
   async getUserId() {
     try {

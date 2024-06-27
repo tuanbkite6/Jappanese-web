@@ -60,7 +60,7 @@ import { ClassSearchComponent } from './routes/main-screen/search-page/class-sea
 import { CourseSearchComponent } from './routes/main-screen/search-page/course-search/course-search.component';
 import { UserSearchComponent } from './routes/main-screen/search-page/user-search/user-search.component';
 import { AllSearchComponent } from './routes/main-screen/search-page/all-search/all-search.component';
-import { ClassCourseLearnComponent } from './routes/Class/class/class-course-learn/class-course-learn.component';
+import { ClassCourseLearnComponent } from './routes/Class/class-course-learn/class-course-learn.component';
 import { ReviewClassComponent } from './routes/Class/class/review-class/review-class.component';
 import { MemberManagementComponent } from './routes/Class/class/member-management/member-management.component';
 import { SpeakerGameComponent } from './routes/learn/speaker-game/speaker-game.component';
@@ -120,6 +120,7 @@ registerLocaleData(en);
     ReviewClassComponent,
     MemberManagementComponent,
     SpeakerGameComponent,
+    SurveyFormComponent
   ],
   imports: [
     BrowserModule,

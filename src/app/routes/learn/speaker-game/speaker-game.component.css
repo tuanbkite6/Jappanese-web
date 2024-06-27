@@ -9,19 +9,166 @@
     display: flex;
     justify-content: center;
 }
-
+.fa-volume-high{
+  font-size: 45px;
+  color :#007bff
+}
 .clickable {
     cursor: pointer;
     width: 90px;
     height: 35px;
 
 }
+.boxContainer {
+  display: none; /* Initially hidden */
+  justify-content: space-between;
+  height: 64px;
+  --boxSize: 8px;
+  --gutter: 4px;
+  width: calc((var(--boxSize) + var(--gutter)) * 5);
+}
+
 
 .bi {
     color: #ff5454;
     margin: 0 .1rem;
 }
+@-webkit-keyframes quiet {
+  25% {
+    transform: scaleY(0.6);
+  }
+  50% {
+    transform: scaleY(0.4);
+  }
+  75% {
+    transform: scaleY(0.8);
+  }
+}
+@keyframes quiet {
+  25% {
+    transform: scaleY(0.6);
+  }
+  50% {
+    transform: scaleY(0.4);
+  }
+  75% {
+    transform: scaleY(0.8);
+  }
+}
+@-webkit-keyframes normal {
+  25% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.4);
+  }
+  75% {
+    transform: scaleY(0.6);
+  }
+}
+@keyframes normal {
+  25% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.4);
+  }
+  75% {
+    transform: scaleY(0.6);
+  }
+}
+@-webkit-keyframes loud {
+  25% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.4);
+  }
+  75% {
+    transform: scaleY(1.2);
+  }
+}
+@keyframes loud {
+  25% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.4);
+  }
+  75% {
+    transform: scaleY(1.2);
+  }
+}
+body {
+  display: flex;
+  justify-content: center;
+  background: black;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  height: 100vh;
+}
+.volume-animation{
+  display: flex ;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.volume-animation:hover i {
+  color: #40a9ff;
+  cursor: pointer;
+}
+.boxContainer {
+  display: none; /* Initially hidden */
+  justify-content: space-between;
+  height: 64px;
+  --boxSize: 8px;
+  --gutter: 4px;
+  width: calc((var(--boxSize) + var(--gutter)) * 5);
+    top: -8px;
+    text-align: center;
+    right: 655px;
+    margin-bottom: 20px;
+}
 
+
+.box {
+  transform: scaleY(0.4);
+  height: 100%;
+  width: var(--boxSize);
+  background: #12E2DC;
+  -webkit-animation-duration: 1.2s;
+          animation-duration: 1.2s;
+  -webkit-animation-timing-function: ease-in-out;
+          animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  border-radius: 8px;
+}
+
+.box1 {
+  -webkit-animation-name: quiet;
+          animation-name: quiet;
+}
+
+.box2 {
+  -webkit-animation-name: normal;
+          animation-name: normal;
+}
+
+.box3 {
+  -webkit-animation-name: quiet;
+          animation-name: quiet;
+}
+
+.box4 {
+  -webkit-animation-name: loud;
+          animation-name: loud;
+}
+
+.box5 {
+  -webkit-animation-name: quiet;
+          animation-name: quiet;
+}
 .letter-input {
     display: inline-block;
     background:transparent;
@@ -56,7 +203,7 @@ button:focus {
 }
 
 .space {
-    margin: .5rem 0;
+    margin-top: 50px;
 }
 
 .fail {

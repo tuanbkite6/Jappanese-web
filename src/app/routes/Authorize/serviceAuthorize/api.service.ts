@@ -10,4 +10,10 @@ private baseUrl: string = 'http://localhost:43268/api/users'
   getUsers() {
     return this.http.get(this.baseUrl);
   }
+  getRankingUsers() {
+    return this.http.get(this.baseUrl + '/ranking');
+  }
+  getLearnStatus(userId:any) {
+    return this.http.get(this.baseUrl + '/learning-stats/' + userId);
+  }
 }

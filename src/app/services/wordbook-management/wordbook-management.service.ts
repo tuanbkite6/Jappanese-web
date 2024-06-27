@@ -111,5 +111,8 @@ return this.http.get(`${this.baseUrl}courseNote/${userId}`)
     const url = `${this.speech}GetSpeech?text=${encodeURIComponent(text)}`;
     return this.http.get(url, { responseType: 'blob' });
   }
+  getCourse(courseId:any):Observable<any>{
+    return this.http.get(`${this.baseUrl}getinfo/${courseId}`)
+  }
 }
 

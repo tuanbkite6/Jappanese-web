@@ -1,11 +1,14 @@
 <div class="card" *ngFor="let data of courseData">
+  <div class="delete-course" (click)="removeCourse(data.courseId)" *ngIf="isRole">
+    <i class="fa-solid fa-delete-left"></i>
+  </div>
     <div>
         <h2>{{data.courseName}}</h2>
         <p>{{data.totalWord}} thuật ngữ • ⭐ {{data.rating}} (3)</p>
     </div>
-    <button>Xem trước</button>
+    <button (click)="onClickReview(data.courseId)">Xem trước</button>
 </div>
-<div class="add-button" (click)="openModal()">
+<div class="add-button" (click)="openModal()" *ngIf="isRole">
     <button>Thêm học phần vào lớp</button>
 </div>
 

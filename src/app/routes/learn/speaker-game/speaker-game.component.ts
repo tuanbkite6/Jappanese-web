@@ -90,7 +90,43 @@ export class SpeakerGameComponent implements OnInit {
       queryParams: { id: this.currentWordBook },
     });
   }
+  playSpeech(word: string) {
+    this.wordbookService.speechAPi(word).subscribe((response: Blob) => {
+      const audioUrl = URL.createObjectURL(response);
+      const audio = new Audio(audioUrl);
+      audio.addEventListener('play', () => {
+        this.startAnimation();
+      });
+      audio.addEventListener('ended', () => {
+        this.stopAnimation();
+      });
+      audio.play();
+      
+    });
+  }
+  startAnimation(): void {
+    const boxContainer = document.getElementById('boxContainer');
+    const audioIcon:any  = document.getElementById('fa-volume-high');
+    if (boxContainer) {
+      boxContainer.style.display = 'flex';
+      audioIcon.style.display = 'none';
+    }
+  }
+  
+  stopAnimation(): void {
+    const boxContainer = document.getElementById('boxContainer');
+    const audioIcon:any  = document.getElementById('fa-volume-high');
+    if (boxContainer) {
+      boxContainer.style.display = 'none';
+      audioIcon.style.display = 'block';
+    }
+  }
 
+  // Mock method to play speech
+  speak(wordKanji: string): void {
+    console.log('Playing speech for:', wordKanji);
+    // Integrate your speech playing logic here
+  }
   onDropdownVisibleChange(visible: boolean): void {
     this.isDropdownVisible = visible;
   }

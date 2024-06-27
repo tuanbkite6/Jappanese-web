@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../Authorize/serviceAuthorize/api.service';
+import { AuthService } from '../../Authorize/serviceAuthorize/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,68 +28,7 @@ export class DashboardComponent implements OnInit {
     }
   ]
   listRankUser: any = [
-    {
-      rank: 1,
-      avatar: 'https://i.postimg.cc/Z5wQKJmh/fchunters.png',
-      name: 'Lê Đức Huy',
-      word: 120,
-    },
-    {
-      rank: 2,
-      avatar: 'https://i.postimg.cc/Z5wQKJmh/fchunters.png',
-      name: 'Phạm Nhật Huy',
-      word: 110,
-    },
-    {
-      rank: 3,
-      avatar: 'https://i.postimg.cc/Z5wQKJmh/fchunters.png',
-      name: 'Tạ Huy',
-      word: 100,
-    },
-    {
-      rank: 4,
-      avatar: 'https://i.postimg.cc/Z5wQKJmh/fchunters.png',
-      name: 'Hoàng Việt ',
-      word: 10,
-    },
-    {
-      rank: 5,
-      avatar: 'https://i.postimg.cc/Z5wQKJmh/fchunters.png',
-      name: ' Việt Dũng',
-      word: 10,
-    },
-    {
-      rank: 6,
-      avatar: 'https://i.postimg.cc/Z5wQKJmh/fchunters.png',
-      name: 'Nhật Sang',
-      word: 10,
-    },
-    {
-      rank: 7,
-      avatar: 'https://i.postimg.cc/Z5wQKJmh/fchunters.png',
-      name: 'Hoàng Việt Huy',
-      word: 10,
-    },
-    {
-      rank: 8,
-      avatar: 'https://i.postimg.cc/Z5wQKJmh/fchunters.png',
-      name: 'Hoàng Việt fw',
-      word: 10,
-    },
-    {
-      rank: 8,
-      avatar: 'https://i.postimg.cc/Z5wQKJmh/fchunters.png',
-      name: 'Hoàng Việt fw',
-      word: 10,
-    },
-    {
-      rank: 8,
-      avatar: 'https://i.postimg.cc/Z5wQKJmh/fchunters.png',
-      name: 'Hoàng Việt fw',
-      word: 10,
-    },
-  
-  ];
+ ];
 
   listAchievement: any = [
     {
@@ -112,15 +52,41 @@ export class DashboardComponent implements OnInit {
       date: '19/09/2022',
     },
   ];
-
+  userId : any;
   screenHeight: number = 0;
+  listLearnStatus: any;
 
-  constructor(private api : ApiService) {}
+  constructor(private api : ApiService, private authService : AuthService) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void>  {
+    await this.getUserId();
+    if (this.userId) {
+      this.getLearnStatus()
+    }
+    this.fetchData()
     this.screenHeight = window.innerHeight;
     this.api.getUsers().subscribe((res :any) => {
       this.listRankUsers = res ;})
       console.log(this.listRankUser)
+  }
+  fetchData ( ): void {
+    this.api.getRankingUsers().subscribe((res :any) => {
+      this.listRankUser = res ;})
+  }
+  async getLearnStatus(){
+    this.api.getLearnStatus(this.userId).subscribe((res :any) => {
+      this.listLearnStatus = res ;})
+  }
+  async getUserId() {
+    try {
+      const userId = await this.authService.getUserIdFromToken();
+      if (!userId) {
+        console.error('User ID not found');
+      } else {
+        this.userId = userId;
+      }
+    } catch (error) {
+      console.error('Error getting User ID', error);
+    }
   }
 }

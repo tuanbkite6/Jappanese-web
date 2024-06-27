@@ -46,7 +46,7 @@ import { ClassSearchComponent } from './routes/main-screen/search-page/class-sea
 import { CourseSearchComponent } from './routes/main-screen/search-page/course-search/course-search.component';
 import { UserSearchComponent } from './routes/main-screen/search-page/user-search/user-search.component';
 import { AllSearchComponent } from './routes/main-screen/search-page/all-search/all-search.component';
-import { ClassCourseLearnComponent } from './routes/Class/class/class-course-learn/class-course-learn.component';
+import { ClassCourseLearnComponent } from './routes/Class/class-course-learn/class-course-learn.component';
 import { ReviewClassComponent } from './routes/Class/class/review-class/review-class.component';
 import { SpeakerGameComponent } from './routes/learn/speaker-game/speaker-game.component';
 // import { ClassComponent } from './routes/class/class.component';
@@ -71,11 +71,11 @@ const routes: Routes = [
           { path: 'class-analysis', component: ClassAnalysisComponent ,canActivate:[AuthGuard]},
           {path:'class-results', component: ClassResultComponent,canActivate:[AuthGuard]},
           {path:'class-member-manager', component: MemberManagementComponent,canActivate:[AuthGuard]},
-          {path:'class-course', component: ClassCourseLearnComponent,canActivate:[AuthGuard]}
         ],
         canActivate: [AuthGuard]
 
       },
+      {path:'class-course', component: ClassCourseLearnComponent,canActivate:[AuthGuard]},
       {
         path: 'search',
         component : SearchPageComponent,
@@ -140,6 +140,11 @@ const routes: Routes = [
     path :'firstlogin/info',
     component : InformationComponent,
   },
+  {
+    path :'firstlogin/goal-survey',
+    component : SurveyFormComponent,
+  }
+  ,
   {
     path: 'register',
     component: RegisterComponent,

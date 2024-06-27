@@ -1,10 +1,10 @@
 <div class="container">
   <div class="community-container">
-    <div class="community-divider">
-      <h1>Bài viết mới</h1>
+    <div class="community-divider" style="margin-left: 275px;">
+      <h1 >Bài viết mới</h1>
     </div>
     <!-- Tạo bài viết mới trong cộng đồng  -->
-    <div class="community-post small-border">
+    <div class="community-post small-border" style="margin-left: 275px;">
       <form [formGroup]="postForm">
         <div class="post-header">
           <div class="community-post__infor">
@@ -12,6 +12,7 @@
               <img alt="" [src]="userInfo.imgUrl" />
             </div>
             <input
+            class="post-input"
               type="text"
               placeholder="Bạn có muốn chia sẻ điều gì không?"
               (click)="onClickHandleExpand()"
@@ -106,8 +107,28 @@
         </div>
       </form>
     </div>
-    <div class="community-divider"><h1>Bài viết bạn quan tâm</h1></div>
+    <div class="community-divider" style="padding-left: 275px;"><h1>Bài viết bạn quan tâm</h1></div>
+    <div class="post-container">
+      <div class="left-bar">
+      <header>
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" (input)="searchHandle($event)" >
+          <input type="text" nz-input placeholder="Tìm kiếm"  />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search" (click)="searchClick()"></span></button>
+        </ng-template>
+    </header>
+    <aside class="sidebar">
+        <h2>Các bài viết nổi bật</h2>
+        <ul>
+            <li><i class="fa-solid fa-heart" style="color:  rgb(202, 77, 77); margin-right: 10px;"></i><a (click)="getTopRatedPosts()">Được yêu thích nhất</a></li>
+    <li><i class="fa-solid fa-comments" style="color:  rgb(77, 121, 202);margin-right: 10px;"></i><a (click)="getMostCommentedPosts()" >Được quan tâm nhiều nhất</a></li>
+            <li><i class="fa-solid fa-star" style="color:  rgb(179, 202, 77);margin-right: 10px;"></i><a (click)="getMostImportedPosts()">Được nhiều người học</a></li>
+        </ul>
+    </aside>
+  </div>
     <!-- Post trên màn cộng đồng  -->
+    <div class="post-content">
     <div
       class="community-posts__rating small-border"
       *ngFor="let data of listPost"
@@ -150,11 +171,11 @@
             (click)="openModalCourse(data.courseId)"
           >
             <div class="community-post__theme">
-              Topic :<br />
+              Chủ để :<br />
               {{ data.courseName }}
             </div>
             <div class="community-post__word">
-              Id:<br />
+              Mã học liệu:<br />
               {{ data.courseId }}
             </div>
           </div>
@@ -167,7 +188,7 @@
                 (click)="handleOpenRating(data.postId)"
               >
                 <i class="fa-solid fa-star"></i>
-                Đánh giá
+                Đánh giá {{data.totalRatings}}
               </div>
             </div>
             <div
@@ -176,7 +197,7 @@
             >
               <div class="interact-icon">
                 <i class="fa-solid fa-comment"></i>
-                Bình luận
+                Bình luận {{data.totalComments}}
               </div>
             </div>
             <div
@@ -185,27 +206,14 @@
             >
               <div class="interact-icon">
                 <i class="fa-solid fa-file-import"></i>
-                Thêm vào học liệu
+                Thêm vào học liệu {{data.importCount}}
               </div>
             </div>
           </div>
-          <div class="rating">Đánh giá :{{ data.rating }}</div>
+          <div class="rating">Đánh giá :{{ data.rating | number:'1.2-2'}}</div>
         </div>
         <div class="row" *ngIf="data.postId === isRating">
-          <div class="col-sm-12">
-            <ul
-              class="list-inline rating-list"
-              *ngFor="let star of stars"
-              style="display: inline-block"
-            >
-              <li
-                (click)="countStart(data.courseId, star)"
-                [ngClass]="{ selected: star <= rating }"
-              >
-                <i class="fa fa-star"></i>
-              </li>
-            </ul>
-          </div>
+          <nz-rate [(ngModel)]="star" nzAllowHalf (click)="countStart(data.postId,data.courseId)"></nz-rate>
         </div>
         <!-- Phần mở rộng khi nhấn comment -->
         <div class="community-comment">
@@ -220,6 +228,7 @@
                 </div>
 
                 <input
+                class="post-input"
                   type="text"
                   placeholder="Comment"
                   #comment
@@ -229,25 +238,67 @@
               </div>
             </form>
             <div class="comment-container" *ngIf="data.postId === hasComment">
-              <div *ngFor="let data of commentData">
-                <div class="community-post__comment small-border">
-                  <div class="comment-alo">
-                    <div class="community-post_avatar">
-                      <img alt="" src={{data.imgUrl}}/>
-                      <span>{{ data.userName }}</span>
-                    </div>
-                    <div class="community-post_content">
-                      {{ data.commentText }}
+              <div class="comment" *ngFor="let data of commentData">
+                <div class="comment-header">
+                  <img src="{{data.commentUserImgUrl}}" alt="User Image" class="user-image">
+                  <div class="user-info">
+                    <div class="user-name">{{ data.commentUserName }}</div>
+                    <div class="comment-time">{{ data.timeAgo }}</div>
+                  </div>
+                </div>
+                <div class="comment-setting" *ngIf="data.commentUserId == userId" (click)="openModalCommentSetting(data.commentId)">
+                  <i class="fa-solid fa-bars"></i>
+                </div>
+                <div class="comment-body">
+                  {{ data.commentText }}
+                </div>
+                <div class="reply-count" *ngIf="data.replyCount > 0" (click)="getReplies(data.commentId)"><i class="fa-solid fa-reply"></i>{{data.replyCount}} câu trả lời</div>
+                <div class="comment-footer">
+                  <span class="likes">{{data.likeCount}}<i class="fa fa-thumbs-up" [ngClass]="{'active': likeComment === data.commentId}" (click)="likeCommentHandle(data.commentId)" ></i></span>
+                  <span class="reply" (click)="showReplyInput(data.commentId)">Trả lời</span>
+                </div>
+                <div class="reply-container" *ngIf="data.commentId == hasReply">
+                <div *ngFor="let reply of listReply" class="comment reply" >
+                  <div class="comment-header">
+                    <img src="{{reply.userImgUrl}}" alt="User Image" class="user-image">
+                    <div class="user-info" >
+                      <div class="user-name">{{ reply.userName }}</div>
+                      <div class="comment-time">{{ reply.timeAgo }}</div>
                     </div>
                   </div>
-                  <!-- <i (click)="editComment(data.commentId)" class="fa-solid fa-pen-to-square"></i> -->
+                  <div class="comment-setting" *ngIf="reply.replyUserId == userId" (click)="openModalCommentSetting(data.commentId)" >
+                    <i class="fa-solid fa-bars" ></i>
+                  </div>
+                  <div class="comment-body">
+                    {{ reply.replyText }}
+                  </div>
+                  
+                  <div class="comment-footer">
+                    <span class="likes"><i class="fa fa-thumbs-up"></i></span>
+                    <span class="reply" (click)="showReplyInput(reply.replyId)">Trả lời</span>
+                  </div>
                 </div>
+                </div>
+                <form action="" [formGroup]="replyForm">
+                <div class="reply-input" *ngIf="data.commentId === inputComment">
+                  <input type="text" formControlName="replyText" placeholder="Viết phản hồi...">
+                  <button (click)="submitReply(data.commentId)">Gửi</button>
+                </div>
+              </form>
+                <div *ngIf="data.commentId == selectedCommentId" class="modal-overlay" (click)="closeModal()">
+                  <div class="modal-content" (click)="$event.stopPropagation()">
+                    <button class="modal-button" (click)="editComment(selectedCommentId)">Sửa bình luận</button>
+                    <button class="modal-button" (click)="deleteComment(selectedCommentId,data.postId)">Xóa bình luận </button>
+                  </div>
               </div>
             </div>
-          </div>
+            
+            
         </div>
       </div>
     </div>
+  </div>
+  </div>
   </div>
 </div>
 <!-- modal list word -->

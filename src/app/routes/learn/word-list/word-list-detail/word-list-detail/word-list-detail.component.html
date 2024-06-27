@@ -17,7 +17,7 @@
       </nav>
       <div class="row" id="midrow">
         <h2 style="text-align: center">
-          <h1>Ví dụ</h1>
+          <h1 *ngIf="listOfWords[currentIndex]?.example">Ví dụ</h1>
           {{ listOfWords[currentIndex]?.example }}
         </h2>
         <div class="midrow-container">
@@ -45,14 +45,19 @@
                 <span class="flashcard-content_hiragana">
                   {{ listOfWords[currentIndex]?.wordHiragana }}
                 </span>
-                <span>
+                <span >
                   {{ listOfWords[currentIndex]?.wordExample }}
                 </span>
               </div>
               <div class="back">
-                <span id="flashcard--content_es">
-                  {{ listOfWords[currentIndex]?.wordMean }}
+                <span class="image" *ngIf="listOfWords[currentIndex]?.wordImg">
+                  <img style="height: 368px;
+                  width: 600px;" src={{listOfWords[currentIndex]?.wordImg}} alt="">
                 </span>
+                <div id="flashcard--content_es" style="    margin-top: 130px;
+                ">
+                  {{ listOfWords[currentIndex]?.wordMean }}
+                </div>
               </div>
             </div>
           </div>
@@ -95,26 +100,26 @@
   (nzOnCancel)="handleCancel()"
   (nzOnOk)="handleOk()"
 >
-  <ng-container *nzModalContent>
-    <form [formGroup]="editWordForm">
-      <div>
-        <label for="wordKanji">Kanji</label>
-        <input id="wordKanji" formControlName="wordKanji" />
-      </div>
-      <div>
-        <label for="wordHiragana">Hiragana</label>
-        <input id="wordHiragana" formControlName="wordHiragana" />
-      </div>
-      <div>
-        <label for="wordExample">Example</label>
-        <input id="wordExample" formControlName="wordExample" />
-      </div>
-      <div>
-        <label for="wordMean">Meaning</label>
-        <input id="wordMean" formControlName="wordMean" />
-      </div>
-    </form>
-  </ng-container>
+<ng-container *nzModalContent>
+  <form [formGroup]="editWordForm" class="edit-word-form">
+    <div class="form-group">
+      <label for="wordKanji">Kanji</label>
+      <input id="wordKanji" formControlName="wordKanji" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="wordHiragana">Hiragana</label>
+      <input id="wordHiragana" formControlName="wordHiragana" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="wordExample">Example</label>
+      <input id="wordExample" formControlName="wordExample" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="wordMean">Meaning</label>
+      <input id="wordMean" formControlName="wordMean" class="form-control" />
+    </div>
+  </form>
+</ng-container>
 </nz-modal>
 
 <nz-modal

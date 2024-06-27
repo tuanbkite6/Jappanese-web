@@ -9,6 +9,27 @@
 .active {
   color: red; /* Example active state color */
 }
+.edit-word-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.form-control {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 
 .word-container {
   display: flex;
@@ -407,7 +428,11 @@ wrap {
   -ms-transform: rotateY(0deg);
   background-color: white;
 }
-
+.image {
+  position: absolute;
+  top: 50px;
+  right: 140px;
+}
 /* back, initially hidden pane */
 .back {
   -webkit-transform: rotateY(-180deg);

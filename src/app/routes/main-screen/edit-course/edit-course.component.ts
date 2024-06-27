@@ -133,7 +133,7 @@ export class EditCourseComponent implements OnInit {
     if (this.file) {
       formData.append('ImageFile', this.file);
     }
-
+    console.log(formData);
    await this.http.createWord(this.currentWordBook, formData).subscribe(
       (response) => {
         this.toast.success({
@@ -175,12 +175,25 @@ export class EditCourseComponent implements OnInit {
     fileInput.value = '';
   }
   saveCourse(): void {
-    if (this.canUpdate === true) {
-        const lastTerm = this.terms.at(this.terms.length - 1).value;
-        this.saveTerm(lastTerm, this.terms.length).then(() => {
+    
+        const lastTerm = this.terms.at(this.terms.length-1).value;
+        if (!lastTerm.Kanji || !lastTerm.Hiragana || !lastTerm.Mean) {
+          this.toast.warning({
+              detail: 'Warning',
+              summary: 'Vui lòng hoàn thành tất cả từ vựng hiện tại trước khi thêm từ mới.',
+              duration: 5000,
+          });
+          return;
+      }
+        
+        this.saveTerm(lastTerm, this.terms.length-1).then(() => {
+          setTimeout(() =>{
             this.router.navigate([`/${staticPath.COURSE}`, {id:this.currentWordBook}]);
+          },1000)
+         
         });
-    } else if (this.courseForm.valid) {
+      
+   if (this.courseForm.valid) {
         const courseData = {
             courseName: this.courseForm.value.courseName,
             level: this.courseForm.value.level,
@@ -208,9 +221,14 @@ export class EditCourseComponent implements OnInit {
             }
         );
     } else {
-        console.log('Form is invalid');
+      this.toast.error({
+        detail: 'Lỗi',
+        summary: 'Có những chữ chưa được nhập',
+        duration: 5000,
+    });
     }
 }
+  
 
   onFocusOut(event: FocusEvent, index: number): void {
     const currentTarget = event.currentTarget as HTMLElement;

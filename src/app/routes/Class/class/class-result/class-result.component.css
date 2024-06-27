@@ -66,8 +66,12 @@ body {
 .results-header a:hover {
     text-decoration: underline;
 }
+.delete-course{
+   font-size: 25px;
+   color:#b66269
+}
 .card {
-    background-color: #fff;
+    background-color: #e2e2e2;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;

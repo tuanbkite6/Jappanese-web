@@ -8,10 +8,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class CommunityManagementService {
   private searchSubject = new BehaviorSubject<string>('')
   currentSearch = this.searchSubject.asObservable();
-  baseUrl: string = 'http://localhost:43268/api/posts/';
-  baseComment : string = 'http://localhost:43268/api/comment/';
+  baseUrl: string = 'http://localhost:43268/api/Posts/';
+  baseComment : string = 'http://localhost:43268/api/Comment/';
   userApi : string = 'http://localhost:43268/api/users/'
   classApi : string = 'http://localhost:43268/api/Class/';
+  course : string = 'http://localhost:43268/api/course/';
   constructor(private http : HttpClient) { }
   updateSearch(search: string) {
     this.searchSubject.next(search);
@@ -27,7 +28,18 @@ export class CommunityManagementService {
   getAllCourseByUserId(userId : any){
     return this.http.get(this.baseUrl + userId);
   }
- 
+  searchPosts(keyword: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}search`, { params: { keyword } });
+  }
+  filterTopRatedPosts(): Observable<any> {
+    return this.http.get(`${this.baseUrl}filter/toprated`);
+  }
+  filterMostCommentedPosts(): Observable<any> {
+    return this.http.get(`${this.baseUrl}filter/mostcommented`);
+  }
+  getMostImportedPosts(): Observable<any> {
+    return this.http.get(`${this.baseUrl}filter/mostimported`);
+  }
     // return this.http.post<any>(this.baseUrl+userId,body)
   
   handelSharePost(userId: string, postData: FormData){
@@ -42,11 +54,29 @@ export class CommunityManagementService {
   getAllComment(url: any){
     return this.http.get(this.baseComment+url)
   }
+  addReply(userId:any,commentId: string, reply: any): Observable<any> {
+    return this.http.post(`${this.baseComment}reply/${userId}/${commentId}`, reply);
+  }
+  getReplies(commentId: any): Observable<any> {
+    return this.http.get(`${this.baseComment}replies/${commentId}`);
+  }
   sendComment(userId : any ,postId:any, body : any){
     return this.http.post(this.baseComment+userId+'/'+postId,body)
   }
-  handelRating(courseId:any,rating :any){
-    return this.http.put(this.baseUrl+courseId+'/'+rating, '');
+  deleteComment(commentId : any ){
+    return this.http.delete(`${this.baseUrl}comment/${commentId}`)
+  }
+  editComment(commentId: any, updatedCommentText: string) {
+    return this.http.put(`${this.baseUrl}/editcomment/${commentId}`, { updatedCommentText });
+  }
+  updateLikeCount(commentId: string, isLiked: boolean): Observable<any> {
+    return this.http.post(`${this.baseComment}like/${commentId}`, { isLiked : isLiked });
+  }
+  AddReply(commentId: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/reply/${commentId}`, {});
+  }
+  handelRating(postId:any,courseId:any,rating :any){
+    return this.http.put(this.baseUrl+courseId+'/'+ postId +'/'+rating, '');
   }
   handelComment(userId:number,postId : number,content:any){
     return this.http.post(`${this.baseUrl}+ ${userId}+'/'+${postId}`, content)
@@ -72,6 +102,12 @@ return this.http.put(`${this.userApi}level/${userId}/${level}`,{})
   searchClass(className: string): Observable<any> {
     return this.http.get(`${this.classApi}search`, { params: { className } });
   }
+  searchCourse(keyword: any): Observable<any>{
+    return this.http.get(`${this.course}search-courses`, { params: { keyword } });
+  }
+  searchUserCourse(userId:any,keyword: any): Observable<any>{
+    return this.http.get(`${this.course}${userId}/search-usercourses`, { params: { keyword } });
+  }
   requestJoin(userId: any, classId:any): Observable<any>{
     return this.http.post(`${this.classApi}requestEnrollment/${classId}/${userId}`,{})
   }
@@ -89,11 +125,19 @@ getEnrroledClasses(classId: any): Observable<any>{
 getCourseInClass (classId: any): Observable<any>{
   return this.http.get(`${this.classApi}coursesInClass/${classId}`)
 }
+getTeacherInfo(classId: any): Observable<any>{
+  return this.http.get(`${this.classApi}teacherId/${classId}`)
+}
 addCourseInClass(classId: any,courseId : any): Observable<any>{
   return this.http.post(`${this.classApi}${classId}/addCourse/${courseId}`,{})
 }
 getInfoClass ( classId: any ): Observable<any>{
   return this.http.get(`${this.classApi}classDetails/${classId}`)
 }
+removeCourse(classId: any,courseId:any): Observable<any>{
+  return this.http.delete(`${this.classApi}${classId}/removeCourse/${courseId}`)
+}
+
+
 }
 

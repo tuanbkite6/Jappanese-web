@@ -2,7 +2,6 @@
   href="https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap"
   rel="stylesheet"
 />
-<nz-content>
   <div class="task-manager">
     <div class="left-bar">
       <div class="container">
@@ -21,56 +20,58 @@
         </div>
       </div>
     </div>
-    <nz-breadcrumb>
-      <nz-breadcrumb-item>
-        <span nz-icon nzType="home"></span>
-      </nz-breadcrumb-item>
-      <nz-breadcrumb-item>
-        <a>
-          <span nz-icon nzType="user"></span>
-          <span style="font-size: 20px">Quản lý học liệu </span>
-        </a>
-      </nz-breadcrumb-item>
-    </nz-breadcrumb>
     <div class="page-content">
-      <div class="header">Học liệu người dùng</div>
+      <nz-breadcrumb>
+        <nz-breadcrumb-item>
+          <span nz-icon nzType="home"></span>
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item>
+          <a>
+            <span nz-icon nzType="user"></span>
+            <span style="font-size: 20px">Quản lý học liệu </span>
+          </a>
+        </nz-breadcrumb-item>
+      </nz-breadcrumb>
+      <!-- <div class="header">Học liệu người dùng</div> -->
       <div class="content-categories">
         <!-- <div class="label-wrapper">
         <input class="nav-item" name="nav" type="radio" id="opt-1">
         <label class="category" for="opt-1">All</label>
       </div> -->
-
         <div class="buttons">
-          <button
-            (click)="setActive('user')"
-            [ngClass]="{ active: activeButton === 'user' }"
-            class="button all"
-          >
-            Học liệu của bạn
-          </button>
-          <button
-            (click)="setActive('learning')"
-            [ngClass]="{ active: activeButton === 'learning' }"
-            class="button white"
-          >
-            Học liệu đang học
-          </button>
-          <button
-            (click)="setActive('other')"
-            [ngClass]="{ active: activeButton === 'other' }"
-            class="button grey"
-          >
-            Học liệu người dùng
-          </button>
-          <button
-          (click)="setActive('wordNote')"
-          [ngClass]="{ active: activeButton === 'wordNote' }"
-          class="button grey"
+          <nz-select
+          nz-width="200px"
+          nzShowSearch
+          nzAllowClear
+          nzPlaceHolder="Lọc từ"
+          [(ngModel)]="selectedValue"
+          (ngModelChange)="setActive()"
         >
-          Học liệu đã lưu
-        </button>
+          <nz-option nzLabel="Học liệu của tôi" nzValue="user" ></nz-option>
+          <nz-option nzLabel="Học liệu đang học" nzValue="learning"  ></nz-option>
+          <nz-option nzLabel="Học liệu người dùng" nzValue="other" ></nz-option>
+          <nz-option nzLabel="Học liệu đã lưu" nzValue="wordNote" ></nz-option>
+
+        </nz-select>
+          <div
+            class="search-input"
+            style="width: 500px; margin-bottom: 20px; padding-left: 5px"
+          >
+            <nz-input-group
+              nzSearch
+              [nzAddOnAfter]="suffixIconButton"
+              (input)="searchHandle($event)"
+            >
+              <input type="text" nz-input placeholder="Tìm kiếm" />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+              <button nz-button nzType="primary" nzSearch>
+                <span nz-icon nzType="search" (click)="searchClick()"></span>
+              </button>
+            </ng-template>
+          </div>
         </div>
-        
+
         <div class="icon-add">
           <i class="fa-solid fa-circle-plus" (click)="open()"></i>
         </div>
@@ -99,48 +100,52 @@
             </button>
           </ng-template>
         </nz-empty>
-        <div *ngFor="let wordBookDetail of allWordBook">
-          <div
-            *ngIf="wordBookDetail.length !== 0"
-            class="task-box yellow"
-            (click)="goToDetailWord(this.userId, wordBookDetail.courseId)"
-          >
-            <div class="description-task">
-              <div class="task-name">{{ wordBookDetail.courseName }}</div>
-              <div class="task-name-category">
-                Loại: {{ wordBookDetail.category }}
-              </div>
-              <div class="task-name-category">
-                Tác giả: {{ wordBookDetail.courseName }}
-              </div>
-            </div>
+        <div *ngFor="let group of groupedCourses">
+          <h2 *ngIf="group.courses.length > 0" class="divider">{{ group.title }}</h2>
+        <div>
+          <div  *ngFor="let wordBookDetail of group.courses">
             <div
-              class="more-button"
-              (click)="
-                noteCourse(
-                  wordBookDetail.courseId,
-                  wordBookDetail.courseNote === 0 ? 1 : 0,
-                  $event
-                )
-              "
+              *ngIf="wordBookDetail.length !== 0"
+              class="task-box yellow"
+              (click)="goToDetailWord(this.userId, wordBookDetail.courseId)"
             >
-              <i
-                class="fa-solid fa-bookmark"
-                [ngClass]="{ active: wordBookDetail.courseNote == 1 }"
-              ></i>
-            </div>
-            <div class="members">
-              {{ wordBookDetail.name }}
-              <img src="{{ wordBookDetail.creatorImgUrl }}" alt="member" />
-              <div class="course-">
-                Số từ: {{ wordBookDetail.totalWord}}
+              <div class="description-task">
+                <div class="task-name">{{ wordBookDetail.courseName }}</div>
+                <div class="task-name-category">
+                  Loại: {{ wordBookDetail.category }}
+                </div>
+                <div class="task-name-category">
+                  Tác giả: {{ wordBookDetail.creatorName }}
+                </div>
               </div>
-              <div class="time">
-                Được tạo : {{ wordBookDetail.createdAt | date : "dd/MM/yyyy" }}
+              <div
+                class="more-button"
+                (click)="
+                  noteCourse(
+                    wordBookDetail.courseId,
+                    wordBookDetail.courseNote === 0 ? 1 : 0,
+                    $event
+                  )
+                "
+              >
+                <i
+                  class="fa-solid fa-bookmark"
+                  [ngClass]="{ active: wordBookDetail.courseNote == 1 }"
+                ></i>
+              </div>
+              <div class="members">
+                {{ wordBookDetail.name }}
+                <img src="{{ wordBookDetail.creatorImgUrl }}" alt="member" />
+                <div class="course-">Số từ: {{ wordBookDetail.totalWord }}</div>
+                <div class="time">
+                  Được tạo :
+                  {{ wordBookDetail.createdAt | date : "dd/MM/yyyy" }}
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
         <nz-drawer
           [nzClosable]="false"
           [nzVisible]="visible"
@@ -210,18 +215,16 @@
             </form>
             <div class="submit-button-container">
               <button
-            class = "submit-button"
-              type="submit"
-              [disabled]="!courseForm.valid"
-              (click)="onClickSubmit()"
-            >
-              Lưu khóa học
-            </button>
+                class="submit-button"
+                type="submit"
+                [disabled]="!courseForm.valid"
+                (click)="onClickSubmit()"
+              >
+                Lưu khóa học
+              </button>
             </div>
-            
           </ng-container>
         </nz-drawer>
       </div>
     </div>
   </div>
-</nz-content>

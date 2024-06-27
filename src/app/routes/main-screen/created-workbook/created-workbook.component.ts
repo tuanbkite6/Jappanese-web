@@ -8,6 +8,8 @@ import { WordbookManagementService } from 'src/app/services/wordbook-management/
 import { staticPath } from 'src/app/utils/staticPath';
 import { AuthService } from '../../Authorize/serviceAuthorize/auth.service';
 import { constant } from 'src/app/utils/constant';
+import { CommunityComponent } from '../community/community.component';
+import { CommunityManagementService } from 'src/app/services/community/community-management.service';
 
 interface Course {
   courseName: string;
@@ -43,10 +45,11 @@ export class CreatedWorkbookComponent implements OnInit {
     'Chủ đề nâng cao',
     'Ngôn ngữ cho mục đích cụ thể'
   ];
-
+  groupedCourses :any[] = [];
   isVisible = false;
   activeButton: string = '';
   visible = false;
+  selectedValue: any;
   public courseForm = new FormGroup({
     category: new FormControl([[]]),
     level: new FormControl(''),
@@ -56,22 +59,25 @@ export class CreatedWorkbookComponent implements OnInit {
   Level: any = '';
   Category: any;
   courseLength: any;
+  searchInput: any;
   constructor(
     private router: Router,
     private authService: AuthService,
     private wordbookService: WordbookManagementService,
     private wordService: WordManagementService,
     private message: NzMessageService,
-    private toast: NgToastService
+    private toast: NgToastService,
+    private http : CommunityManagementService
   ) {}
 
   async ngOnInit(): Promise<void> {
     await this.getUserId();
     if (this.userId) {
       this.getUserInfo(this.userId);
+      this.fetchData().then(()=>{
+        this.groupCourses()
+      });
     }
-    this.fetchData();
-  
   }
 
   open(): void {
@@ -82,10 +88,9 @@ export class CreatedWorkbookComponent implements OnInit {
     this.visible = false;
   }
 
-  setActive(buttonType: string) {
-    this.activeButton = buttonType;
+  setActive() {
 
-    switch (buttonType) {
+    switch (this.selectedValue) {
       case 'user':
         this.getAllWordBookCreatedByUser();
         break;
@@ -103,13 +108,13 @@ export class CreatedWorkbookComponent implements OnInit {
 
   async fetchData() {
     await this.getAllWordBook(this.userId);
+    this.groupCourses()
   }
 
   async getAllWordBook(id: any) {
     try {
       const response = await this.wordbookService.getAllCourseByUserId(id).toPromise();
       this.allWordBook = response;
-      console.log('coursedata',this.allWordBook)
     } catch (error) {
       this.allWordBook = [];
       this.toast.warning({
@@ -119,11 +124,48 @@ export class CreatedWorkbookComponent implements OnInit {
       });
     }
   }
-
+  searchHandle(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.searchInput = input.value;
+    // this.router.navigate(['home/search/all-search']);
+  }
+  searchClick(){
+    this.http.searchUserCourse(this.userId,this.searchInput).subscribe(
+      data => {
+        this.allWordBook = data;
+        this.groupCourses()
+      },
+      error => {
+        console.error('Error searching posts:', error);
+      }
+    );
+  }
+  groupCourses() {
+    const now = new Date();
+    const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+    const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const oneMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+  
+    const recentCourses = this.allWordBook.filter((res: any) => new Date(res.learnedAt) >= oneDayAgo);
+    const lastWeekCourses = this.allWordBook.filter((res: any) => new Date(res.learnedAt) < oneDayAgo && new Date(res.learnedAt) >= oneWeekAgo);
+    const thisMonthCourses = this.allWordBook.filter((res: any) => new Date(res.learnedAt) < oneWeekAgo && new Date(res.learnedAt) >= oneMonthAgo);
+    const olderCourses = this.allWordBook.filter((res: any) => new Date(res.learnedAt) < oneMonthAgo);
+  
+    this.groupedCourses = [
+      { title: 'Hôm nay', courses: recentCourses.sort((a:any, b:any) => new Date(b.learnedAt).getTime() - new Date(a.learnedAt).getTime()) },
+      { title: 'Tuần trước', courses: lastWeekCourses.sort((a:any, b:any) => new Date(b.learnedAt).getTime() - new Date(a.learnedAt).getTime()) },
+      { title: 'Tháng này', courses: thisMonthCourses.sort((a:any, b:any) => new Date(b.learnedAt).getTime() - new Date(a.learnedAt).getTime()) },
+      { title: 'Cũ hơn', courses: olderCourses.sort((a:any, b:any) => new Date(b.learnedAt).getTime() - new Date(a.learnedAt).getTime()) }
+    ];
+  
+    console.log(this.groupedCourses); // For debugging purposes
+  }
+  
   async getAllWordBookCreatedByUser() {
     try {
       const response = await this.wordbookService.getCourseCreatedByUserId(this.userId).toPromise();
       this.allWordBook = response;
+      this.groupCourses()
     } catch (error) {
       this.allWordBook = [];
       this.toast.warning({
@@ -151,6 +193,8 @@ export class CreatedWorkbookComponent implements OnInit {
     try {
       const response = await this.wordbookService.getAllCourseByOtherUserId(this.userId).toPromise();
       this.allWordBook = response;
+      this.groupCourses()
+
     } catch (error) {
       this.allWordBook = [];
       this.toast.warning({
@@ -164,6 +208,8 @@ export class CreatedWorkbookComponent implements OnInit {
   try {
     const response = await this.wordbookService.getNoteCourse(this.userId).toPromise();
     this.allWordBook = response;
+    this.groupCourses()
+
   } catch (error) {
     this.allWordBook = [];
     this.toast.warning({
@@ -234,16 +280,19 @@ export class CreatedWorkbookComponent implements OnInit {
   }
   
   async goToDetailWord(userId: any, id: any): Promise<void> {
-    await this.getCourseById(id);
+    await this.getCourseById(id).then(()=>{
+
+   
     console.log('Course', this.courseLength )
     if (  this.courseLength > 0) {
       this.router.navigate([`/${staticPath.COURSE}`, { id }]);
       this.wordbookService.setCurrentWordBook(id);
-      await this.wordbookService.updateLearnTimeCourse(userId, id).toPromise();
+       this.wordbookService.updateLearnTimeCourse(userId, id).toPromise();
     } else {
       this.router.navigate([`/${staticPath.EDIT}`]);
       this.wordbookService.setCurrentWordBook(id);
     }
+  })
   }
 
   async deleteCourse(wordBook: any) {
@@ -265,6 +314,7 @@ async noteCourse(courseId: string, wordNote:any, event: Event){
     const response = await this.wordbookService.noteCourse(this.userId, courseId,wordNote).toPromise();
     // Assuming the response contains the updated data
     this.fetchData(); // Refresh data after note update
+    
   } catch (error) {
     this.toast.warning({
       detail: 'Warning',

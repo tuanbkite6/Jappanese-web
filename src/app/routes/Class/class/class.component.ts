@@ -26,12 +26,14 @@ constructor( private router: Router,
   currentClass : any ;
   isRole : any = true ;
   courseData : any ;
+  teacherId : any;
   async ngOnInit(): Promise<void> {
   await this.getUserId();
   if (this.userId) {
     // this.getUserInfo(this.userId);
+    this.fetchData();
+    this.getTeacherId();
   }
-  this.fetchData();
 }
   handleIndexChange(e: any): void {
     this.router.navigate(['/class   ', e]);
@@ -46,21 +48,47 @@ constructor( private router: Router,
     }
     this.http.getCourseInClass(this.currentClass).subscribe(
       (response) => {
-       this.courseData = response
-        console.log('listReques', this.courseData)
+       this.courseData = response;
       },
       (error) => {
     this.courseData = ''
 
       })
       }
-      checkUserRole(creatorInfo: any) {
-        if (this.userId == creatorInfo) {
-          this.isRole = true;
-        } else {
-          this.isRole = false;
-        }
+
+      getTeacherId() {
+        try{
+          this.http.getTeacherInfo(this.currentClass).subscribe(
+            (response) => {
+             this.teacherId = response.teacherId
+              console.log('teacher', this.teacherId)
+              if (this.userId == this.teacherId) {
+                this.isRole = true;
+              } else {
+                this.isRole = false;
+              }
+              console.log(this.isRole)
+            },
+            (error) => {
+          this.courseData = ''
+        })
+      }catch(error) {
+        
       }
+      }
+      
+      // getClassInfo(){
+      //   this.http.getClassInfo(this.currentClass).subscribe(
+      //     (response) => {
+      //      this.courseData = response
+      //       console.log('listReques', this.courseData)
+      //     },
+      //     (error) => {
+      //   this.courseData = ''
+
+      //     })
+    
+      // }
       async getUserId() {
         try {
           const userId = await this.auth.getUserIdFromToken();

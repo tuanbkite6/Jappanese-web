@@ -1,6 +1,7 @@
 .word-detail-container {
     display: flex;
     align-content: center;
+    margin-left: 120px;
 }
 body {
     font-family: 'lato', sans-serif;

@@ -17,6 +17,8 @@ import {
 import { Router } from '@angular/router';
 import { staticPath } from 'src/app/utils/staticPath';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { LearnService } from 'src/app/services/Learn/learn.service';
+import { CommunityManagementService } from 'src/app/services/community/community-management.service';
 @Component({
   selector: 'app-course-dashboard',
   templateUrl: './course-dashboard.component.html',
@@ -44,16 +46,20 @@ isRanking : any =false;
   currentWord: any;
   selectedValue: any;
   userId: any;
+  classList : any[] = [];
+  isClass: any = false
   showCongratulation = false;
   constructor(
     private router: Router,
     private fb: FormBuilder,
+    private learn : LearnService,
     private wordbookService: WordbookManagementService,
     private message: NzMessageService,
     private http: WordManagementService,
     private toast: NgToastService,
     private authService: AuthService,
     private eRef: ElementRef,
+    private community : CommunityManagementService,
     private modal: NzModalService
   ) {
     this.editWordForm = this.fb.group({
@@ -86,6 +92,7 @@ isRanking : any =false;
           .toPromise();
         this.currentData = response;
         this.wordListData = response;
+        console.log(response)
       } catch (error) {
         this.toast.warning({
           detail: 'Warning',
@@ -162,6 +169,15 @@ isRanking : any =false;
   handleCancel(): void {
     console.log('Button cancel clicked!');
     this.isVisible = false;
+  }
+  handleOkClass(): void {
+    console.log('Button ok clicked!');
+    this.isClass = false;
+  }
+
+  handleCancelClass(): void {
+    console.log('Button cancel clicked!');
+    this.isClass= false;
   }
 
   async getUserId() {
@@ -281,6 +297,43 @@ isRanking : any =false;
       this.rankingList = res;
       console.log('ranking',this.rankingList);
     });
+  }
+  onClickAddCourse (id:any){
+    this.community.addCourseInClass(id,this.currentWordBook).
+    subscribe(
+      (response) => {
+        this.router.navigate(['home/class'], { queryParams: { classId: id } });
+        this.toast.info({
+          detail: 'Thông tin',
+          summary: 'Đã thêm học phần ',
+          duration: 2000,
+        });
+      },
+      (error) => {
+        
+        this.toast.warning({
+          detail: 'Thông tin',
+          summary: 'Học phần đã có trong lớp ',
+          duration: 2000,
+        });
+      }
+   )
+  }
+  async ShowListClass(){
+    this.isClass = true 
+    try {
+      this.learn.getCreatedClasses(this.userId).subscribe(
+        (data: any) => {
+          this.classList = data;
+          console.log('data', this.classList);
+        },
+        (error) => {
+          console.error('Error fetching created classes', error);
+        }
+      );
+    } catch (err) {
+      console.error('Error in getCreatedClassData method', err);
+    }
   }
   playSpeech(word: string) {
     this.wordbookService.speechAPi(word).subscribe((response: Blob) => {

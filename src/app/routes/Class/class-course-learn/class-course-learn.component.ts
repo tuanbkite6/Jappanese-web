@@ -8,13 +8,12 @@ import { WordManagementService } from 'src/app/services/word-management/word-man
 import { WordbookManagementService } from 'src/app/services/wordbook-management/wordbook-management.service';
 import { constant } from 'src/app/utils/constant';
 import { AuthService } from '../../Authorize/serviceAuthorize/auth.service';
-
 @Component({
-  selector: 'app-word-list',
-  templateUrl: './word-list.component.html',
-  styleUrls: ['./word-list.component.css'],
+  selector: 'app-class-course-learn',
+  templateUrl: './class-course-learn.component.html',
+  styleUrls: ['./class-course-learn.component.css']
 })
-export class WordListComponent implements OnInit {
+export class ClassCourseLearnComponent {
   currentWordBook: any;
   cachedWordBook: any;
   isVisible = false;
@@ -91,7 +90,7 @@ export class WordListComponent implements OnInit {
       console.log(this.currentWordBook);
       try {
         const response = await this.wordbookService
-          .getWordbookById(this.userId,this.currentWordBook)
+          .getWordById(this.currentWordBook)
           .toPromise();
         this.currentData = response;
       } catch (error) {

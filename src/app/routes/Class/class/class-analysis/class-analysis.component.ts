@@ -69,6 +69,7 @@ export class ClassAnalysisComponent {
                 });
               },
               (error) => {
+                this.listRequest = ''
                 this.toast.error({
                   detail: 'Lỗi',
                   summary: 'Approve thất bại',
