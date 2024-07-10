@@ -1,0 +1,48 @@
+<button nz-button (click)="addRow()" nzType="primary">Thêm từ mới</button>
+    <br />
+    <br />
+    <nz-table #editRowTable nzBordered [nzData]="listOfData">
+      <thead>
+        <tr>
+          <th nzWidth="30%">Kanji</th>
+          <th>Hiragana</th>
+          <th>Nghĩa</th>
+          <th>Ví dụ</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let term of terms; let i = index" class="editable-row">
+          <td>
+            <div class="editable-cell" [hidden]="editId === term.wordId" (click)="startEdit(term.wordId)">
+              {{ term.wordKanji }}
+            </div>
+            <input [hidden]="editId !== term.wordId" type="text" nz-input [(ngModel)]="term.wordKanji" />
+          </td>
+          <td>
+            <div class="editable-cell" [hidden]="editId === term.wordId" (click)="startEdit(term.wordId)">
+              {{ term.wordHiragana }}
+            </div>
+            <input [hidden]="editId !== term.wordId" type="text" nz-input [(ngModel)]="term.wordHiragana" />
+          </td>
+          <td>
+            <div class="editable-cell" [hidden]="editId === term.wordId" (click)="startEdit(term.wordId)">
+              {{ term.wordMean }}
+            </div>
+            <input [hidden]="editId !== term.wordId" type="text" nz-input [(ngModel)]="term.wordMean" />
+          </td>
+          <td>
+            <div class="editable-cell" [hidden]="editId === term.wordId" (click)="startEdit(term.wordId)">
+              {{ term.Example }}
+            </div>
+            <input [hidden]="editId !== term.wordId" type="text" nz-input [(ngModel)]="term.Example" />
+          </td>
+          <td>
+            <a nz-popconfirm nzPopconfirmTitle="Bạn có chắc muốn xóa không?" (nzOnConfirm)="deleteRow(term.wordId)">Xóa</a>
+            <a style="padding-left: 20px;" (click)="saveRow(term, i)">Lưu</a>
+          </td>
+        </tr>
+      </tbody>
+      
+      
+    </nz-table>

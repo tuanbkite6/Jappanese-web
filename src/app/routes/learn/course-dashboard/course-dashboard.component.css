@@ -16,6 +16,24 @@
   --c-text-secondary: var(--c-gray-200);
   --c-text-tertiary: var(--c-gray-500);
 }
+.submit-button-container {
+  width: 100%;
+display: flex;
+justify-content: flex-end;
+}
+.submit-button{
+border-radius: 5px;
+padding: 10px 20px;
+font-size: 18px;
+font-weight: 500;
+margin-top: 20px;
+color: #fff;
+background-color: #237cdb;
+
+}
+.submit-button:hover {
+  background-color: #06f;
+}
 .add-course{
   display: flex;
   width: 100%;
@@ -256,6 +274,7 @@ nz-option {
 
 .right-section {
   display: flex;
+  position: relative;
   flex-direction: column;
   gap: 10px;
   padding: 15px;
@@ -267,9 +286,7 @@ nz-option {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  position: absolute;
-  top: 1242px;
-    right: 336px;
+
 }
 
 .active {
@@ -1960,4 +1977,58 @@ body {
 }
 .gridView .cell-label {
   opacity: 0.6;
+}
+.course-editor {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+
+  img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+  }
+}
+
+
+.bottom-border-input {
+  border: none;
+  border-bottom: 2px solid #000; /* Change color and width as needed */
+  padding: 8px 0; /* Optional: Adds some padding to the top and bottom */
+  outline: none; /* Optional: Removes the default outline when the input is focused */
+}
+
+.bottom-border-input:focus {
+  border-bottom-color: #007BFF; /* Change color on focus if needed */
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }

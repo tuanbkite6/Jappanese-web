@@ -18,6 +18,9 @@ import { staticPath } from 'src/app/utils/staticPath';
   styleUrls: ['./edit-course.component.css'],
 })
 export class EditCourseComponent implements OnInit {
+  optionsKanji: string[] = [];
+  optionHiragana: string[] = [];
+  optionMean: string[] = [];
   listOfOption: string[] = [
     'Từ vựng cơ bản',
     'Ngữ pháp',
@@ -41,6 +44,7 @@ export class EditCourseComponent implements OnInit {
   currentWordBook: any;
   creatorInfo: any;
   currentData: any;
+  listWordSystem : any;
   initialTerms: any[] = [];
   levelCourse: any;
   imageUrl: any;
@@ -75,16 +79,20 @@ export class EditCourseComponent implements OnInit {
       this.getUserInfo();
       this.getCourseInfo(this.userId);
     }
+    this.getListWordSystem()
   }
 
   get terms(): FormArray {
     return this.courseForm.get('terms') as FormArray;
   }
+getListWordSystem(){
+  this.wordbookService.getWordsByType(1).subscribe(data => {
+    this.listWordSystem = data;
+  });
+  }
 
   addTerm(): void {
     let allTermsValid = true;
-    
-    // Check all current terms for completeness
     for (let i = 0; i < this.terms.length; i++) {
         const term = this.terms.at(i).value;
         if (!term.Kanji || !term.Hiragana || !term.Mean) {
@@ -97,17 +105,14 @@ export class EditCourseComponent implements OnInit {
             break;
         }
     }
-
     if (this.terms.length >= 1 && this.terms.length > this.initialTerms.length) {
         if ( allTermsValid) {
-            // Save the last term and create a new one
             const lastTerm = this.terms.at(this.terms.length - 1).value;
             this.saveTerm(lastTerm, this.terms.length - 1).then(() => {
                 this.createNewTerm();
             });
         } 
     } else {
-        // If there are no terms, just create a new term input
         this.createNewTerm();
     }
   }
@@ -124,34 +129,39 @@ export class EditCourseComponent implements OnInit {
     this.terms.push(wordGroup);
     this.termImageUrl.push('');
   }
-  async saveTerm(term: any, index: number) {
-    const formData = new FormData();
-    formData.append('WordHiragana', term.Hiragana);
-    formData.append('WordKanji', term.Kanji);
-    formData.append('WordMean', term.Mean);
-    formData.append('Example', term.Example);
-    if (this.file) {
-      formData.append('ImageFile', this.file);
-    }
-    console.log(formData);
-   await this.http.createWord(this.currentWordBook, formData).subscribe(
-      (response) => {
-        this.toast.success({
-          detail: 'Success',
-          summary: 'Từ vựng đã được lưu',
-          duration: 5000,
-        });
-        this.loadData()
-      },
-      (error) => {
-        this.toast.warning({
-          detail: 'Warning',
-          summary: 'Hãy thêm Kanji,Hiragana,định nghĩa để lưu',
-          duration: 5000,
-        });
-      }
-    );
-  }
+  async saveTerm(term: any, index: number): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+        const formData = new FormData();
+        formData.append('WordHiragana', term.Hiragana);
+        formData.append('WordKanji', term.Kanji);
+        formData.append('WordMean', term.Mean);
+        formData.append('Example', term.Example);
+        if (this.file) {
+            formData.append('ImageFile', this.file);
+        }
+        console.log(formData);
+        this.http.createWord(this.currentWordBook, formData).subscribe(
+            (response) => {
+                this.toast.success({
+                    detail: 'Success',
+                    summary: 'Từ vựng đã được lưu',
+                    duration: 5000,
+                });
+                this.loadData();
+                resolve();
+            },
+            (error) => {
+                this.toast.warning({
+                    detail: 'Warning',
+                    summary: 'Hãy thêm Kanji,Hiragana,định nghĩa để lưu',
+                    duration: 5000,
+                });
+                reject(error);
+            }
+        );
+    });
+}
+
   deleteTerm(index: number): void {
     this.terms.removeAt(index);
   }
@@ -174,26 +184,30 @@ export class EditCourseComponent implements OnInit {
     const fileInput = <HTMLInputElement>document.getElementById('file');
     fileInput.value = '';
   }
-  saveCourse(): void {
-    
-        const lastTerm = this.terms.at(this.terms.length-1).value;
-        if (!lastTerm.Kanji || !lastTerm.Hiragana || !lastTerm.Mean) {
-          this.toast.warning({
-              detail: 'Warning',
-              summary: 'Vui lòng hoàn thành tất cả từ vựng hiện tại trước khi thêm từ mới.',
-              duration: 5000,
-          });
-          return;
-      }
-        
-        this.saveTerm(lastTerm, this.terms.length-1).then(() => {
-          setTimeout(() =>{
-            this.router.navigate([`/${staticPath.COURSE}`, {id:this.currentWordBook}]);
-          },1000)
-         
+  async saveCourse() {
+    const lastTerm = this.terms.at(this.terms.length - 1).value;
+    if (!lastTerm.Kanji || !lastTerm.Hiragana || !lastTerm.Mean) {
+        this.toast.warning({
+            detail: 'Warning',
+            summary: 'Vui lòng hoàn thành tất cả từ vựng hiện tại trước khi thêm từ mới.',
+            duration: 5000,
         });
-      
-   if (this.courseForm.valid) {
+        return;
+    }
+
+    if (this.terms.length > this.initialTerms.length) {
+        try {
+            await this.saveTerm(lastTerm, this.terms.length - 1);
+            setTimeout(() => {
+                this.router.navigate([`/${staticPath.COURSE}`, { id: this.currentWordBook }]);
+            }, 3000);
+        } catch (error) {
+            console.error("Failed to save term:", error);
+            return; // Exit the function if saving the term fails
+        }
+    }
+
+    if (this.courseForm.valid) {
         const courseData = {
             courseName: this.courseForm.value.courseName,
             level: this.courseForm.value.level,
@@ -205,7 +219,7 @@ export class EditCourseComponent implements OnInit {
                     const term = this.terms.at(i).value;
                     await this.updateWord(term, i);
                 }
-                this.router.navigate([`/${staticPath.COURSE}`, {id:this.currentWordBook}]);
+                this.router.navigate([`/${staticPath.COURSE}`, { id: this.currentWordBook }]);
                 this.toast.success({
                     detail: 'Success',
                     summary: 'Đã chỉnh sửa học phần',
@@ -220,15 +234,8 @@ export class EditCourseComponent implements OnInit {
                 });
             }
         );
-    } else {
-      this.toast.error({
-        detail: 'Lỗi',
-        summary: 'Có những chữ chưa được nhập',
-        duration: 5000,
-    });
     }
 }
-  
 
   onFocusOut(event: FocusEvent, index: number): void {
     const currentTarget = event.currentTarget as HTMLElement;
@@ -454,6 +461,7 @@ async loadData(){
       }
     }
   }
+
   getUpdatedTerms(): any[] {
     return this.courseForm.value.terms.filter((term: any, index: number) => {
       if (!this.initialTerms[index]) {
@@ -469,4 +477,10 @@ async loadData(){
       );
     });
   }
+  inputValue : any;
+  onInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.optionsKanji = value ? [value, value + value, value + value + value] : [];
+  }
+
 }

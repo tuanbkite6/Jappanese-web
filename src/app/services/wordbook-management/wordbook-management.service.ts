@@ -2,6 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, retry } from 'rxjs';
 import { constant } from 'src/app/utils/constant';
+export interface WordDto {
+  wordMean: string;
+  wordHiragana: string;
+  wordKanji: string;
+  example: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +28,14 @@ export class WordbookManagementService {
   getAllCourse(){
     return this.http.get(this.baseUrl)
   }
-getAllWord(){
-  return this.http.get(this.wordUrl);
-}
+  getWordsByType(wordType: number): Observable<any> {
+    const url = `${this.wordUrl}${wordType}`;
+    return this.http.get(url);
+  }
+  createWordSystem(newWord: any): Observable<any> {
+    const url = 'http://localhost:43268/api/word';
+    return this.http.post(url, newWord);
+  }
   getAllWordbook() {
     return this.http.get(this.baseUrl);
   }
@@ -54,6 +65,13 @@ getCourseByStatus(userId: any,status:any): Observable<any>{
     return this.http.post(`${this.baseUrl}${id}`,data);
   
   }
+  copyWordBook(userId: any, existingCourseId: any, data: any) {
+  
+
+    return this.http.post(`${this.baseUrl}copy/${userId}/${existingCourseId}`, data);
+
+}
+
   deleteWordBook(id:any):Observable<any>{
   return this.http.delete(`${this.baseUrl}${id}`);
 
@@ -91,6 +109,9 @@ getCourseByStatus(userId: any,status:any): Observable<any>{
   }
   deleteWord(courseId:any,wordId: string): Observable<any> {
     return this.http.delete(`${this.wordUrl}${courseId}/deleteWord/${wordId}`);
+  }
+  deleteWordById(wordId: string): Observable<any> {
+    return this.http.delete(`${this.wordUrl}${wordId}`);
   }
   updateLearnTimeCourse(userId: string, wordId: string){
     return this.http.put(`${this.baseUrl}learnedAt/${userId}/${wordId}`,{})

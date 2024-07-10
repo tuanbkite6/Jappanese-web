@@ -32,7 +32,7 @@ export class TokenInterceptor implements HttpInterceptor {
           } else if (err.status === 403) {
             this.toast.error({ detail: "Forbidden", summary: "Từ chối truy cập" });
           } else if (err.status === 404) {
-            this.toast.error({ detail: "Not Found", summary: "Không tìm thấy nguồn" });
+            // this.toast.error({ detail: "Not Found", summary: "Không tìm thấy nguồn" });
           } else {
             // this.toast.error({ detail: "Server Error", summary: "Server xảy ra lỗi" });
           }

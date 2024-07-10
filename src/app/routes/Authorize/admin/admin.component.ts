@@ -9,12 +9,7 @@ import { WordbookManagementService } from 'src/app/services/wordbook-management/
 export class AdminComponent implements OnInit {
   listWord : any ;
 ngOnInit(): void {
-  this.fetchData()
 }
 constructor(private hrrp : WordbookManagementService){}
-fetchData (){
-this.hrrp.getAllWord().subscribe(res => {
-  this.listWord = res
-})
-}
+
 }

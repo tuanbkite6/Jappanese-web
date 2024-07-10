@@ -38,12 +38,14 @@ isRanking : any =false;
   isEdit = false;
   editWordId: any;
   isVisible = false;
+  visibleCopy:any = false;
   settingVisible = false;
   currentData: any;
   wordListData: any;
   isRole: any;
   editWordForm: any;
   currentWord: any;
+  newCourseName : any ;
   selectedValue: any;
   userId: any;
   classList : any[] = [];
@@ -258,7 +260,47 @@ isRanking : any =false;
         }
       );
   }
-
+  open(): void {
+    this.visibleCopy = true;
+  }
+  close(): void {
+    this.visibleCopy = false;
+  }
+  async onClickSubmit() {
+    try {
+      this.wordbookService.copyWordBook(this.userId, this.currentWordBook, { Name: this.newCourseName })
+        .subscribe(
+          (response: any) => {
+            const newCourseId = response.courseId;
+            
+            this.message.loading('Khóa học đang được sao chép');
+            this.visibleCopy = false;
+            this.wordbookService.setCurrentWordBook(newCourseId);
+            this.newCourseName = '';
+            this.toast.success({
+              detail: 'Success',
+              summary: 'Đã sao chép thành công',
+              duration: 5000,
+            });
+            window.location.href = `/${staticPath.COURSE}`,{id:newCourseId};
+          },
+          (error) => {
+            this.toast.warning({
+              detail: 'Warning',
+              summary: 'Hãy nhập tên tài liệu',
+              duration: 5000,
+            });
+          }
+        );
+    } catch (error) {
+      this.toast.warning({
+        detail: 'Warning',
+        summary: 'Hãy nhập tên tài liệu',
+        duration: 5000,
+      });
+    }
+  }
+  
   getFilteredWords() {
     let wordNote: any;
     let learnedStatus1: any;

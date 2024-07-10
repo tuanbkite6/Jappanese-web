@@ -38,26 +38,28 @@ export class AdminUserComponent implements OnInit {
     this.isEdit = this.isEdit === idUser ? null : idUser;
   }
 
-  async deleteUser(userId: any) {
+  deleteUser(userId: any) {
     if (confirm('Bạn có chắc muốn xóa người dùng này không?')) {
-      await this.word.deleteUser(userId).toPromise();
-      try {
-        await this.word.deleteUser(userId).toPromise();
-                this.toast.info({
-          detail: 'Info',
-          summary: 'Đã xóa người dùng này',
-          duration: 2000,
-        });
-      } catch (error) {
-      this.toast.info({
-        detail: 'Info',
-        summary: 'Chưa xóa được tài khoản',
-        duration: 2000,
+      this.word.deleteUser(userId).subscribe({
+        next: (res) => {
+          this.toast.info({
+            detail: 'Info',
+            summary: 'Đã xóa người dùng này',
+            duration: 2000,
+          });
+          this.fetchData();
+        },
+        error: (err) => {
+          this.toast.info({
+            detail: 'Info',
+            summary: 'Chưa xóa được tài khoản',
+            duration: 2000,
+          });
+        }
       });
     }
   }
-  this.fetchData();
-}
+  
 
   async putUserInfor(userId: any) {
     this.isEdit = this.isEdit === userId ? null : userId;

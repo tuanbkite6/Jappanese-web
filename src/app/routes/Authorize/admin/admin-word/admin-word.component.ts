@@ -10,11 +10,5 @@ export class AdminWordComponent {
 constructor(private http : WordbookManagementService){}
 listWord : any ;
 ngOnInit():void{
-this.fetchData()
-}
-fetchData(){
-this.http.getAllWord().subscribe(res => {
-  this.listWord = res
-})
 }
 }

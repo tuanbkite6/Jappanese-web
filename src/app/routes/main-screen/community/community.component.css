@@ -1,3 +1,69 @@
+.comment-body {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.comment-body p {
+  margin: 0;
+  flex: 1;
+}
+
+.comment-body input {
+  flex: 1;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+  transition: border-color 0.3s;
+}
+
+.comment-body input:focus {
+  border-color: #66afe9;
+  outline: none;
+}
+
+.comment-body button {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+  transition: background-color 0.3s;
+}
+
+.comment-body button:last-child {
+  margin-right: 0;
+}
+
+.comment-body button:hover {
+  background-color: #ddd;
+}
+
+.comment-body button:focus {
+  outline: none;
+}
+
+.comment-body .save-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.comment-body .cancel-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.comment-body .save-button:hover {
+  background-color: #45a049;
+}
+
+.comment-body .cancel-button:hover {
+  background-color: #e53935;
+}
+
 .community-container{
     border-radius: 5px;
     box-shadow: 0 1px 20px 0 rgb(69 90 100 / 8%);

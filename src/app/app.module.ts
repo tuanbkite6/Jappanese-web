@@ -64,6 +64,8 @@ import { ClassCourseLearnComponent } from './routes/Class/class-course-learn/cla
 import { ReviewClassComponent } from './routes/Class/class/review-class/review-class.component';
 import { MemberManagementComponent } from './routes/Class/class/member-management/member-management.component';
 import { SpeakerGameComponent } from './routes/learn/speaker-game/speaker-game.component';
+import { WordSystemComponent } from './routes/Authorize/admin/admin-word/word-system/word-system.component';
+import { WordUserComponent } from './routes/Authorize/admin/admin-word/word-user/word-user.component';
 registerLocaleData(en);
 
 @NgModule({
@@ -120,6 +122,8 @@ registerLocaleData(en);
     ReviewClassComponent,
     MemberManagementComponent,
     SpeakerGameComponent,
+    WordSystemComponent,
+    WordUserComponent,
     SurveyFormComponent
   ],
   imports: [

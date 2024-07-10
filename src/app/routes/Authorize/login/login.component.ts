@@ -57,7 +57,6 @@ export class LoginComponent {
           this.loginForm.reset();
           this.auth.storeToken(res.token);
           let tokenPayload = this.auth.decodeToken();
-          console.log(tokenPayload)
           this.userStore.setFullNameForStore(tokenPayload.sub);
           this.userStore.setRoleforStore(tokenPayload.typ);
           this.auth.storeToken(res.token); //luu token vao localstorage

@@ -49,6 +49,8 @@ import { AllSearchComponent } from './routes/main-screen/search-page/all-search/
 import { ClassCourseLearnComponent } from './routes/Class/class-course-learn/class-course-learn.component';
 import { ReviewClassComponent } from './routes/Class/class/review-class/review-class.component';
 import { SpeakerGameComponent } from './routes/learn/speaker-game/speaker-game.component';
+import { WordSystemComponent } from './routes/Authorize/admin/admin-word/word-system/word-system.component';
+import { WordUserComponent } from './routes/Authorize/admin/admin-word/word-user/word-user.component';
 // import { ClassComponent } from './routes/class/class.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
@@ -161,7 +163,12 @@ const routes: Routes = [
     },
       {path : 'admin-post',component: AdminPostComponent,canActivate: [AuthGuard]},
       {path: 'admin-course', component: AdminCourseComponent,canActivate: [AuthGuard]},
-      {path:'admin-word',component: AdminWordComponent,canActivate: [AuthGuard]}
+      {path:'admin-word',component: AdminWordComponent,canActivate: [AuthGuard],
+        children:[
+        {path: 'word-system',component: WordSystemComponent,canActivate: [AuthGuard]},
+        {path:'word-user',component: WordUserComponent,canActivate:[AuthGuard]},
+        ]
+      }
     ]
   },
   {path:'**',component:ErrorComponent},

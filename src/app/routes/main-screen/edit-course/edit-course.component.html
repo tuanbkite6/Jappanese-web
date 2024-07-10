@@ -69,28 +69,42 @@
           <div class="input-box">
             <input
               type="text"
+              nz-input
+              [nzAutocomplete]="auto"
               placeholder="Từ vựng(Kanji)"
+              (input)="onInput($event)"
               formControlName="Kanji"
               class="input-field"
             />
+            <nz-autocomplete [nzDataSource]="optionsKanji" nzBackfill #auto></nz-autocomplete>
             <span class="input-label">TỪ VỰNG ( KANJI )</span>
           </div>
           <div class="input-box">
             <input
-              type="text"
-              placeholder="Từ vựng(Hiragana)"
-              formControlName="Hiragana"
-              class="input-field"
-            />
+            type="text"
+            nz-input
+            [nzAutocomplete]="auto"
+            placeholder="Từ vựng(Hiragana)"
+            (input)="onInput($event)"
+            formControlName="Hiragana"
+            class="input-field"
+          />
+          <nz-autocomplete [nzDataSource]="optionHiragana" nzBackfill #auto></nz-autocomplete>
+            
             <span class="input-label">TỪ VỰNG ( HIRAGANA )</span>
           </div>
           <div class="input-box">
             <input
-              type="text"
-              placeholder="Định nghĩa"
-              formControlName="Mean"
-              class="input-field"
-            />
+            type="text"
+            nz-input
+            [nzAutocomplete]="auto"
+            placeholder="Định nghĩa"
+            (input)="onInput($event)"
+            formControlName="Mean"
+            class="input-field"
+          />
+          <nz-autocomplete [nzDataSource]="optionMean" nzBackfill #auto></nz-autocomplete>
+            
             <span class="input-label">ĐỊNH NGHĨA</span>
           </div>
           <div class="input-box">

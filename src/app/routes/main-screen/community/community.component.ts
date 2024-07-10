@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { HttpClient } from '@angular/common/http';
 import { AnyAsyncThunk } from '@reduxjs/toolkit/dist/matchers';
+import { NzModalService } from 'ng-zorro-antd/modal';
 interface courseCommunity {
   avatar: string;
   authorName: string;
@@ -30,15 +31,19 @@ export class CommunityComponent implements OnInit {
   userIdFromToken: any;
   @ViewChild('comment') inputComment: any;
   selectCourse: any;
-  postForm : FormGroup;
+  postForm: FormGroup;
   isIcon = true;
   showModal = false;
-  selectedCommentId :any;
+  selectedCommentId: any;
   courseId: string | null = null;
   isCourseInfo = false;
+  editReplyText:any ;
   commentData: any;
   userInfo: any;
   userId: any;
+  editCommentId: any;
+  replyCommentId: any;
+  editText: any;
   file: File | undefined;
   selectedFile: File | null = null;
   imageMin: File | null = null;
@@ -46,12 +51,13 @@ export class CommunityComponent implements OnInit {
   searchInput: any;
   listReply: any;
   hasReply: any;
+  currentPost: any;
   async ngOnInit(): Promise<void> {
     await this.getUserId();
     if (this.userId) {
       this.getUser(this.userId);
       this.fetchData();
-    this.getAllCourseById();
+      this.getAllCourseById();
     }
     this.route.paramMap.subscribe((params) => {
       this.courseId = params.get('id');
@@ -68,13 +74,13 @@ export class CommunityComponent implements OnInit {
           });
       }
     });
-    
   }
   constructor(
     private route: ActivatedRoute,
     private auth: AuthService,
     private toast: NgToastService,
     private HTTP: HttpClient,
+    private modal: NzModalService,
     private cdr: ChangeDetectorRef,
     private message: NzMessageService,
     private http: CommunityManagementService,
@@ -83,14 +89,14 @@ export class CommunityComponent implements OnInit {
   ) {
     this.postForm = new FormGroup({
       postImage: new FormControl(''),
-      postContent: new FormControl('', Validators.required), 
-      courseId: new FormControl('', Validators.required)
+      postContent: new FormControl('', Validators.required),
+      courseId: new FormControl('', Validators.required),
     });
   }
   listWord: any;
-  replyComment : any ;
-  inputReply :any ;
-  imagePost: any ;
+  replyComment: any;
+  inputReply: any;
+  imagePost: any;
   isRating: any;
   likeComment: any;
   isUpload = true;
@@ -98,7 +104,7 @@ export class CommunityComponent implements OnInit {
   hasExpand = true;
   isVisible = false;
   hasComment: any;
-  selectPostId : any ;
+  selectPostId: any;
   private badWord: string[] = [
     'dm',
     'duma',
@@ -146,14 +152,15 @@ export class CommunityComponent implements OnInit {
   CourseID: any;
   courseImport: any;
   data: any;
-  star: any ; 
+  star: any;
   rating: any;
   commentForm = new FormGroup({
     comment: new FormControl(''),
   });
+  replyToUser: string = '';
   replyForm = new FormGroup({
     replyText: new FormControl(''),
-  })
+  });
   listPost: any;
   handleOpenRating(idPost: any): any {
     this.isRating = this.isRating === idPost ? null : idPost;
@@ -161,9 +168,9 @@ export class CommunityComponent implements OnInit {
   listCourse: any;
   openModal(): any {
     this.isVisible = true;
-   this.wordbookService.getAllCourseByUserId(this.userId).subscribe((data) => {
-    this.listCourse= data;
-   })
+    this.wordbookService.getAllCourseByUserId(this.userId).subscribe((data) => {
+      this.listCourse = data;
+    });
   }
   openModalCourse(idCourse: any): any {
     this.isListWord = true;
@@ -193,9 +200,8 @@ export class CommunityComponent implements OnInit {
             this.commentForm.reset();
             this.message.info('Đã gửi bình luận');
             this.fetchComment(postId);
-            this.fetchData()
-
-            
+            this.onClickHandleCommentExpand(postId);
+            this.fetchData();
           },
           error: (err: any) => {
             this.hasComment = null;
@@ -211,7 +217,8 @@ export class CommunityComponent implements OnInit {
     }
   }
   openModalCommentSetting(commentId: number) {
-    this.selectedCommentId = this.selectedCommentId === commentId ? null : commentId;
+    this.selectedCommentId =
+      this.selectedCommentId === commentId ? null : commentId;
     this.showModal = true;
   }
 
@@ -219,41 +226,65 @@ export class CommunityComponent implements OnInit {
     this.showModal = false;
     this.selectedCommentId = null;
   }
-  updateComment(commentId: string, updatedText: string, postId: any) {
-    this.http.editComment(commentId, updatedText).subscribe(
-      response => {
-        console.log('Comment updated successfully', response);
-        this.fetchComment(postId)
-      },
-      error => {
-        console.error('Error updating comment', error);
-      }
-    );
+  deleteComment(commentId: string, postId: any) {
+    this.modal.confirm({
+      nzTitle: 'Bạn có chắc muốn xóa bình luận này không ?',
+      nzContent:
+        '<b style="color: red;">Bình luận sẽ bị xóa hoàn toàn</b>',
+      nzOkText: 'Xóa bình luận',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () =>
+        this.http.deleteComment(commentId).subscribe(
+          (response) => {
+            console.log('Comment deleted successfully', response);
+            this.editCommentId = '';
+            this.fetchComment(this.selectPostId);
+          },
+          (error) => {
+            this.fetchComment(postId);
+            console.error('Error deleting comment', error);
+          }
+        ),
+      nzCancelText: 'Hủy',
+      nzOnCancel: () => console.log('Cancel'),
+    });
   }
-  deleteComment(commentId: string,postId:any) {
-    this.http.deleteComment(commentId).subscribe(
-      response => {
-        console.log('Comment deleted successfully', response);
-      },
-      error => {
-        this.fetchComment(postId)
-        console.error('Error deleting comment', error);
-      }
-    );
+  deleteReply(replyId: string, postId: any) {
+    this.modal.confirm({
+      nzTitle: 'Bạn có chắc muốn xóa bình luận này không ?',
+      nzContent:
+        '<b style="color: red;">Bình luận sẽ bị xóa hoàn toàn</b>',
+      nzOkText: 'Xóa bình luận',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () =>
+        this.http.deleteReply(replyId).subscribe(
+          (response) => {
+            console.log('Comment deleted successfully', response);
+            this.selectedCommentId = '';
+            this.fetchComment(this.selectPostId);
+            this.getReplies(this.selectPostId)
+          },
+          (error) => {
+            this.fetchComment(postId);
+            console.error('Error deleting comment', error);
+          }
+        ),
+      nzCancelText: 'Hủy',
+      nzOnCancel: () => console.log('Cancel'),
+    });
   }
-  showReplyInput(id : any){
+  showReplyInput(id: any, userName: any) {
     this.inputComment = this.inputComment === id ? null : id;
+    this.replyToUser = `@${userName} `;
+    this.replyForm.patchValue({ replyText: this.replyToUser });
   }
- 
   transform(value: string): string {
     const postedAt = new Date(value);
     const now = new Date();
     const timeDifference = now.getTime() - postedAt.getTime();
-
-    // Chuyển đổi milliseconds thành giây
     const seconds = Math.floor(timeDifference / 1000);
-
-    // Tính toán số ngày, giờ và phút
     const days = Math.floor(seconds / (3600 * 24));
     const hours = Math.floor((seconds % (3600 * 24)) / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -266,62 +297,39 @@ export class CommunityComponent implements OnInit {
       return `${minutes} phút trước`;
     }
   }
-  getReplies(commentId : any) {
+  getReplies(commentId: any) {
     this.hasReply = this.hasReply === commentId ? null : commentId;
     this.http.getReplies(commentId).subscribe((res) => {
       // this.listReply = res;
-      this.listReply = res.map((comment:any) => ({
+      this.listReply = res.map((comment: any) => ({
         ...comment,
-        timeAgo: this.calculateTimeAgo(comment.postedAt)
+        timeAgo: this.calculateTimeAgo(comment.postedAt),
       }));
     });
   }
   submitReply(commentId: any) {
-    console.log(this.replyForm.value)
-    
-      
-      // Handle submitting the reply
-      this.http.addReply(this.userId,commentId, this.replyForm.value).subscribe(response => {
+    console.log(this.replyForm.value);
+    this.http.addReply(this.userId, commentId, this.replyForm.value).subscribe(
+      (response) => {
         console.log('Reply submitted successfully', response);
-        this.showReplyInput(commentId)
-        this.getReplies(commentId)
-        // Optionally reset the reply input
-        // this.replyForm.value = '';
-        // comment.replyText = '';
-      }, error => {
+        this.fetchComment(this.selectPostId);
+        this.getReplies(commentId);
+        this.fetchData();
+      },
+      (error) => {
         console.error('Error submitting reply', error);
-      });
-    
-    }
-  // inputImage(e: any): any {
-  //   this.isUpload = false;
-  //   console.log(this.isUpload);
-  //   if (e.target.files) {
-  //     var reader = new FileReader();
-  //     reader.readAsDataURL(e.target.files[0]);
-  //     reader.onload = (event: any) => {
-  //       this.Image = event.target.result;
-  //       // this.postForm.patchValue({
-  //       //   image: event.target.result
-  //       // })
-  //     };
-  //     // this.postForm.get('image').updateValueAndValidity();
-  //   }
-  // }
+      }
+    );
+  }
 
   calculateTimeAgo(postedAt: string): string {
-    const postedDate = new Date(postedAt); // Convert the postedAt string to a Date object
-    const now = new Date(); // Get the current date
-
-    const timeDifference = now.getTime() - postedDate.getTime(); // Calculate the time difference in milliseconds
-    const seconds = Math.floor(timeDifference / 1000); // Convert milliseconds to seconds
-
-    // Calculate days, hours, and minutes
+    const postedDate = new Date(postedAt);
+    const now = new Date();
+    const timeDifference = now.getTime() - postedDate.getTime();
+    const seconds = Math.floor(timeDifference / 1000);
     const days = Math.floor(seconds / (3600 * 24));
     const hours = Math.floor((seconds % (3600 * 24)) / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
-
-    // Determine the appropriate time ago format
     if (days > 0) {
       return `${days} ngày trước`;
     } else if (hours > 0) {
@@ -337,10 +345,10 @@ export class CommunityComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imagePost = e.target.result;
-        this.postForm.patchValue({ postImageFile: this.file }); // Update FormGroup with selected file
+        this.postForm.patchValue({ postImageFile: this.file });
       };
       reader.readAsDataURL(this.file);
-      console.log(this.file)
+      console.log(this.file);
     }
   }
   closeModal(): any {
@@ -349,10 +357,10 @@ export class CommunityComponent implements OnInit {
     }
   }
   //Rating bài viết của người dùng
-  async countStart(postId:any,courseId: any) {
+  async countStart(postId: any, courseId: any) {
     this.isRating = null;
     try {
-      await this.http.handelRating(postId,courseId, this.star).toPromise();
+      await this.http.handelRating(postId, courseId, this.star).toPromise();
     } catch (error) {
       this.toast.warning({
         detail: 'Warning',
@@ -376,13 +384,12 @@ export class CommunityComponent implements OnInit {
     const formData = new FormData();
     formData.append('postContent', this.postForm.get('postContent')!.value);
     formData.append('courseId', this.postForm.get('courseId')!.value);
-  if (this.file) {
-    formData.append('postImageFile', this.file);
-  }
-console.log('form',formData)
+    if (this.file) {
+      formData.append('postImageFile', this.file);
+    }
+    console.log('form', formData);
     try {
-      await this.http
-      .handelSharePost(this.userId, formData).toPromise();
+      await this.http.handelSharePost(this.userId, formData).toPromise();
       this.resetForm();
       this.fetchData();
       this.toast.success({
@@ -397,19 +404,18 @@ console.log('form',formData)
         duration: 2000,
       });
     }
-
   }
   searchHandle(event: Event) {
     const input = event.target as HTMLInputElement;
     this.searchInput = input.value;
     // this.router.navigate(['home/search/all-search']);
   }
-  searchClick(){
+  searchClick() {
     this.http.searchPosts(this.searchInput).subscribe(
-      data => {
+      (data) => {
         this.listPost = data;
       },
-      error => {
+      (error) => {
         console.error('Error searching posts:', error);
       }
     );
@@ -439,9 +445,9 @@ console.log('form',formData)
     this.selectPostId = idPost;
     this.http.getAllComment(idPost).subscribe({
       next: (res: any) => {
-        this.commentData = res.map((comment:any) => ({
+        this.commentData = res.map((comment: any) => ({
           ...comment,
-          timeAgo: this.calculateTimeAgo(comment.postedAt)
+          timeAgo: this.calculateTimeAgo(comment.postedAt),
         }));
       },
       error: (err: any) => {
@@ -455,12 +461,13 @@ console.log('form',formData)
       },
     });
   }
-  fetchComment(idPost : any){
+  fetchComment(idPost: any) {
+    // this.currentPost = idPost
     this.http.getAllComment(idPost).subscribe({
       next: (res: any) => {
-        this.commentData = res.map((comment:any) => ({
+        this.commentData = res.map((comment: any) => ({
           ...comment,
-          timeAgo: this.calculateTimeAgo(comment.postedAt)
+          timeAgo: this.calculateTimeAgo(comment.postedAt),
         }));
       },
       error: (err: any) => {
@@ -488,24 +495,25 @@ console.log('form',formData)
 
     this.http.updateLikeCount(commentId, isLiked).subscribe(
       () => {
-        const comment = this.commentData.find((c: any) => c.commentId === commentId);
+        const comment = this.commentData.find(
+          (c: any) => c.commentId === commentId
+        );
         if (comment) {
           if (isLiked) {
-            comment.likeCount -= 1; // Giảm likeCount nếu đã like và toggle thành unlike
+            comment.likeCount -= 1;
           } else {
-            comment.likeCount += 1; // Tăng likeCount nếu chưa like và toggle thành like
+            comment.likeCount += 1;
           }
-          console.log(comment); // Đảm bảo là comment đã được cập nhật đúng
-          this.fetchComment(this.selectPostId); // Gọi lại API để cập nhật danh sách comment sau khi like/unlike
+          console.log(comment);
+          this.fetchComment(this.selectPostId);
         }
       },
-      error => {
+      (error) => {
         console.error('Error updating like count:', error);
         // Xử lý lỗi nếu cần thiết
       }
     );
-}
-
+  }
 
   getAllCourseByUserId(): any {}
   async fetchData() {
@@ -516,35 +524,35 @@ console.log('form',formData)
   }
   getTopRatedPosts(): void {
     this.http.filterTopRatedPosts().subscribe(
-      data => {
+      (data) => {
         this.listPost = data;
       },
-      error => {
+      (error) => {
         console.error('Error fetching top-rated posts:', error);
       }
     );
   }
   getMostCommentedPosts(): void {
     this.http.filterMostCommentedPosts().subscribe(
-      data => {
+      (data) => {
         this.listPost = data;
       },
-      error => {
+      (error) => {
         console.error('Error fetching most commented posts:', error);
       }
     );
   }
   getMostImportedPosts(): void {
     this.http.getMostImportedPosts().subscribe(
-      data => {
+      (data) => {
         this.listPost = data;
       },
-      error => {
+      (error) => {
         console.error('Error fetching most imported posts', error);
       }
     );
   }
-  
+
   getAllCourseById(): any {
     this.course.getAllCourseByUserId(this.userId).subscribe((res) => {
       this.listCourse = res;
@@ -563,8 +571,58 @@ console.log('form',formData)
     this.isCourseInfo = true;
     this.postForm.controls['courseId'].setValue(courseId);
   }
-  editComment(commentId: any) {}
-
+  editComment(commentId: any, editText: any) {
+    this.showModal = false;
+    this.selectedCommentId = null;
+    this.editCommentId = commentId;
+    this.editText = editText;
+  }
+  submitEditComment(commentId: string) {
+    if (this.editText.trim() === '') {
+      this.toast.warning({
+        detail: 'Warning',
+        summary: 'Hãy nhập nội dung bình luận',
+        duration: 1000,
+      });
+      return;
+    }
+  }
+    editReply(replyId: any, editText: any) {
+      this.showModal = false;
+      this.selectedCommentId = null;
+      this.replyCommentId = replyId;
+      this.editReplyText = editText;
+    }
+    submitEditReply(replyId: string) {
+      if (this.editReplyText.trim() === '') {
+        this.toast.warning({
+          detail: 'Warning',
+          summary: 'Hãy nhập nội dung bình luận',
+          duration: 1000,
+        });
+        return;
+      }
+  
+    this.http.editReply(replyId, this.editReplyText).subscribe(
+      (response) => {
+        console.log(1);
+        this.replyCommentId = '';
+        this.fetchComment(this.selectPostId);
+        this.getReplies(this.selectedCommentId)
+      },
+      (error) => {
+        // this.data.commentText = this.editText;
+      }
+    );
+  }
+  cancelEditReply() {
+    this.replyCommentId = '';
+    this.editReplyText = '';
+  }
+  cancelEditComment() {
+    this.editCommentId = '';
+    this.editText = '';
+  }
   importToMyCourse(idCourse: any) {
     this.courseImport = idCourse;
     this.http.importCourse(this.userId, idCourse).subscribe({

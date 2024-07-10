@@ -71,7 +71,7 @@
           <button (click)="onClickShareButton(courseInfo.courseId)">
             <i class="fas fa-share-square"></i> Chia sẻ
           </button>
-          <button *ngIf="isRole === false">
+          <button *ngIf="isRole === false" (click)="open()">
             <i class="fas fa-copy"></i> Sao chép
           </button>
           <button (click)="showModalRanking()">
@@ -492,3 +492,36 @@
     </div>
   </ng-container>
 </nz-modal>
+<nz-drawer
+[nzClosable]="false"
+[nzVisible]="visibleCopy"
+[nzPlacement]="'bottom'"
+[nzHeight]="490"
+nzTitle="<h2>Sao chép học phần </h2>"
+(nzOnClose)="close()"
+>
+<ng-container *nzDrawerContent>
+    <div class="course-editor">
+      <div class="course-info">
+        <div class="form-group">
+          <h1 for="title">Tên tài liệu:</h1>
+          <input
+            type="text"
+            id="title"
+            class="bottom-border-input"
+            [(ngModel)]="newCourseName"
+          />
+        </div>
+      </div>
+    </div>
+  <div class="submit-button-container">
+    <button
+      class="submit-button"
+      type="submit"
+      (click)="onClickSubmit()"
+    >
+      Lưu 
+    </button>
+  </div>
+</ng-container>
+</nz-drawer>

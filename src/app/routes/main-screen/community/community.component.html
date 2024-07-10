@@ -250,12 +250,21 @@
                   <i class="fa-solid fa-bars"></i>
                 </div>
                 <div class="comment-body">
-                  {{ data.commentText }}
+                  <p *ngIf="data.commentId !== editCommentId">
+                    {{ data.commentText }}
+                  </p>
+                
+                  <div *ngIf="data.commentId === editCommentId">
+                    <input [(ngModel)]="editText" />
+                    <button class="save-button" (click)="submitEditComment(data.commentId)">Lưu</button>
+                    <button class="cancel-button" (click)="cancelEditComment()">Hủy</button>
+                  </div>
                 </div>
+                
                 <div class="reply-count" *ngIf="data.replyCount > 0" (click)="getReplies(data.commentId)"><i class="fa-solid fa-reply"></i>{{data.replyCount}} câu trả lời</div>
                 <div class="comment-footer">
                   <span class="likes">{{data.likeCount}}<i class="fa fa-thumbs-up" [ngClass]="{'active': likeComment === data.commentId}" (click)="likeCommentHandle(data.commentId)" ></i></span>
-                  <span class="reply" (click)="showReplyInput(data.commentId)">Trả lời</span>
+                  <span class="reply" (click)="showReplyInput(data.commentId, data.commentUserName)">Trả lời</span>
                 </div>
                 <div class="reply-container" *ngIf="data.commentId == hasReply">
                 <div *ngFor="let reply of listReply" class="comment reply" >
@@ -266,28 +275,49 @@
                       <div class="comment-time">{{ reply.timeAgo }}</div>
                     </div>
                   </div>
-                  <div class="comment-setting" *ngIf="reply.replyUserId == userId" (click)="openModalCommentSetting(data.commentId)" >
+                  <div class="comment-setting" *ngIf="reply.userId == userId" (click)="openModalCommentSetting(reply.replyId)" >
                     <i class="fa-solid fa-bars" ></i>
                   </div>
                   <div class="comment-body">
-                    {{ reply.replyText }}
+                    <p *ngIf="reply.replyId !== replyCommentId">
+
+                      {{ reply.replyText }}
+                    </p>
+                    <div *ngIf="reply.replyId === replyCommentId">
+                      <input [(ngModel)]="editReplyText" />
+                      <button class="save-button" (click)="submitEditReply(reply.replyId)">Lưu</button>
+                      <button class="cancel-button" (click)="cancelEditReply()">Hủy</button>
+                    </div>
                   </div>
                   
                   <div class="comment-footer">
-                    <span class="likes"><i class="fa fa-thumbs-up"></i></span>
-                    <span class="reply" (click)="showReplyInput(reply.replyId)">Trả lời</span>
+                    <!-- <span class="likes"><i class="fa fa-thumbs-up"></i></span> -->
+                    <span class="reply" (click)="showReplyInput(reply.replyId,reply.userName)">Trả lời</span>
                   </div>
+
+                  <form action="" [formGroup]="replyForm">
+                  <div class="reply-input" *ngIf="reply.replyId === inputComment">
+                    <input type="text" formControlName="replyText" placeholder="Viết phản hồi...">
+                    <button (click)="submitReply(data.commentId)">Gửi</button>
+                  </div>
+                </form>
+                <div *ngIf="reply.replyId == selectedCommentId" class="modal-overlay" >
+                  <div class="modal-content" (click)="$event.stopPropagation()">
+                    <button class="modal-button" (click)="editReply(selectedCommentId,reply.replyText)">Sửa bình luận</button>
+                    <button class="modal-button" (click)="deleteReply(selectedCommentId,data.postId)">Xóa bình luận </button>
+                  </div>
+              </div>
                 </div>
-                </div>
-                <form action="" [formGroup]="replyForm">
-                <div class="reply-input" *ngIf="data.commentId === inputComment">
+              </div>
+              <form action="" [formGroup]="replyForm">
+                <div class="reply-input" *ngIf=" data.commentId === inputComment ">
                   <input type="text" formControlName="replyText" placeholder="Viết phản hồi...">
                   <button (click)="submitReply(data.commentId)">Gửi</button>
                 </div>
               </form>
-                <div *ngIf="data.commentId == selectedCommentId" class="modal-overlay" (click)="closeModal()">
+                <div *ngIf="data.commentId == selectedCommentId" class="modal-overlay" >
                   <div class="modal-content" (click)="$event.stopPropagation()">
-                    <button class="modal-button" (click)="editComment(selectedCommentId)">Sửa bình luận</button>
+                    <button class="modal-button" (click)="editComment(selectedCommentId,data.commentText)">Sửa bình luận</button>
                     <button class="modal-button" (click)="deleteComment(selectedCommentId,data.postId)">Xóa bình luận </button>
                   </div>
               </div>

@@ -29,14 +29,26 @@ export class InformationComponent {
       });
     }
 
-  ngOnInit(): void {
-    this.getUserId().then();
-    this.applySmileEffect();
-    setTimeout(() => {
-      this.renderer.addClass(document.querySelector('.bubble'), 'show');
-      this.showBubble = true;
-    }, 2000);
-  }
+    ngOnInit(): void {
+      // Check if the page has been reloaded
+      if (!sessionStorage.getItem('reloaded')) {
+        // Set the flag in session storage
+        sessionStorage.setItem('reloaded', 'true');
+        // Reload the page
+        window.location.reload();
+      } else {
+        // Remove the flag so the reload will happen only once
+        sessionStorage.removeItem('reloaded');
+        
+        // Your other initialization logic
+        this.getUserId();
+        this.applySmileEffect();
+        setTimeout(() => {
+          this.renderer.addClass(document.querySelector('.bubble'), 'show');
+          this.showBubble = true;
+        }, 2000);
+      }
+    }
   applySmileEffect(): void {
     const robotFace = document.querySelector(
       '.cute-robot-v1 .circle-bg .robot-face'

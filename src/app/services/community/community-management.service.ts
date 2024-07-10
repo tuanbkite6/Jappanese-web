@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -66,14 +66,23 @@ export class CommunityManagementService {
   deleteComment(commentId : any ){
     return this.http.delete(`${this.baseUrl}comment/${commentId}`)
   }
-  editComment(commentId: any, updatedCommentText: string) {
-    return this.http.put(`${this.baseUrl}/editcomment/${commentId}`, { updatedCommentText });
-  }
+  updateComment(commentId: string, updatedCommentText: string): Observable<any> {
+    const payload = { updatedCommentText: updatedCommentText };
+    return this.http.put(`${this.baseUrl}editcomment/${commentId}`, payload);
+}
+
   updateLikeCount(commentId: string, isLiked: boolean): Observable<any> {
     return this.http.post(`${this.baseComment}like/${commentId}`, { isLiked : isLiked });
   }
   AddReply(commentId: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/reply/${commentId}`, {});
+  }
+  deleteReply(replyId: any): Observable<any> {
+    return this.http.delete(`${this.baseComment}reply/${replyId}`);
+  }
+  editReply(replyId: any,replyText : any): Observable<any> {
+    const payload  = {replyText : replyText}
+    return this.http.put(`${this.baseComment}reply/${replyId}`, payload);
   }
   handelRating(postId:any,courseId:any,rating :any){
     return this.http.put(this.baseUrl+courseId+'/'+ postId +'/'+rating, '');
