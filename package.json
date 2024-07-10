@@ -23,10 +23,8 @@
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "bootstrap": "^5.3.3",
-    "ng-angular-popup": "^0.2.0",
     "ng-zorro-antd": "^15.0.3",
     "ng2-file-upload": "^5.0.0",
-    "ngx-speech": "^0.0.8",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
